@@ -66,6 +66,8 @@ The current implementation and commands are described in [development.md](develo
 
 ### Recorded benchmark evidence
 
+The validated implementation and imported assets are committed in `01a1c56`. Final checks passed on that runtime code: three EditMode tests and one PlayMode test. Later ledger or Git-attribute edits do not change the player code.
+
 Captured September 11, 2026 local time, September 12 UTC. Both reports identify the same Linux player input state: base commit `4637398`, source SHA-256 `65c25f32369d9c659bdd0ffe63e7c2f5c1d62853724710bd8ffd2020e1529503`. This stamp includes uncommitted build inputs; the reports preceded the commit that publishes this ledger.
 
 | Run | Mean frame time | p95 / p99 | Frames over 50 ms | Final working set |
