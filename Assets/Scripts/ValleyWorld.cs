@@ -164,19 +164,21 @@ namespace ExplorersByNature
         {
             DenseGrass = new GameObject("High quality ground cover");
             DenseGrass.transform.SetParent(transform);
+            var meadowGrass=new GameObject("Meadow ground cover");meadowGrass.transform.SetParent(transform);
             var rng = new System.Random(371);
+            for(int layer=0;layer<2;layer++)
             for (int z = -260; z < 165; z += 24)
                 for (int x = -160; x < 10; x += 24)
                 {
                     var verts = new List<Vector3>(); var colors = new List<Color>(); var indices = new List<int>();
-                    for (int b = 0; b < 170; b++)
+                    for (int b = 0; b < (layer==0?360:950); b++)
                     {
                         float wx = x + Range(rng, 0, 24), wz = z + Range(rng, 0, 24);
                         if (Mathf.Abs(wx - ValleyShape.TrailX(wz)) < 3 || Mathf.Abs(wx - ValleyShape.RiverX(wz)) < 23) continue;
                         Vector3 p = ValleyShape.Ground(wx, wz);
-                        float h = Range(rng, .25f, .7f), angle = Range(rng, 0, Mathf.PI * 2);
-                        Vector3 side = new Vector3(Mathf.Cos(angle), 0, Mathf.Sin(angle)) * .12f;
-                        Color color = Color.Lerp(new Color(.22f, .31f, .08f), new Color(.53f, .58f, .21f), Range(rng, 0, 1));
+                        float h = Range(rng, .18f, .48f), angle = Range(rng, 0, Mathf.PI * 2);
+                        Vector3 side = new Vector3(Mathf.Cos(angle), 0, Mathf.Sin(angle)) * .045f;
+                        Color color = Color.Lerp(new Color(.28f, .39f, .11f), new Color(.49f, .57f, .22f), Range(rng, 0, 1));
                         int n = verts.Count;
                         verts.Add(p - side); verts.Add(p + Vector3.up * h + side * .5f); verts.Add(p + side);
                         colors.Add(color.linear); colors.Add((color * 1.12f).linear); colors.Add(color.linear);
@@ -185,7 +187,7 @@ namespace ExplorersByNature
                     if (verts.Count == 0) continue;
                     Mesh mesh = Own(new Mesh { name = "Grass patch" });
                     mesh.SetVertices(verts); mesh.SetTriangles(indices, 0); mesh.SetColors(colors); mesh.RecalculateNormals(); mesh.RecalculateBounds();
-                    MeshRenderer renderer = MeshObject("Grass", mesh, grassMaterial, DenseGrass.transform);
+                    MeshRenderer renderer = MeshObject("Grass", mesh, grassMaterial, layer==0?meadowGrass.transform:DenseGrass.transform);
                     renderer.shadowCastingMode = ShadowCastingMode.Off;
                     LODGroup lod = renderer.gameObject.AddComponent<LODGroup>();
                     lod.SetLODs(new[] { new LOD(.07f, new Renderer[] { renderer }) }); lod.RecalculateBounds();

@@ -82,6 +82,9 @@ public static class PrototypeProject
         world.deerMaterial = Material("Deer", "Universal Render Pipeline/Lit", new Color(.48f, .29f, .15f));
         WalkSession session = new GameObject("Walk session").AddComponent<WalkSession>();
         session.world = world; session.walker = walker; session.lowPipeline = low; session.highPipeline = high;
+        if (UnityEngine.Object.FindFirstObjectByType<RanchSession>() == null) new GameObject("Ranch session").AddComponent<RanchSession>();
+        new GameObject("Nature details").AddComponent<NatureDetails>();
+        ExportTerrain();
         PlayerSettings.companyName = "Explorers by Nature"; PlayerSettings.productName = "Explorers by Nature";
         PlayerSettings.defaultScreenWidth = 1280; PlayerSettings.defaultScreenHeight = 720;
         PlayerSettings.fullScreenMode = FullScreenMode.Windowed; PlayerSettings.runInBackground = true;
@@ -122,6 +125,15 @@ public static class PrototypeProject
         if (material.HasProperty("_Smoothness")) material.SetFloat("_Smoothness", .15f);
         EditorUtility.SetDirty(material);
         return material;
+    }
+
+    static void ExportTerrain()
+    {
+        Directory.CreateDirectory("Assets/Resources");
+        using (var writer = new BinaryWriter(File.Create("Assets/Resources/terrain.bytes")))
+            for (int z = -450; z <= 450; z++)
+                for (int x = -450; x <= 450; x++) writer.Write(ValleyShape.Height(x, z));
+        AssetDatabase.ImportAsset("Assets/Resources/terrain.bytes");
     }
 
     public static void BuildLinux() => Build(BuildTarget.StandaloneLinux64, "Builds/Linux/ExplorersByNature");

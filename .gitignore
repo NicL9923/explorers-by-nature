@@ -27,3 +27,8 @@
 .DS_Store
 Thumbs.db
 *.blend1
+
+# Standalone server outputs
+**/bin/
+**/obj/
+Server/world/

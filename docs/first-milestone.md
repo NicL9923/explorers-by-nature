@@ -82,3 +82,21 @@ These are engine-reported frame intervals in a sparse, uncapped blockout. They a
 ## After the benchmark
 
 Prove a small dedicated-server session with two clients and persistence before building out ranch features. Then add modular construction, flower placement, and animal interactions in small increments. Test conflicting player actions and save/restart behavior as those features arrive.
+
+## Family-playable expansion (September 12, 2026 UTC)
+
+The ranch implementation adds shared modular construction, flowers, cow milking, eggs, pantry counts, private server play and atomic world saves. The original landscape measurements above remain historical evidence for the earlier blockout.
+
+Current validation before final packaging:
+
+| Check | Result | Evidence |
+| --- | --- | --- |
+| Shared authority | Passed | Conflicting placements/collections, invalid coordinates/types/IDs, unsupported roofs, malformed/oversized frames, join codes, exclusive save writer, corrupt/incomplete save rejection, cooldown persistence and restart |
+| Synthetic concurrency | Passed | 20 simultaneous TCP clients polling the same world |
+| Unity gameplay | Passed | Build, enter foundation without jumping, retain it across unchanged polls, plant/move flowers, collect milk/eggs, reload save, retain flowers on low graphics, validate cow scale and materials |
+| Original terrain/scene checks | Passed | Three EditMode tests; terrain walk and quality-preserved wildlife PlayMode test |
+| Cross-runtime rendered clients | Initial pass; final capture pending | Two Linux Unity clients matched the .NET server's 14-piece ranch and pantry; final rebuild includes explicit snapshot-presence fix |
+| Linux/Windows player and dedicated server packages | Final packaging pending | Native Windows execution remains untested |
+| Updated low/high rendered benchmark | Pending | New grass, broadleaf trees, wildlife and ranch runtime change the workload |
+
+The gameplay test exposed and fixed an unchanged-poll bug: Unity's inline JSON null handling could turn an absent snapshot into an empty ranch. Both the worker revision and main-thread world replacement now require `hasState`. The foundation-entry check caught the visible consequence and verifies persistence across repeated polls.

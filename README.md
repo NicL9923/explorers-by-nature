@@ -6,13 +6,13 @@ Build a pioneer homestead together, plant flowers, gather milk and eggs, watch w
 
 ## Project status
 
-The Pinewatch landscape prototype now imports, builds, and runs on Linux. Unity tests cover scene wiring, terrain, movement, and graphics switching. Trees and wildlife still use placeholder art.
+Pinewatch now includes modular homesteads, decorative flowers, cow milking, egg gathering, a shared pantry, saved worlds, and private dedicated-server multiplayer. Explore the meadow, aspen grove, river and mountain overlook with deer, rabbits and birds. Trees and wildlife remain prototype art.
 
-The first milestone is a small forest-to-overlook landscape benchmark on Windows and Linux. It will test whether the scenery is enjoyable and whether graphics can scale from integrated graphics to a dedicated GPU before we commit to production assets or build ranch systems.
+Read the [morning playtest guide](docs/morning-playtest.md) for controls, multiplayer setup and saves.
 
 The project targets Unity **6000.3.24f1** with Universal Render Pipeline **17.3.0**. Minimum hardware remains unverified; see the [validation ledger](docs/first-milestone.md).
 
-[Download the Linux or Windows prototype](https://github.com/NicL9923/explorers-by-nature/releases/tag/v0.1.0-prototype.1). Linux was exercised on NVIDIA and AMD integrated graphics; the Windows build has not been run on Windows yet.
+[Download the Linux or Windows prototype](https://github.com/NicL9923/explorers-by-nature/releases/tag/v0.2.0-family.1). Linux was exercised on NVIDIA and AMD integrated graphics; the Windows build has not been run on Windows yet.
 
 [View the current landscape blockout](docs/benchmarks/linux-nvidia-high.png).
 
@@ -45,7 +45,12 @@ See [development and validation](docs/development.md) for controls, benchmark co
 - Low/high graphics presets that retain wildlife and terrain across settings.
 - A repeatable camera benchmark with frame-time statistics, hardware information, memory measurements, and a screenshot.
 
-Trees and deer are original geometric placeholders, not finished realistic assets. This prototype has no ranch building, animal products, multiplayer, or world persistence yet.
+- Snapped foundations, walls, open doorways, roofs and fences, with move/remove tools and flower planting.
+- Original Blender cow and hen models; gentle milking activity, egg gathering and persistent shared products.
+- Solo and dedicated multiplayer share authoritative rules and atomic saves; reconnects refresh the ranch.
+- Broadleaf trees, rabbits, flying birds, original ambient audio and a discovery journal.
+
+Trees and wildlife are original prototype assets, not finished realistic art. Continents, historical routes, deeper economy and settlement management remain deferred.
 
 ## Start here
 

@@ -28,6 +28,7 @@ namespace ExplorersByNature
 
         void Start()
         {
+            AudioListener.volume = PlayerPrefs.GetFloat("MasterVolume", .8f);
             string[] args = Environment.GetCommandLineArgs();
             bool lowArg = Array.IndexOf(args, "--quality-low") >= 0;
             bool highArg = Array.IndexOf(args, "--quality-high") >= 0;
@@ -152,13 +153,16 @@ namespace ExplorersByNature
             GUI.Box(new Rect(20, height - 60, 565, 40), GUIContent.none);
             GUI.Label(new Rect(32, height - 53, 550, 30), "WASD walk   Shift stroll faster   Esc settings   Home return", textStyle);
             GUI.Label(new Rect(width - 195, height - 52, 185, 30), (high ? "High" : "Low") + " / " + (1 / Mathf.Max(.001f, frameTime)).ToString("F0") + " FPS", textStyle);
-            if (!walker.MenuOpen || benchmark) return;
-            GUILayout.BeginArea(new Rect(width / 2 - 190, height / 2 - 195, 380, 390), GUI.skin.box);
+            if (!walker.MenuOpen || benchmark || RanchSession.PanelOpen) return;
+            GUILayout.BeginArea(new Rect(width / 2 - 190, height / 2 - 225, 380, 450), GUI.skin.box);
             GUILayout.Space(14); GUILayout.Label("Take your time", titleStyle); GUILayout.Space(10);
             GUILayout.Label("Mouse sensitivity", textStyle);
             walker.sensitivity = GUILayout.HorizontalSlider(walker.sensitivity, .3f, 4);
             GUILayout.Label("Field of view: " + walker.view.fieldOfView.ToString("F0"), textStyle);
             walker.view.fieldOfView = GUILayout.HorizontalSlider(walker.view.fieldOfView, 60, 100);
+            GUILayout.Label("Nature volume", textStyle);
+            AudioListener.volume = GUILayout.HorizontalSlider(AudioListener.volume, 0, 1);
+            PlayerPrefs.SetFloat("MasterVolume", AudioListener.volume);
             GUILayout.Space(12);
             if (GUILayout.Button("Graphics: " + (high ? "High" : "Low"), GUILayout.Height(32))) ApplyQuality(!high);
             if (GUILayout.Button("Walk the benchmark route", GUILayout.Height(32))) BeginBenchmark();

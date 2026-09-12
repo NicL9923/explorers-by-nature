@@ -8,7 +8,7 @@ Read README.md and docs/game-design.md before changing scope. Use docs/first-mil
 - Exact low-end CPU/GPU models remain unknown. Do not invent supported minimum specifications.
 - Keep the first region small. Do not add continents, complex settlement systems, or survival mechanics without revisiting scope.
 - Keep graphics quality independent of shared gameplay state. Player-built structures, planted flowers, and animals must not disappear because a decorative detail setting changes.
-- Multiplayer will use a dedicated server. Test the networking and persistence foundation before expanding ranch systems.
+- Multiplayer uses the shared C# authority in `Assets/Shared`, embedded for solo and hosted by `Server` for dedicated play. Preserve the explicit `hasState` protocol flag; Unity inline JSON nulls are not reliable snapshot-presence signals. Run server tests and Unity ranch tests when changing authority or serialization.
 - Commit .meta files alongside assets and pin editor/package versions. Keep generated editor data and builds out of Git.
 - Record asset provenance and redistribution rights before adding third-party content to this public repository.
 - Keep validation evidence tied to the exact code state. Never present unrun builds or performance targets as passed checks.

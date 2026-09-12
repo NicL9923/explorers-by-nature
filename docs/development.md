@@ -64,4 +64,17 @@ Blender 5.2.1 CLI generated three original river stones. Run `blender --backgrou
 
 Tree/deer meshes and grass/water shaders are original prototype assets. They establish placement and behavior, not final realism. Unity's template settings came from the installed Universal 3D template.
 
-This is a landscape experiment. There is no networking, construction, animal harvesting, settlement management, audio landscape, or saved world yet. The installed server module does not mean a server implementation exists.
+The ranch implementation is described in [network-design.md](network-design.md), and player/server instructions are in [morning-playtest.md](morning-playtest.md).
+
+`blender --background --factory-startup --python .agents/tools/make-ranch-art.py` regenerates original Clover and Hen FBX assets and editable Blender sources. The game remaps their named materials to URP at runtime. These assets and the procedural nature audio are original work.
+
+Server commands:
+
+```sh
+.agents/tools/server.sh test
+.agents/tools/server.sh publish
+.agents/tools/server.sh run --data /tmp/my-test-ranch
+python3 .agents/tools/ranch-smoke.py
+```
+
+The last command requires published Linux server and player builds and a graphical session. It opens two game windows, builds and harvests against an isolated server, compares both clients to its saved JSON, captures screenshots and cleans up the processes. `RanchPlayTests` uses isolated temporary saves and checks Unity rendering, placement, move, animal products and reload. The console server suite checks simultaneous commands, bounds, 20 clients, framing, authentication and restart.

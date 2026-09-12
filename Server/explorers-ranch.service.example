@@ -1,0 +1,15 @@
+[Unit]
+Description=Explorers by Nature private ranch
+After=network-online.target
+
+[Service]
+# Replace both paths with your extracted server and data folder.
+WorkingDirectory=/absolute/path/to/server
+ExecStart=/absolute/path/to/server/Explorers.Server --listen 0.0.0.0 --port 7777 --data /absolute/path/to/ranch-data
+# Put EXPLORERS_JOIN_CODE=your-code in this mode-600 file.
+EnvironmentFile=%h/.config/explorers-ranch.env
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=default.target
