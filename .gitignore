@@ -32,3 +32,6 @@ Thumbs.db
 **/bin/
 **/obj/
 Server/world/
+# These are authored standalone projects, unlike Unity-generated IDE projects.
+!/Server/*.csproj
+!/Server.Tests/*.csproj
