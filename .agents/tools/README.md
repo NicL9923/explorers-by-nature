@@ -12,3 +12,4 @@
 - `make-woodland-art.py`: generate original pine, aspen and daisy meshes with LODs, foliage textures, editable Blender sources and preview renders.
 - `make-homestead-art.py`: generate the timber building kit, coop, original wood textures, LOD meshes and Blender previews.
 - `make-wildlife-art.py`: generate sculpted deer/cottontail meshes, simplified LODs, baked original coat maps and Blender previews.
+- `verify-release.py VERSION`: compare all five published release files with local sizes and SHA-256 digests.

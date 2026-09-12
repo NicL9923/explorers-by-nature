@@ -131,3 +131,5 @@ The art benchmark player identifies source `51cda7e/sha256:193b1255402c9eb5d5ab6
 Evidence: [AMD report](benchmarks/art-amd-integrated-low.json), [NVIDIA report](benchmarks/art-nvidia-high.json), [EditMode](validation/art-editmode.xml), [PlayMode](validation/art-playmode.xml), [matching multiplayer state](validation/art-shared-ranch.json).
 
 These uncapped engine frame intervals cover the fixed landscape camera route on the available Ryzen 9/32 GB desktop. They are not GPU-only timings or proof of the two-core/8 GB minimum, a full ranch, or 20 rendered players. The new assets cost more than the old primitives; low quality retains the same animals and interactable objects. Skeletal animal animation, final landscape composition and native Windows playtesting remain outstanding.
+
+Final Linux and Windows players were rebuilt from implementation commit `22c9115`. The final art-tour run passed against the standalone server and visually confirmed planted flowers at the requested position. Player screenshots above come from that final build. The later evidence/packaging commit changes no runtime assets or code.
