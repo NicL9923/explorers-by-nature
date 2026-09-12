@@ -31,6 +31,7 @@ namespace ExplorersByNature
             BuildRiver();
             BuildForest();
             BuildOutcrops();
+            BuildShoreDetails();
             BuildGrass();
             BuildFlowerDrifts();
             gameObject.AddComponent<WildlifeHabitats>();
@@ -52,8 +53,8 @@ namespace ExplorersByNature
                 for (int x = 0; x < resolution; x++)
                     heights[z, x] = ValleyShape.Height(x * 900f / (resolution - 1) - 450, z * 900f / (resolution - 1) - 450) / 360;
             data.SetHeights(0, 0, heights);
-            data.terrainLayers = new[] { Layer(MeadowTexture(), 14), Layer(earthTexture, 5), Layer(rockTexture, 12), Layer(SnowTexture(), 20) };
-            var splat = new float[256, 256, 4];
+            data.terrainLayers = new[] { Layer(MeadowTexture(), 9), Layer(earthTexture, 5), Layer(GraniteTexture(), 14), Layer(SnowTexture(), 20), Layer(MeadowTexture(true), 13) };
+            var splat = new float[256, 256, 5];
             for (int z = 0; z < 256; z++)
                 for (int x = 0; x < 256; x++)
                 {
@@ -65,7 +66,9 @@ namespace ExplorersByNature
                     float shore = 1 - SmoothRange(12, 23, Mathf.Abs(wx - ValleyShape.RiverX(wz)));
                     float earth = Mathf.Max(path, shore) * (1 - stone);
                     float snow = SmoothRange(170, 220, ValleyShape.Height(wx,wz) + Mathf.PerlinNoise(wx*.035f,wz*.035f)*30) * (1-SmoothRange(38,60,slope));
-                    splat[z, x, 0] = (1 - stone - earth) * (1-snow);
+                    float dry = SmoothRange(.36f, .69f, Mathf.PerlinNoise((wx+725)*.021f,(wz+130)*.021f))*.65f;
+                    splat[z, x, 0] = (1 - stone - earth) * (1-snow) * (1-dry);
+                    splat[z, x, 4] = (1 - stone - earth) * (1-snow) * dry;
                     splat[z, x, 1] = earth * (1-snow);
                     splat[z, x, 2] = stone * (1-snow);
                     splat[z, x, 3] = snow;
@@ -92,7 +95,7 @@ namespace ExplorersByNature
             texture.SetPixels(pixels);texture.Apply(true,true);return texture;
         }
 
-        Texture2D MeadowTexture()
+        Texture2D MeadowTexture(bool dry = false)
         {
             var texture = Own(new Texture2D(256, 256, TextureFormat.RGB24, true) { name = "Living meadow", wrapMode = TextureWrapMode.Repeat });
             var pixels = new Color[256 * 256];
@@ -101,37 +104,55 @@ namespace ExplorersByNature
                 // Periodic waves keep the broad meadow variation seamless at tile boundaries.
                 float broad = .5f + .22f * Mathf.Sin(x * Mathf.PI / 128) * Mathf.Cos(y * Mathf.PI / 64);
                 float grain = Mathf.PerlinNoise(x * .38f, y * .38f);
-                pixels[y * 256 + x] = Color.Lerp(new Color(.34f,.43f,.16f), new Color(.53f,.60f,.29f), broad * .55f + grain * .45f);
+                pixels[y * 256 + x] = Color.Lerp(dry ? new Color(.46f,.48f,.25f) : new Color(.38f,.48f,.22f), dry ? new Color(.64f,.62f,.37f) : new Color(.57f,.65f,.34f), broad * .3f + grain * .7f);
             }
             texture.SetPixels(pixels); texture.Apply(true, true); return texture;
         }
 
+        Texture2D GraniteTexture()
+        {
+            var texture = Own(new Texture2D(128,128,TextureFormat.RGB24,true) { name="Weathered granite", wrapMode=TextureWrapMode.Repeat });
+            var pixels = new Color[128*128];
+            for(int y=0;y<128;y++) for(int x=0;x<128;x++)
+            {
+                float grain=Mathf.PerlinNoise(x*.42f,y*.42f);
+                float seam=Mathf.Pow(Mathf.Abs(Mathf.Sin(x*.19f+y*.12f+Mathf.Sin(y*.25f))),16);
+                pixels[y*128+x]=Color.Lerp(new Color(.39f,.42f,.40f),new Color(.65f,.65f,.58f),grain)*(1-seam*.13f);
+            }
+            texture.SetPixels(pixels);texture.Apply(true,true);return texture;
+        }
+
         void BuildBackdrop()
         {
-            // A sculpted mesh beyond the playable heightfield leaves shared ground heights unchanged.
-            const int columns=121, rows=65;
+            // Sharp, asymmetric watersheds beyond the traversable heightfield. No shared ground changes.
+            const int columns=185, rows=89;
             var vertices=new List<Vector3>();var colors=new List<Color>();var indices=new List<int>();
-            var summits=new[]{new Vector3(-530,330,780),new Vector3(-160,405,940),new Vector3(230,375,810),new Vector3(650,420,1020)};
+            var summits=new[]{new Vector3(-760,335,790),new Vector3(-435,430,870),new Vector3(-125,475,970),new Vector3(160,390,780),new Vector3(425,505,1030),new Vector3(760,410,870)};
             for(int row=0;row<rows;row++) for(int col=0;col<columns;col++)
             {
-                float x=-1100+col*2200f/(columns-1), z=450+row*950f/(rows-1);
-                float distance=z-450;
-                float peak=0;
+                float x=-1200+col*2400f/(columns-1), z=450+row*1000f/(rows-1);
+                float distance=z-450, peak=0;
                 foreach(Vector3 summit in summits)
                 {
-                    float dx=(x-summit.x)/150, dz=(z-summit.z)/180;
-                    peak=Mathf.Max(peak,summit.y*Mathf.Exp(-.5f*(dx*dx+dz*dz)));
+                    float dx=(x-summit.x)/310, dz=(z-summit.z)/350;
+                    float angle=Mathf.Atan2(dz,dx);
+                    float radius=Mathf.Sqrt(dx*dx+dz*dz);
+                    float spurs=1+.16f*Mathf.Cos(angle*5+summit.x)+.08f*Mathf.Sin(angle*9);
+                    float cone=Mathf.Max(0,1-radius/spurs);
+                    peak=Mathf.Max(peak,summit.y*Mathf.Pow(cone,1.22f));
                 }
-                float detail=(1-Mathf.Abs(Mathf.PerlinNoise((x+1900)*.012f,z*.014f)*2-1))*36;
-                float height=(peak+detail)*SmoothRange(0,110,distance);
-                if(distance<110 && Mathf.Abs(x)<450) height+=ValleyShape.Height(x,450)*(1-SmoothRange(0,110,distance));
+                float erosion=(1-Mathf.Abs(Mathf.PerlinNoise((x+1900)*.021f,z*.026f)*2-1));
+                float detail=(erosion-.6f)*Mathf.Min(26,peak*.09f);
+                float height=(peak+detail+35)*SmoothRange(0,115,distance);
+                if(distance<115 && Mathf.Abs(x)<450) height+=ValleyShape.Height(x,450)*(1-SmoothRange(0,115,distance));
                 vertices.Add(new Vector3(x,height,z));
-                float snow=SmoothRange(285,345,height+Mathf.PerlinNoise(x*.03f,z*.03f)*30);
-                colors.Add(Color.Lerp(new Color(.32f,.37f,.36f),new Color(.91f,.92f,.89f),snow).linear);
+                float snow=SmoothRange(260,335,height+erosion*42+Mathf.Sin(x*.03f+z*.016f)*18);
+                Color rock=Color.Lerp(new Color(.36f,.39f,.38f),new Color(.59f,.58f,.52f),erosion);
+                colors.Add(Color.Lerp(rock,new Color(.91f,.94f,.94f),snow).linear);
                 if(row==rows-1||col==columns-1)continue;
                 int n=row*columns+col;indices.AddRange(new[]{n,n+columns,n+1,n+1,n+columns,n+columns+1});
             }
-            var mesh=Own(new Mesh{name="Sculpted alpine horizon"});mesh.SetVertices(vertices);mesh.SetColors(colors);mesh.SetTriangles(indices,0);mesh.RecalculateNormals();mesh.RecalculateBounds();
+            var mesh=Own(new Mesh{name="Eroded alpine watersheds"});mesh.SetVertices(vertices);mesh.SetColors(colors);mesh.SetTriangles(indices,0);mesh.RecalculateNormals();mesh.RecalculateBounds();
             var material=Own(new Material(grassMaterial));material.SetFloat("_WindStrength",0);material.SetFloat("_SurfaceLighting",1);
             MeshObject("Distant alpine range",mesh,material,transform).shadowCastingMode=ShadowCastingMode.Off;
         }
@@ -149,23 +170,25 @@ namespace ExplorersByNature
 
         void BuildRiver()
         {
-            var vertices = new List<Vector3>();
-            var triangles = new List<int>();
-            var uv = new List<Vector2>();
-            for (int i = 0; i <= 180; i++)
+            const int across=8, along=300;
+            var vertices = new List<Vector3>();var triangles = new List<int>();var uv = new List<Vector2>();var colors=new List<Color>();
+            for (int i = 0; i <= along; i++)
             {
-                float z = -450 + i * 5;
-                float center = ValleyShape.RiverX(z);
-                vertices.Add(new Vector3(ShoreX(z, -1), ValleyShape.WaterHeight, z));
-                vertices.Add(new Vector3(ShoreX(z, 1), ValleyShape.WaterHeight, z));
-                uv.Add(new Vector2(0, i * .25f)); uv.Add(new Vector2(1, i * .25f));
-                if (i == 180) continue;
-                int n = i * 2;
-                triangles.AddRange(new[] { n, n + 2, n + 1, n + 1, n + 2, n + 3 });
+                float z = -450 + i * 3;
+                float left=ShoreX(z,-1),right=ShoreX(z,1);
+                for(int j=0;j<=across;j++)
+                {
+                    float u=j/(float)across,x=Mathf.Lerp(left,right,u);
+                    vertices.Add(new Vector3(x,ValleyShape.WaterHeight,z));uv.Add(new Vector2(u,z*.05f));
+                    float depth=Mathf.Max(0,ValleyShape.WaterHeight-ValleyShape.Height(x,z));
+                    colors.Add(new Color(Mathf.Clamp01(depth/4),0,0,1));
+                    if(i==along||j==across)continue;
+                    int n=i*(across+1)+j;triangles.AddRange(new[]{n,n+across+1,n+1,n+1,n+across+1,n+across+2});
+                }
             }
-            Mesh river = Own(new Mesh { name = "Winding river" });
-            river.SetVertices(vertices); river.SetTriangles(triangles, 0); river.SetUVs(0, uv); river.RecalculateNormals();
-            MeshObject("River", river, waterMaterial, transform).shadowCastingMode = ShadowCastingMode.Off;
+            Mesh river = Own(new Mesh { name = "Winding river depth bands" });
+            river.SetVertices(vertices);river.SetTriangles(triangles,0);river.SetUVs(0,uv);river.SetColors(colors);river.RecalculateNormals();river.RecalculateBounds();
+            MeshObject("River",river,waterMaterial,transform).shadowCastingMode=ShadowCastingMode.Off;
         }
 
         void BuildForest()
@@ -175,21 +198,39 @@ namespace ExplorersByNature
             Mesh distantPine = Own(PineMesh(5, 4));
             var forest = new GameObject("Pine forest").transform;
             forest.SetParent(transform);
-            for (int i = 0; i < 1000; i++)
+            var groveCenters=new List<Vector2>();
+            for(int g=0;g<5;g++)
             {
-                float x = Range(rng, -340, 340), z = Range(rng, -320, 330);
+                float z=-155+g*55;
+                groveCenters.Add(new Vector2(ValleyShape.TrailX(z)-25,z));
+                groveCenters.Add(new Vector2(ValleyShape.TrailX(z)+25,z+12));
+            }
+            groveCenters.Add(new Vector2(120,-100));groveCenters.Add(new Vector2(160,105));
+            var planted=new List<Vector2>();
+            for (int i = 0; i < 2400 && planted.Count < 360; i++)
+            {
+                Vector2 grove=groveCenters[i%groveCenters.Count];
+                float radius=Mathf.Sqrt(Range(rng,0,1))*28,angle=Range(rng,0,Mathf.PI*2);
+                float x=grove.x+Mathf.Cos(angle)*radius,z=grove.y+Mathf.Sin(angle)*radius;
+                if(i%7==0){x=Range(rng,-320,320);z=Range(rng,-250,280);}
                 if (Mathf.Abs(x - ValleyShape.RiverX(z)) < 28 || Mathf.Abs(x - ValleyShape.TrailX(z)) < 8) continue;
                 if (z < -180 && x > -130 && x < 0) continue; // Arrival meadow.
                 if (ValleyShape.Height(x, z) > 140) continue;
-                if (Mathf.PerlinNoise((x+600)*.015f,(z+400)*.015f) < .38f) continue;
+                // Keep a widening view corridor at the overlook.
+                if (z > 100 && z < 205 && Mathf.Abs(x-ValleyShape.TrailX(z)) < 20+(z-100)*.22f) continue;
                 float slope = Mathf.Abs(ValleyShape.Height(x + 2, z) - ValleyShape.Height(x - 2, z));
                 if (slope > 5) continue;
+                Vector2 point=new Vector2(x,z);bool crowded=false;
+                foreach(Vector2 other in planted)if((point-other).sqrMagnitude<14.4f){crowded=true;break;}
+                if(crowded)continue;
+                planted.Add(point);
+                float stand=1-radius/28;
                 var tree = new GameObject("Pine").transform;
                 tree.SetParent(forest); tree.position = ValleyShape.Ground(x, z, -.2f);
-                float height = Range(rng, 11, 23);
+                float height = i%5==0 ? Range(rng,6,10) : Mathf.Lerp(15,24,stand) * Range(rng,.85f,1.15f);
                 tree.localScale = new Vector3(height * Range(rng, .85f, 1.15f), height, height);
                 tree.Rotate(0, Range(rng, 0, 360), 0);
-                GameObject importedTree = ModelArt.Tree("Woodland/Pine", tree);
+                GameObject importedTree = ModelArt.Tree(i%6==0 ? "Woodland/Aspen" : "Woodland/Pine", tree);
                 if (importedTree != null)
                 {
                     // Source trees use metre units; the parent is normalized to a one-metre tree.
@@ -236,16 +277,54 @@ namespace ExplorersByNature
             }
         }
 
+        void BuildShoreDetails()
+        {
+            var random=new System.Random(8891);
+            var pebbleMaterial=Own(new Material(rockMaterial) { name="River-worn pale gravel", enableInstancing=true });
+            pebbleMaterial.SetColor("_BaseColor",new Color(.55f,.55f,.46f));
+            // Separate bars can be frustum culled; combine stones to avoid a renderer per pebble.
+            for(int bar=0;bar<26;bar++)
+            {
+                float centerZ=-270+bar*20.8f;int side=bar%2==0?-1:1;
+                var pieces=new List<CombineInstance>();
+                for(int i=0;i<65;i++)
+                {
+                    float z=centerZ+Range(random,-7,7);
+                    float x=ShoreX(z,side)+side*Range(random,.05f,3.2f);
+                    float size=Range(random,.09f,.34f);
+                    pieces.Add(new CombineInstance { mesh=stoneMeshes[i%stoneMeshes.Length], transform=Matrix4x4.TRS(ValleyShape.Ground(x,z,-size*.18f),Quaternion.Euler(Range(random,-20,20),Range(random,0,360),Range(random,-15,15)),new Vector3(size*1.5f,size*.6f,size)) });
+                }
+                var mesh=Own(new Mesh { name="Gravel bar", indexFormat=IndexFormat.UInt32 });mesh.CombineMeshes(pieces.ToArray(),true,true);
+                var renderer=MeshObject("River pebble bar",mesh,pebbleMaterial,transform);renderer.shadowCastingMode=ShadowCastingMode.Off;
+                var lod=renderer.gameObject.AddComponent<LODGroup>();lod.SetLODs(new[]{new LOD(.025f,new Renderer[]{renderer})});lod.RecalculateBounds();
+            }
+            var wood=Own(new Material(barkMaterial) { name="Sun-bleached driftwood" });wood.SetColor("_BaseColor",new Color(.51f,.45f,.34f));
+            for(int i=0;i<12;i++)
+            {
+                float z=-245+i*39, x=ShoreX(z,i%2==0?-1:1)+(i%2==0?-1:1)*2.5f;
+                var log=new GameObject("Weathered driftwood").transform;log.SetParent(transform);log.position=ValleyShape.Ground(x,z,.13f);log.rotation=Quaternion.Euler(0,Range(random,15,70),0);
+                float length=Range(random,1.4f,2.7f);
+                var stem=Primitive("Fallen trunk",PrimitiveType.Cylinder,log,Vector3.zero,new Vector3(.22f,length*.5f,.19f),wood,false);stem.transform.localRotation=Quaternion.Euler(90,0,0);
+                for(int branch=0;branch<3;branch++)
+                {
+                    var twig=Primitive("Broken branch",PrimitiveType.Cylinder,log,new Vector3(branch%2==0?.13f:-.13f,.02f,-length*.3f+branch*.4f),new Vector3(.07f,.3f,.065f),wood,false);
+                    twig.transform.localRotation=Quaternion.Euler(55,branch%2==0?65:-65,0);
+                }
+            }
+        }
+
         public static float ModelHeight(GameObject model)
         {
             float min = float.PositiveInfinity, max = float.NegativeInfinity;
-            foreach (MeshFilter filter in model.GetComponentsInChildren<MeshFilter>())
+            foreach (Renderer renderer in model.GetComponentsInChildren<Renderer>())
             {
-                Bounds bounds = filter.sharedMesh.bounds;
+                Mesh mesh = renderer is SkinnedMeshRenderer skin ? skin.sharedMesh : renderer.GetComponent<MeshFilter>()?.sharedMesh;
+                if(mesh==null)continue;
+                Bounds bounds = mesh.bounds;
                 for (int corner = 0; corner < 8; corner++)
                 {
                     Vector3 point = bounds.center + Vector3.Scale(bounds.extents, new Vector3((corner & 1) == 0 ? -1 : 1, (corner & 2) == 0 ? -1 : 1, (corner & 4) == 0 ? -1 : 1));
-                    float y = model.transform.InverseTransformPoint(filter.transform.TransformPoint(point)).y;
+                    float y = model.transform.InverseTransformPoint(renderer.transform.TransformPoint(point)).y;
                     min = Mathf.Min(min, y); max = Mathf.Max(max, y);
                 }
             }
@@ -290,11 +369,13 @@ namespace ExplorersByNature
                         float wx = x + Range(rng, 0, 24), wz = z + Range(rng, 0, 24);
                         if (Mathf.Abs(wx - ValleyShape.TrailX(wz)) < 3 || Mathf.Abs(wx - ValleyShape.RiverX(wz)) < 23) continue;
                         Vector3 p = ValleyShape.Ground(wx, wz);
-                        float h = Range(rng, .13f, .36f), angle = Range(rng, 0, Mathf.PI * 2);
-                        Vector3 side = new Vector3(Mathf.Cos(angle), 0, Mathf.Sin(angle)) * .012f;
-                        Color color = Color.Lerp(new Color(.24f, .39f, .105f), new Color(.46f, .57f, .21f), Range(rng, 0, 1));
+                        float patch = Mathf.PerlinNoise((wx+800)*.12f,(wz+750)*.12f);
+                        if (patch < .31f || Range(rng,0,1) > Mathf.Lerp(.32f,1,patch)) continue;
+                        float h = Range(rng, .09f, .31f)*Mathf.Lerp(.6f,1.4f,patch), angle = Range(rng, 0, Mathf.PI * 2);
+                        Vector3 side = new Vector3(Mathf.Cos(angle), 0, Mathf.Sin(angle)) * Range(rng,.007f,.016f);
+                        Color color = Color.Lerp(new Color(.32f, .45f, .15f), new Color(.60f, .62f, .32f), Mathf.PerlinNoise(wx*.038f+50,wz*.038f+50)*.8f+Range(rng,0,.2f));
                         int n = verts.Count;
-                        Vector3 bend = new Vector3(-side.z, 0, side.x) * 6;
+                        Vector3 bend = new Vector3(-side.z, 0, side.x) * Range(rng,4,15);
                         verts.Add(p - side); verts.Add(p + side);
                         verts.Add(p + Vector3.up * h * .55f + bend * .25f - side * .55f);
                         verts.Add(p + Vector3.up * h * .55f + bend * .25f + side * .55f);

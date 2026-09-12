@@ -59,11 +59,62 @@ public sealed class RanchPlayTests
             Assert.That(UnityEngine.Object.FindObjectsByType<RanchTarget>(FindObjectsSortMode.None).Any(p=>p.pieceId==flower),Is.True,"planted flowers remain on low graphics");
             Assert.That(session.Connection.State.pieces.Count,Is.EqualTo(3));Assert.That(session.Connection.State.milk,Is.EqualTo(1));
             var cow=UnityEngine.Object.FindObjectsByType<RanchTarget>(FindObjectsSortMode.None).First(p=>p.animal=="milk");
-            var renderers=cow.GetComponentsInChildren<Renderer>();Bounds bounds=renderers[0].bounds;foreach(var renderer in renderers)bounds.Encapsulate(renderer.bounds);
-            Assert.That(bounds.size.y,Is.InRange(1.5f,2.5f),"Blender cow imports at life size");
+            var renderers=cow.GetComponentsInChildren<Renderer>();
+            Assert.That(ValleyWorld.ModelHeight(cow.gameObject),Is.InRange(1.5f,2.5f),"Blender cow imports at life size");
             Assert.That(renderers.All(r=>r.sharedMaterial.shader.name=="Universal Render Pipeline/Lit"),Is.True,"animal materials use URP");
         }
         finally {UnityEngine.Object.DestroyImmediate(session);if(Directory.Exists(dir))Directory.Delete(dir,true);}
+    }
+    [UnityTest]
+    public IEnumerator FurnishingsSitAboveDeckAndBenchReleasesPlayer()
+    {
+        yield return SceneManager.LoadSceneAsync("Pinewatch");yield return null;
+        var walker=UnityEngine.Object.FindFirstObjectByType<FirstPersonWalker>();walker.SetMenu(true);
+        var comfort=UnityEngine.Object.FindFirstObjectByType<RanchComfort>();
+        var state=new RanchState();state.pieces.Add(new Piece{kind="foundation",x=-30,z=-78,id=7001});
+        var benchPiece=new Piece{kind="bench",x=-30,z=-78,id=7002};
+        var bench=RanchVisuals.Piece(benchPiece,false,state);
+        var ghost=RanchVisuals.Piece(benchPiece,true,state);
+        var lamps=new System.Collections.Generic.List<GameObject>();
+        try
+        {
+            Assert.That(bench.transform.position.y,Is.EqualTo(ValleyShape.Height(-90,-234)+.63f).Within(.001f));
+            Assert.That(ghost.transform.position,Is.EqualTo(bench.transform.position),"preview and placed bench share deck height");
+            Vector3 approach=walker.transform.position,eye=walker.view.transform.localPosition;
+            comfort.Sit(bench.GetComponent<PropComfort>());
+            Assert.That(comfort.Seated,Is.True);Assert.That(walker.enabled,Is.False);
+            Assert.That(walker.view.transform.position.y,Is.EqualTo(bench.transform.position.y+1.4f).Within(.01f),"seated eyes stay above the bench");
+            // Sitting owns the camera while the walker is disabled. Standing must
+            // transfer the resulting pitch before normal mouse-look resumes.
+            walker.view.transform.localRotation=Quaternion.Euler(24,0,0);
+            comfort.Stand();
+            Assert.That(walker.transform.position,Is.EqualTo(approach),"standing restores the approach position");
+            walker.SetMenu(false);
+            yield return null;
+            Assert.That(Mathf.DeltaAngle(walker.view.transform.localEulerAngles.x,24),Is.EqualTo(0).Within(.1f),"standing preserves the seated look direction");
+            walker.SetMenu(true);
+            walker.Teleport(approach);
+            Assert.That(walker.enabled,Is.True);Assert.That(walker.transform.position,Is.EqualTo(approach));Assert.That(walker.view.transform.localPosition,Is.EqualTo(eye));
+            comfort.Sit(bench.GetComponent<PropComfort>());UnityEngine.Object.Destroy(bench);
+            yield return null;yield return null;
+            Assert.That(comfort.Seated,Is.False,"deleting an occupied bench releases the player");Assert.That(walker.enabled,Is.True);
+            var session=UnityEngine.Object.FindFirstObjectByType<RanchSession>();
+            session.BeginPicnic();
+            Assert.That(walker.MenuOpen,Is.True,"picnic pauses walking");
+            Assert.That(RanchSession.PanelOpen,Is.True,"picnic excludes the general settings overlay");
+            yield return null;
+            session.EndPicnic(false);
+            Assert.That(walker.MenuOpen,Is.False,"cancelling picnic returns control");
+            Assert.That(RanchSession.PanelOpen,Is.False,"cancelling clears picnic panel ownership");
+            walker.SetMenu(true);
+            for(int n=0;n<7;n++)lamps.Add(RanchVisuals.Piece(new Piece{kind=n%2==0?"lantern":"campfire",x=-30+n,z=-78,id=7010+n}));
+            yield return new WaitForSeconds(.6f);
+            var pooled=comfort.GetComponentsInChildren<Light>(true);
+            Assert.That(pooled,Has.Length.EqualTo(4),"many furnishings share only four light components");
+            Assert.That(pooled.All(light=>light.shadows==LightShadows.None),Is.True);
+            Assert.That(lamps.All(lamp=>lamp.GetComponentsInChildren<Light>(true).Length==0),Is.True,"furnishings never allocate per-prop lights");
+        }
+        finally {comfort.Stand();if(bench!=null)UnityEngine.Object.Destroy(bench);UnityEngine.Object.Destroy(ghost);foreach(var lamp in lamps)UnityEngine.Object.Destroy(lamp);}
     }
     static WalkSession FindFirstSession()=>UnityEngine.Object.FindFirstObjectByType<WalkSession>();
     static IEnumerator Wait(Func<bool> condition,string step)

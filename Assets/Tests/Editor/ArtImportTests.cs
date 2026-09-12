@@ -52,8 +52,8 @@ public sealed class ArtImportTests
 
     static int Triangles(Renderer renderer)
     {
-        MeshFilter filter = renderer.GetComponent<MeshFilter>();
-        Assert.That(filter, Is.Not.Null, renderer.name);
-        return filter.sharedMesh.triangles.Length / 3;
+        Mesh mesh = renderer is SkinnedMeshRenderer skin ? skin.sharedMesh : renderer.GetComponent<MeshFilter>()?.sharedMesh;
+        Assert.That(mesh, Is.Not.Null, renderer.name);
+        return mesh.triangles.Length / 3;
     }
 }

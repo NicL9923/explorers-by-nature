@@ -4,12 +4,13 @@ namespace ExplorersByNature
 {
     public sealed class WildlifeRoamer : MonoBehaviour
     {
-        public Transform[] legs;
+        public Transform[] legs = new Transform[0];
         public Transform observer;
         Vector3 home;
         Vector3 target;
         float phase;
         float wait;
+        float pace;
         System.Random random;
 
         void Start()
@@ -33,14 +34,16 @@ namespace ExplorersByNature
             if (watching || wait > 0)
             {
                 wait -= Time.deltaTime;
+                pace = 0;
                 foreach (Transform leg in legs) leg.localRotation = Quaternion.identity;
                 return;
             }
             Vector3 delta = target - transform.position;
             delta.y = 0;
-            if (delta.sqrMagnitude < .8f) { wait = 3; PickTarget(); return; }
+            if (delta.sqrMagnitude < .8f) { wait = 8 + (float)random.NextDouble() * 6; pace = 0; PickTarget(); return; }
             transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(delta), Time.deltaTime * 2);
-            Vector3 next = transform.position + transform.forward * (.8f * Time.deltaTime);
+            pace = Mathf.MoveTowards(pace, .65f, Time.deltaTime * .6f);
+            Vector3 next = transform.position + transform.forward * (pace * Time.deltaTime);
             transform.position = ValleyShape.Ground(next.x, next.z);
             phase += Time.deltaTime * 4;
             for (int i = 0; i < legs.Length; i++)

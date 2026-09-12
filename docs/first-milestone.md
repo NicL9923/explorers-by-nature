@@ -1,5 +1,7 @@
 # First milestone: the walk
 
+Latest implementation and verification: [complete picnic and nature polish](#complete-picnic-and-nature-polish-september-12-2026-utc). Earlier sections preserve the original milestone and historical measurements.
+
 ## Question
 
 Can one small forest-to-overlook walk feel beautiful and comfortable on both a weak integrated GPU and a stronger dedicated GPU?
@@ -163,3 +165,32 @@ Final measured Linux player: `d10261f/sha256:57868296788e35b6c591f62fb5a9defc725
 | OpenGLCore / High / 1920×1080 | 1.15 ms | 1.56 / 1.72 ms | 0 | 592 MB |
 
 Evidence: [AMD integrated](benchmarks/wildlife-amd-integrated-low.json), [RTX 5070 Ti](benchmarks/wildlife-nvidia-high.json), [EditMode](validation/wildlife-editmode.xml), [PlayMode](validation/wildlife-playmode.xml), [shared ranch snapshot](validation/wildlife-shared-ranch.json). Measurements are uncapped engine intervals on the Ryzen 9/32 GB desktop, not isolated GPU timings or proof of the two-core/8 GB minimum. Wildlife motion is local ambient scenery, not synchronized authoritative game state; articulated animal animation remains outstanding.
+
+
+## Complete picnic and nature polish (September 12, 2026 UTC)
+
+All eight requested areas are implemented: landscape composition, articulated animals, river/shore detail, placement and collection feedback, spatial nature audio, a complete picnic/reward loop, usable ranch furnishings, and gentle weather/time of day. See the [player gallery](picnic-polish.md).
+
+The final Linux player identifies `ecf0d17/sha256:186608e7824ae166f0f4b529f9250469df12643fda0fb03d1970d101fd7c1339`. That digest includes the then-uncommitted implementation. The [per-file source manifest](validation/polish-source-files.json) records the final Assets, Packages, ProjectSettings, server and test files, checked unchanged after both final builds. Subsequent documentation, evidence and packaging changes do not alter those inputs.
+
+| Check | Final result and evidence |
+| --- | --- |
+| Blender rigs | Seven animals, normalized weights, 10–18 bones, both LODs; [verification](../ArtSource/Animation/verification.json). Posed source renders and actual player poses inspected. |
+| EditMode | [15 passed](validation/polish-editmode.xml): scene/terrain, shoreline/habitats, original art and skinned import, stance/swing checks. |
+| PlayMode | [4 passed](validation/polish-playmode.xml), rerun after picnic overlay and bench camera continuity fixes; also covers ranch gameplay, supported furnishing/ghost height, shared light cap, rain/readable lighting, spatial audio and quality preservation. |
+| Shared authority | [Passed](validation/polish-server-tests.txt): expedition order/proximity, old saves lacking the new field, reward persistence, all furnishing kinds, existing authority/restart/framing checks and 20 synthetic concurrent clients. |
+| Rendered multiplayer | [Passed](validation/polish-multiplayer.txt): two Linux players and dedicated server save match at revision 25, 20 pieces, one milk, three eggs, expedition stage 3; [shared snapshot](validation/polish-shared-ranch.json). |
+| Desktop builds | Final Linux and Windows x64 players built through Unity CLI with no shader/compiler errors. Linux exercised; native Windows execution remains untested. |
+| Dedicated servers | [Both self-contained targets published](validation/polish-server-publish.txt) after regenerating the changed northern terrain table. |
+
+Earlier integration checks caught unreadable meshes preventing pebble batching and a scale assertion accidentally measuring padded animation culling bounds. Both were corrected before the final tests. A read-only integration review also caught the picnic settings overlay and a bench stand-up camera snap; the final PlayMode run covers both fixes.
+
+Performance measurements below use the final player on the fixed 60-second route, after warm-up, with no concurrent editor, build or Blender render. They are uncapped engine frame intervals on a Ryzen 9/32 GB desktop, not isolated GPU timings or proof of the two-core/8 GB floor. The rain run fixes full drizzle at evening. The route does not simulate a heavily furnished 20-player ranch. Audio emission is checked programmatically; sound balance, minigame feel and family comfort still need human playtesting.
+
+| Run | Mean | p95 / p99 | Frames over 50 ms | Final working set |
+| --- | --- | --- | --- | --- |
+| [AMD integrated / Vulkan / Low / 1280×720 / clear](benchmarks/polish-amd-integrated-low.json) | 8.72 ms | 14.01 / 15.22 ms | 0 | 456 MB |
+| [RTX 5070 Ti / OpenGL / High / 1920×1080 / clear](benchmarks/polish-nvidia-high.json) | 1.44 ms | 2.12 / 2.28 ms | 1 | 597 MB |
+| [AMD integrated / Vulkan / Low / 1280×720 / rainy evening](benchmarks/polish-amd-integrated-rain.json) | 8.78 ms | 14.13 / 15.35 ms | 0 | 447 MB |
+
+The high run contains one frame over 50 ms; the raw report preserves that hitch. No repeat run was used to replace it. These measurements support continued testing on the available GPUs, not a minimum-spec certification.

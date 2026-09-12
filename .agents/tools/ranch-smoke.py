@@ -25,6 +25,7 @@ with tempfile.TemporaryDirectory(prefix='explorers-server-smoke-') as data:
   builder=json.loads((out/'builder.json').read_text());observer=json.loads((out/'observer.json').read_text())
   assert builder==observer,'Clients diverged'
   saved=json.loads((pathlib.Path(data)/'ranch.json').read_text());assert saved==builder,'Disk and clients diverged'
+  assert builder['expeditionStage']==3 and len(builder['pieces'])==20,'Expedition and furnishing loop incomplete'
   print(f'PASS: two rendered Unity clients and dedicated save agree at revision {builder["revision"]}, {len(builder["pieces"])} pieces, milk={builder["milk"]}, eggs={builder["eggs"]}')
  finally:
   for player in players:

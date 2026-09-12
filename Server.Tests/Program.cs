@@ -38,6 +38,33 @@ try
   Wire.Write(c.GetStream(),Encode(new Request {action="eggs",px=-108,py=20,pz=-226}));Check(!Decode<Reply>(Wire.Read(c.GetStream())).ok,"production cooldown survives restart");
   using var bad=new TcpClient("127.0.0.1",server.Port);Wire.Write(bad.GetStream(),Encode(new Request {action="join",token="wrong"}));Check(!Decode<Reply>(Wire.Read(bad.GetStream())).ok,"wrong join code rejected");
  }
+ // Remove the additive field to exercise an actual pre-expedition save.
+ string legacyPath=Path.Combine(dir,"ranch.json");
+ File.WriteAllText(legacyPath,System.Text.RegularExpressions.Regex.Replace(File.ReadAllText(legacyPath),"\"expeditionStage\":0,", ""));
+ // Exercise the expedition through the same authority used by solo and servers.
+ using(var ranch=Make())
+ {
+  var home=new Visitor{x=Ranch.HomeX,y=20,z=Ranch.HomeZ};
+  var lookout=new Visitor{x=Ranch.ExpeditionX,y=20,z=Ranch.ExpeditionZ};
+  Check(ranch.Snapshot.expeditionStage==0,"older saves begin with an unpacked picnic");
+  Check(ranch.Apply(new Request{action="place",kind="alpineflower",x=(int)Math.Round(Ranch.HomeX/3),z=-78},home,100)!="","alpine flowers require expedition unlock");
+  Check(ranch.Apply(new Request{action="claim"},home,100)!="","cannot claim seeds before expedition");
+  Check(ranch.Apply(new Request{action="pack"},lookout,100)!="","packing requires the home basket");
+  Check(ranch.Apply(new Request{action="pack"},home,100)=="","pack shared picnic");
+  Check(ranch.Apply(new Request{action="picnic"},home,100)!="","picnic requires reaching overlook");
+  Check(ranch.Apply(new Request{action="picnic"},lookout,100)=="","overlook picnic discovers seeds");
+  Check(ranch.Apply(new Request{action="claim"},home,100)=="","return home unlocks flowers");
+  Check(ranch.Apply(new Request{action="claim"},home,100)!="","shared reward cannot be claimed twice");
+  int tile=(int)Math.Round(Ranch.HomeX/3);
+  foreach(string kind in new[]{"bench","lantern","trough","flowerbox","campfire","alpineflower"})
+  {
+   var place=new Request{action="place",kind=kind,x=tile,z=-78};
+   Check(ranch.Apply(place,home,100)=="","place "+kind);
+   int id=ranch.Snapshot.pieces.Last().id;
+   Check(ranch.Apply(new Request{action="remove",id=id},home,100)=="","remove "+kind);
+  }
+ }
+ using(var ranch=Make())Check(ranch.Snapshot.expeditionStage==3,"expedition unlock survives restart");
  File.WriteAllText(Path.Combine(dir,"ranch.json"),"{}");bool incomplete=false;try{using var empty=Make();}catch(InvalidDataException){incomplete=true;}Check(incomplete,"missing save fields never silently reset");
  File.WriteAllText(Path.Combine(dir,"ranch.json"),"null");bool corrupt=false;try{Make();}catch(InvalidDataException){corrupt=true;}Check(corrupt,"damaged save never silently resets");
 }

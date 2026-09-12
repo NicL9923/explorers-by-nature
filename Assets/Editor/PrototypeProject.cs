@@ -80,6 +80,9 @@ public static class PrototypeProject
         world.rockMaterial = Material("River stone", "Universal Render Pipeline/Lit", new Color(.52f, .53f, .46f));
         world.rockMaterial.SetTexture("_BaseMap", world.rockTexture);
         world.deerMaterial = Material("Deer", "Universal Render Pipeline/Lit", new Color(.48f, .29f, .15f));
+        var environment = new GameObject("Weather and sound");
+        environment.AddComponent<SkyWeather>().rainMaterial = Material("GentleRain", "Explorers/GentleRain", Color.white);
+        environment.AddComponent<NatureSoundscape>();
         WalkSession session = new GameObject("Walk session").AddComponent<WalkSession>();
         session.world = world; session.walker = walker; session.lowPipeline = low; session.highPipeline = high;
         if (UnityEngine.Object.FindFirstObjectByType<RanchSession>() == null) new GameObject("Ranch session").AddComponent<RanchSession>();

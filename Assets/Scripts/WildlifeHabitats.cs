@@ -95,7 +95,7 @@ namespace ExplorersByNature
         void Update()
         {
             bool watched=observer!=null&&Vector3.SqrMagnitude(observer.transform.position-transform.position)<16;
-            if(!swims&&(watched||Mathf.Repeat(Time.time+phase,14)>9))return;
+            if(!swims&&(watched||Mathf.Repeat(Time.time+phase,22)>9))return;
             clock+=Time.deltaTime;
             Vector3 next=Position(home,swims,radius,phase,clock);
             Vector3 direction=Position(home,swims,radius,phase,clock+.2f)-next;direction.y=0;

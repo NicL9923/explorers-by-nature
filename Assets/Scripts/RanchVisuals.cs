@@ -6,30 +6,59 @@ namespace ExplorersByNature
     public sealed class RanchTarget : MonoBehaviour { public int pieceId; public string animal; }
     public static class RanchVisuals
     {
-        static Material wood,cream,dark,red,green,petal,nose,beak;
+        static Material wood,cream,dark,red,green,petal,nose,beak,water,glow;
         static Material Mat(string name,Color color)
         { var m=new Material(Shader.Find("Universal Render Pipeline/Lit")){name=name,color=color,enableInstancing=true};m.SetFloat("_Smoothness",.15f);return m; }
         static void Materials()
         {
             if(wood!=null)return;
+            water=Mat("Trough water",new Color(.2f,.44f,.48f));water.SetFloat("_Smoothness",.85f);
+            glow=Mat("Warm firelight",new Color(1,.56f,.14f));glow.EnableKeyword("_EMISSION");glow.SetColor("_EmissionColor",new Color(1,.36f,.05f)*2);
             wood=Mat("Cedar",new Color(.38f,.21f,.105f));cream=Mat("Warm ivory",new Color(.88f,.81f,.65f));dark=Mat("Iron and hooves",new Color(.065f,.05f,.037f));red=Mat("Hen comb",new Color(.65f,.09f,.055f));green=Mat("Flower stems",new Color(.13f,.32f,.06f));petal=Mat("Wildflowers",new Color(.58f,.32f,.72f));nose=Mat("Soft rose",new Color(.57f,.28f,.24f));beak=Mat("Beak",new Color(.75f,.4f,.055f));
         }
         public static GameObject Part(Transform parent,string name,PrimitiveType type,Vector3 position,Vector3 scale,Material material,bool collider=true)
         { var go=GameObject.CreatePrimitive(type);go.name=name;go.transform.SetParent(parent,false);go.transform.localPosition=position;go.transform.localScale=scale;go.GetComponent<Renderer>().sharedMaterial=material;if(!collider)Object.Destroy(go.GetComponent<Collider>());return go; }
-        public static GameObject Piece(Piece p,bool ghost=false)
+        public static float PlacementOffset(Piece p,RanchState state=null)
         {
-            Materials();var root=new GameObject(p.kind);root.transform.position=ValleyShape.Ground(p.x*3,p.z*3,p.kind=="flower"?.015f:.18f);root.transform.rotation=Quaternion.Euler(0,p.turn*90,0);
-            if(!ghost)root.AddComponent<RanchTarget>().pieceId=p.id;
+            bool furnishing=p.kind=="bench" || p.kind=="lantern" || p.kind=="trough" || p.kind=="flowerbox" || p.kind=="campfire";
+            if(furnishing && state!=null && state.pieces.Exists(v=>v.kind=="foundation" && v.x==p.x && v.z==p.z))return .63f;
+            return p.kind=="flower" || p.kind=="alpineflower"?.015f:.18f;
+        }
+        public static GameObject Piece(Piece p,bool ghost=false,RanchState state=null)
+        {
+            Materials();var root=new GameObject(p.kind);root.transform.position=ValleyShape.Ground(p.x*3,p.z*3,PlacementOffset(p,state));root.transform.rotation=Quaternion.Euler(0,p.turn*90,0);
+            if(!ghost){root.AddComponent<RanchTarget>().pieceId=p.id;if(p.kind=="bench" || p.kind=="lantern" || p.kind=="campfire")root.AddComponent<PropComfort>().Configure(p.kind);}
             string resource = p.kind == "foundation" ? "Foundation" : p.kind == "wall" ? "Wall" : p.kind == "door" ? "Door" : p.kind == "roof" ? "Roof" : "Fence";
-            GameObject artwork = p.kind == "flower" ? ModelArt.Tree("Woodland/Wildflower", root.transform, false) : ModelArt.Instantiate("Homestead/" + resource, root.transform, false);
+            GameObject artwork = (p.kind == "flower" || p.kind == "alpineflower") ? ModelArt.Tree("Woodland/Wildflower", root.transform, false) : (System.Array.IndexOf(Ranch.Kinds,p.kind)<6 ? ModelArt.Instantiate("Homestead/" + resource, root.transform, false) : null);
             if (artwork != null)
             {
-                if (!ghost) PieceColliders(root, p.kind);
+                if(p.kind=="alpineflower") foreach(var renderer in artwork.GetComponentsInChildren<Renderer>()) { var block=new MaterialPropertyBlock();block.SetColor("_BaseColor",new Color(.62f,.63f,1));renderer.SetPropertyBlock(block); }
+                if (!ghost) PieceColliders(root, p.kind=="alpineflower"?"flower":p.kind);
                 return root;
             }
             void Box(string name,Vector3 pos,Vector3 size,Material mat)=>Part(root.transform,name,PrimitiveType.Cube,pos,size,mat,!ghost);
             switch(p.kind)
             {
+                case "bench":
+                    foreach(float x in new[]{-.8f,.8f}) {Box("Trestle leg",new Vector3(x,.22f,0),new Vector3(.16f,.65f,.65f),wood);Box("Back upright",new Vector3(x,.65f,.25f),new Vector3(.1f,1.2f,.12f),wood);}
+                    for(int i=0;i<3;i++){Box("Seat slat",new Vector3(0,.56f,-.2f+i*.18f),new Vector3(2,.1f,.16f),wood);Box("Back slat",new Vector3(0,.82f+i*.16f,.29f),new Vector3(2,.12f,.09f),wood);}break;
+                case "trough":
+                    Box("Trough bottom",new Vector3(0,.22f,0),new Vector3(1.8f,.15f,.8f),wood);
+                    foreach(int sign in new[]{-1,1}){Box("Long side",new Vector3(0,.45f,sign*.4f),new Vector3(1.9f,.5f,.1f),wood);Box("End",new Vector3(sign*.9f,.45f,0),new Vector3(.1f,.5f,.8f),wood);}
+                    Part(root.transform,"Clean water",PrimitiveType.Cube,new Vector3(0,.57f,0),new Vector3(1.7f,.025f,.7f),water,false);break;
+                case "flowerbox":
+                    Box("Box bottom",new Vector3(0,.16f,0),new Vector3(1.5f,.2f,.6f),wood);
+                    foreach(int sign in new[]{-1,1}){Box("Box side",new Vector3(0,.3f,sign*.3f),new Vector3(1.6f,.4f,.07f),wood);Box("Box end",new Vector3(sign*.75f,.3f,0),new Vector3(.07f,.4f,.6f),wood);}
+                    for(int i=0;i<3;i++){var bloom=ModelArt.Tree("Woodland/Wildflower",root.transform,false);if(bloom!=null){bloom.transform.localPosition=new Vector3((i-1)*.45f,.42f,0);bloom.transform.localScale=Vector3.one*.65f;}}break;
+                case "lantern":
+                    Box("Lantern post",new Vector3(0,.85f,0),new Vector3(.13f,1.9f,.13f),wood);Box("Hook beam",new Vector3(.18f,1.75f,0),new Vector3(.48f,.09f,.09f),dark);
+                    foreach(float y in new[]{1.15f,1.56f})Box("Iron cap",new Vector3(.34f,y,0),new Vector3(.32f,.07f,.32f),dark);
+                    foreach(float x in new[]{.21f,.47f})foreach(float z in new[]{-.13f,.13f})Box("Lantern frame",new Vector3(x,1.35f,z),new Vector3(.035f,.4f,.035f),dark);
+                    Part(root.transform,"Warm lantern",PrimitiveType.Sphere,new Vector3(.34f,1.35f,0),new Vector3(.19f,.3f,.19f),glow,false);break;
+                case "campfire":
+                    for(int i=0;i<10;i++){float a=i*Mathf.PI*.2f;Part(root.transform,"Hearth stone",PrimitiveType.Sphere,new Vector3(Mathf.Cos(a)*.6f,.08f,Mathf.Sin(a)*.6f),new Vector3(.32f,.22f,.26f),dark,!ghost);}
+                    for(int i=0;i<3;i++){var log=Part(root.transform,"Split log",PrimitiveType.Cylinder,new Vector3(0,.17f+i*.08f,0),new Vector3(.17f,.48f,.17f),wood,!ghost);log.transform.localRotation=Quaternion.Euler(90,i*60,0);}
+                    CampfireFlame.Add(root.transform);break;
                 case "foundation":
                     for(int i=0;i<10;i++)Part(root.transform,"Floor plank",PrimitiveType.Cube,new Vector3(-1.35f+i*.3f,.35f,0),new Vector3(.29f,.2f,3),wood,false);
                     if(!ghost) {var floor=root.AddComponent<BoxCollider>();floor.center=new Vector3(0,-.4f,0);floor.size=new Vector3(3,1.7f,3);}

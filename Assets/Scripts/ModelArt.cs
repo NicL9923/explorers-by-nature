@@ -19,6 +19,7 @@ namespace ExplorersByNature
             instance.name = asset.name;
             Remap(instance, Folder(path));
             ConfigureLods(instance, cull);
+            AnimalMotion.Attach(instance, path);
             return instance;
         }
 

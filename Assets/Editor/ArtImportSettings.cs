@@ -7,6 +7,14 @@ public sealed class ArtImportSettings : AssetPostprocessor
     [MenuItem("Explorers/Prepare art shader variants")]
     public static void PrepareMaterials()
     {
+        for(int i=1;i<=3;i++)
+        {
+            var importer=AssetImporter.GetAtPath("Assets/Models/RiverStone"+i+".fbx") as ModelImporter;
+            if(importer!=null && !importer.isReadable){importer.isReadable=true;importer.SaveAndReimport();}
+        }
+        Directory.CreateDirectory("Assets/Resources/ArtSupport");
+        const string firePath="Assets/Resources/ArtSupport/Fire.mat";
+        if(AssetDatabase.LoadAssetAtPath<Material>(firePath)==null)AssetDatabase.CreateAsset(new Material(Shader.Find("Explorers/CampfireFlame")),firePath);
         // Serialized Resources material keeps the runtime-created foliage variant in players.
         Directory.CreateDirectory("Assets/Resources/ArtSupport");
         const string path = "Assets/Resources/ArtSupport/Foliage.mat";

@@ -1,0 +1,58 @@
+PASS: join
+PASS: join
+PASS: second writer cannot open the same save
+PASS: malformed JSON disconnects only its sender
+PASS: conflicting placement commits once
+PASS: placement cannot overwrite an existing ID
+PASS: move cannot change a piece type
+PASS: concurrent collection grants once
+PASS: unsupported roof rejected
+PASS: hostile coordinate rejected
+PASS: join
+PASS: join
+PASS: join
+PASS: join
+PASS: join
+PASS: join
+PASS: join
+PASS: join
+PASS: join
+PASS: join
+PASS: join
+PASS: join
+PASS: join
+PASS: join
+PASS: join
+PASS: join
+PASS: join
+PASS: join
+PASS: 20 concurrent visitors poll consistent world
+PASS: oversized frame disconnected
+PASS: join
+PASS: restart and reconnect preserve world and products
+PASS: production cooldown survives restart
+PASS: wrong join code rejected
+PASS: older saves begin with an unpacked picnic
+PASS: alpine flowers require expedition unlock
+PASS: cannot claim seeds before expedition
+PASS: packing requires the home basket
+PASS: pack shared picnic
+PASS: picnic requires reaching overlook
+PASS: overlook picnic discovers seeds
+PASS: return home unlocks flowers
+PASS: shared reward cannot be claimed twice
+PASS: place bench
+PASS: remove bench
+PASS: place lantern
+PASS: remove lantern
+PASS: place trough
+PASS: remove trough
+PASS: place flowerbox
+PASS: remove flowerbox
+PASS: place campfire
+PASS: remove campfire
+PASS: place alpineflower
+PASS: remove alpineflower
+PASS: expedition unlock survives restart
+PASS: missing save fields never silently reset
+PASS: damaged save never silently resets

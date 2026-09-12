@@ -49,6 +49,13 @@ namespace ExplorersByNature
             fallingSpeed = 0;
         }
 
+        public void SyncLookPitch()
+        {
+            pitch=view.transform.localEulerAngles.x;
+            if(pitch>180)pitch-=360;
+            pitch=Mathf.Clamp(pitch,-80,80);
+        }
+
         public void SetMenu(bool open)
         {
             MenuOpen = open;

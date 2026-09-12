@@ -1,0 +1,51 @@
+{
+  "Deer": {
+    "bones": 18,
+    "meshes": {
+      "Deer_LOD0": 7096,
+      "Deer_LOD1": 1342
+    }
+  },
+  "Rabbit": {
+    "bones": 18,
+    "meshes": {
+      "Rabbit_LOD0": 3778,
+      "Rabbit_LOD1": 828
+    }
+  },
+  "Fox": {
+    "bones": 18,
+    "meshes": {
+      "Fox_LOD0": 8988,
+      "Fox_LOD1": 1463
+    }
+  },
+  "Beaver": {
+    "bones": 18,
+    "meshes": {
+      "Beaver_LOD0": 7012,
+      "Beaver_LOD1": 1287
+    }
+  },
+  "Duck": {
+    "bones": 10,
+    "meshes": {
+      "Duck_LOD0": 5804,
+      "Duck_LOD1": 1258
+    }
+  },
+  "Clover": {
+    "bones": 18,
+    "meshes": {
+      "Clover_LOD0": 11858,
+      "Clover_LOD1": 2308
+    }
+  },
+  "Hen": {
+    "bones": 10,
+    "meshes": {
+      "Hen_LOD0": 6120,
+      "Hen_LOD1": 1336
+    }
+  }
+}

@@ -40,6 +40,8 @@ Build Linux with `.agents/tools/unity.sh linux`, then run:
 
 # Optional: choose a Vulkan device. Verify its index with vulkaninfo first.
 .agents/tools/benchmark.sh low 1
+# Same route with full rain at evening.
+.agents/tools/benchmark.sh low 1 rain
 ```
 
 The player waits five seconds for warm-up, then follows a fixed 60-second camera route. It writes JSON and a screenshot and exits. A manually triggered benchmark returns to the settings menu instead. Output defaults to `Benchmarks` under Unity's persistent-data folder when no output argument is supplied.
@@ -84,3 +86,11 @@ Run `.agents/tools/unity.sh art` after changing foliage shader requirements to p
 The [landscape pass](landscape-pass.md) adds procedural meadow/snow textures, distant mountain scenery and a cloud sky. The art tour now includes river and overlook captures. The scene material helper updates shaders on existing materials when regenerating the scene.
 
 The [wildlife and river pass](river-wildlife-pass.md) adds mallards, beavers and foxes with local ambient behavior. River geometry uses a bisection against the unchanged heightfield to find each bank. The art tour also captures each new species; habitat tests validate waterline and dry-land constraints.
+
+## Picnic and nature polish
+
+The [complete pass](picnic-polish.md) documents the current player. The art tour also completes the shared picnic/reward loop, places all six new furnishing/flower kinds, checks sitting, captures evening rain, and records 24 fox-motion frames. Shared server checks cover old saves with the absent expedition field.
+
+After regenerating original animal sculpts, run the [rigging tools](animal-animation.md#regeneration) to restore both skinned LODs. Run `unity.sh art` to prepare foliage, flame materials and readable stones for pebble batching, then `unity.sh setup` to export matching northern terrain for the server. Republish both servers after terrain changes.
+
+`NatureSoundscape` synthesizes original ambience, animal calls, surface footsteps and accepted-action feedback. `SkyWeather` controls readable day/evening lighting, sky, local rain and saved weather preferences. The rain benchmark fixes evening and full precipitation; normal automated runs fix clear daylight. Nearby prop lighting has a shared four-light cap.

@@ -100,6 +100,7 @@ namespace ExplorersByNature
             var result = new BenchmarkResult
             {
                 revision = buildRevision, unity = Application.unityVersion, utc = DateTime.UtcNow.ToString("O"),
+                weather=SkyWeather.RainAmount>.5f?"Drizzle":"Clear", daylight=SkyWeather.Daylight,
                 operatingSystem = SystemInfo.operatingSystem, processor = SystemInfo.processorType,
                 processorCount = SystemInfo.processorCount, memoryMB = SystemInfo.systemMemorySize,
                 graphics = SystemInfo.graphicsDeviceName, graphicsAPI = SystemInfo.graphicsDeviceType.ToString(),
@@ -113,7 +114,7 @@ namespace ExplorersByNature
             try
             {
                 Directory.CreateDirectory(outputDirectory);
-                string stem = Path.Combine(outputDirectory, DateTime.UtcNow.ToString("yyyyMMdd-HHmmss") + "-" + result.quality.ToLowerInvariant());
+                string stem = Path.Combine(outputDirectory, DateTime.UtcNow.ToString("yyyyMMdd-HHmmss") + "-" + result.quality.ToLowerInvariant() + (result.weather=="Drizzle"?"-rain":""));
                 File.WriteAllText(stem + ".json", JsonUtility.ToJson(result, true));
                 ScreenCapture.CaptureScreenshot(stem + ".png");
                 Debug.Log("BENCHMARK_COMPLETE " + stem + ".json");
@@ -154,16 +155,21 @@ namespace ExplorersByNature
             GUI.Label(new Rect(32, height - 53, 550, 30), "WASD walk   Shift stroll faster   Esc settings   Home return", textStyle);
             GUI.Label(new Rect(width - 195, height - 52, 185, 30), (high ? "High" : "Low") + " / " + (1 / Mathf.Max(.001f, frameTime)).ToString("F0") + " FPS", textStyle);
             if (!walker.MenuOpen || benchmark || RanchSession.PanelOpen) return;
-            GUILayout.BeginArea(new Rect(width / 2 - 190, height / 2 - 225, 380, 450), GUI.skin.box);
+            GUILayout.BeginArea(new Rect(width / 2 - 190, height / 2 - 280, 380, 560), GUI.skin.box);
             GUILayout.Space(14); GUILayout.Label("Take your time", titleStyle); GUILayout.Space(10);
             GUILayout.Label("Mouse sensitivity", textStyle);
             walker.sensitivity = GUILayout.HorizontalSlider(walker.sensitivity, .3f, 4);
             GUILayout.Label("Field of view: " + walker.view.fieldOfView.ToString("F0"), textStyle);
             walker.view.fieldOfView = GUILayout.HorizontalSlider(walker.view.fieldOfView, 60, 100);
-            GUILayout.Label("Nature volume", textStyle);
+            GUILayout.Label("Sound volume", textStyle);
             AudioListener.volume = GUILayout.HorizontalSlider(AudioListener.volume, 0, 1);
             PlayerPrefs.SetFloat("MasterVolume", AudioListener.volume);
             GUILayout.Space(12);
+            if (SkyWeather.Current != null)
+            {
+                if (GUILayout.Button(SkyWeather.Current.TimeLabel, GUILayout.Height(30))) SkyWeather.Current.NextTime();
+                if (GUILayout.Button(SkyWeather.Current.WeatherLabel, GUILayout.Height(30))) SkyWeather.Current.NextWeather();
+            }
             if (GUILayout.Button("Graphics: " + (high ? "High" : "Low"), GUILayout.Height(32))) ApplyQuality(!high);
             if (GUILayout.Button("Walk the benchmark route", GUILayout.Height(32))) BeginBenchmark();
             if (GUILayout.Button("Return to the meadow", GUILayout.Height(32))) { walker.Teleport(ValleyShape.Spawn); walker.SetMenu(false); }
@@ -175,7 +181,8 @@ namespace ExplorersByNature
         [Serializable]
         sealed class BenchmarkResult
         {
-            public string revision, unity, utc, operatingSystem, processor, graphics, graphicsAPI, graphicsDriver, quality;
+            public string revision, unity, utc, operatingSystem, processor, graphics, graphicsAPI, graphicsDriver, quality, weather;
+            public float daylight;
             public int processorCount, memoryMB, graphicsMemoryMB, width, height, frames, framesOver50Ms;
             public float meanMs, p95Ms, p99Ms;
             public long unityAllocatedMB, processWorkingSetMB;

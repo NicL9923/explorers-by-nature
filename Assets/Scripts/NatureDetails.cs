@@ -9,9 +9,10 @@ namespace ExplorersByNature
         readonly List<Transform> rabbits=new List<Transform>();
         readonly List<Transform> birds=new List<Transform>();
         readonly List<Vector3> homes=new List<Vector3>();
+        readonly List<float> rabbitClocks=new List<float>();
+        readonly List<Mesh> wingMeshes=new List<Mesh>();
         readonly List<Material> materials=new List<Material>();
         Mesh canopy;
-        AudioClip ambience;
         FirstPersonWalker walker;
         string discovery="";
         float discoveryUntil;
@@ -44,7 +45,7 @@ namespace ExplorersByNature
             }
             for(int i=0;i<6;i++)
             {
-                var rabbit=new GameObject("Cottontail rabbit");rabbit.transform.SetParent(transform);Vector3 home=ValleyShape.Ground(-85-i*4,-206+i*9);rabbit.transform.position=home;homes.Add(home);rabbits.Add(rabbit.transform);
+                var rabbit=new GameObject("Cottontail rabbit");rabbit.transform.SetParent(transform);Vector3 home=ValleyShape.Ground(-85-i*4,-206+i*9);rabbit.transform.position=home;homes.Add(home);rabbits.Add(rabbit.transform);rabbitClocks.Add(i * .41f);
                 if (ModelArt.Instantiate("Wildlife/Rabbit", rabbit.transform, false) != null) continue;
                 RanchVisuals.Part(rabbit.transform,"Body",PrimitiveType.Sphere,new Vector3(0,.25f,0),new Vector3(.32f,.38f,.5f),fur,false);
                 RanchVisuals.Part(rabbit.transform,"Head",PrimitiveType.Sphere,new Vector3(0,.44f,.2f),Vector3.one*.26f,fur,false);
@@ -55,33 +56,46 @@ namespace ExplorersByNature
             {
                 var bird=new GameObject("Swallow");bird.transform.SetParent(transform);birds.Add(bird.transform);
                 RanchVisuals.Part(bird.transform,"Body",PrimitiveType.Sphere,Vector3.zero,new Vector3(.1f,.08f,.28f),birdMat,false);
-                foreach(int sign in new[]{-1,1})RanchVisuals.Part(bird.transform,"Wing",PrimitiveType.Cube,new Vector3(sign*.15f,0,0),new Vector3(.3f,.025f,.15f),birdMat,false);
+                foreach(int sign in new[]{-1,1})
+                {
+                    var wing=new GameObject("Shoulder wing");wing.transform.SetParent(bird.transform,false);wing.transform.localPosition=new Vector3(sign*.035f,0,.015f);
+                    MakeWing(wing.transform, new[]{Vector3.zero,new Vector3(sign*.19f,0,-.055f),new Vector3(sign*.15f,0,-.13f),new Vector3(0,0,-.08f)},birdMat);
+                    var tip=new GameObject("Flexible wingtip");tip.transform.SetParent(wing.transform,false);tip.transform.localPosition=new Vector3(sign*.19f,0,-.055f);
+                    MakeWing(tip.transform,new[]{Vector3.zero,new Vector3(sign*.17f,0,-.14f),new Vector3(-sign*.04f,0,-.075f)},birdMat);
+                }
             }
-            CreateAmbience();
         }
-        void CreateAmbience()
+        void MakeWing(Transform parent,Vector3[] points,Material material)
         {
-            const int rate=22050,seconds=30;float[] samples=new float[rate*seconds];var rng=new System.Random(42);float wind=0;
-            for(int i=0;i<samples.Length;i++)
-            {
-                float t=(float)i/rate;wind=Mathf.Lerp(wind,(float)rng.NextDouble()*2-1,.012f);float chirp=0;
-                for(int b=0;b<6;b++){float start=2+b*4.3f,d=t-start;if(d>0&&d<.65f){float env=Mathf.Sin(d/.65f*Mathf.PI);chirp+=Mathf.Sin(2*Mathf.PI*(2400*d+650*d*d))*env*Mathf.Pow(Mathf.Sin(d*38),2)*.022f;}}
-                samples[i]=wind*.15f+chirp;
-            }
-            ambience=AudioClip.Create("Original wind and birds",samples.Length,1,rate,false);ambience.SetData(samples,0);
-            var audio=gameObject.AddComponent<AudioSource>();audio.clip=ambience;audio.loop=true;audio.volume=PlayerPrefs.GetFloat("NatureVolume",.45f);audio.Play();
+            var mesh=new Mesh{name="Swept swallow feather silhouette"};mesh.vertices=points;
+            mesh.triangles=points.Length==4?new[]{0,1,2,0,2,3,2,1,0,3,2,0}:new[]{0,1,2,2,1,0};
+            mesh.RecalculateNormals();mesh.RecalculateBounds();wingMeshes.Add(mesh);
+            parent.gameObject.AddComponent<MeshFilter>().sharedMesh=mesh;parent.gameObject.AddComponent<MeshRenderer>().sharedMaterial=material;
         }
         void Update()
         {
             for(int i=0;i<rabbits.Count;i++)
             {
-                float phase=Time.time*.4f+i*2;Vector3 home=homes[i];float x=home.x+Mathf.Sin(phase)*3,z=home.z+Mathf.Cos(phase*.8f)*3;
-                rabbits[i].position=ValleyShape.Ground(x,z,Mathf.Abs(Mathf.Sin(Time.time*5+i))*.12f);rabbits[i].rotation=Quaternion.Euler(0,Mathf.Atan2(Mathf.Cos(phase),-.8f*Mathf.Sin(phase*.8f))*Mathf.Rad2Deg,0);
+                float cycle=Mathf.Repeat(Time.time+i*1.7f,9);
+                bool near=walker!=null&&Vector3.SqrMagnitude(walker.transform.position-rabbits[i].position)<16;
+                bool moving=cycle<2.4f&&!near;
+                if(moving)rabbitClocks[i]+=Time.deltaTime;
+                float phase=rabbitClocks[i]*.4f+i*2;Vector3 home=homes[i];float x=home.x+Mathf.Sin(phase)*3,z=home.z+Mathf.Cos(phase*.8f)*3;
+                float hop=moving?Mathf.Pow(Mathf.Max(0,Mathf.Sin(rabbitClocks[i]*9)),2)*.09f:0;
+                rabbits[i].position=ValleyShape.Ground(x,z,hop);
+                if(moving)rabbits[i].rotation=Quaternion.Euler(0,Mathf.Atan2(Mathf.Cos(phase),-.8f*Mathf.Sin(phase*.8f))*Mathf.Rad2Deg,0);
             }
             for(int i=0;i<birds.Count;i++)
             {
                 float t=Time.time*.2f+i*.78f;birds[i].position=ValleyShape.Ground(-70+Mathf.Sin(t)*35,-210+Mathf.Cos(t)*25,12+i*.7f);birds[i].rotation=Quaternion.Euler(0,(t+Mathf.PI/2)*Mathf.Rad2Deg,Mathf.Sin(Time.time*3+i)*12);
-                for(int j=1;j<3;j++)birds[i].GetChild(j).localRotation=Quaternion.Euler(0,0,(j==1?-1:1)*Mathf.Sin(Time.time*11+i)*28);
+                float flap=Time.time*11+i;
+                float flapping=AnimalMotion.IdleEnvelope(Time.time+i,7,1,4);
+                for(int j=1;j<3;j++)
+                {
+                    Transform wing=birds[i].GetChild(j);float sign=j==1?-1:1;
+                    wing.localRotation=Quaternion.Euler(0,0,sign*(Mathf.Sin(flap)*38*flapping+8));
+                    wing.GetChild(0).localRotation=Quaternion.Euler(0,0,sign*Mathf.Sin(flap-.7f)*18*flapping);
+                }
             }
             if(walker==null||walker.Automated)return;
             Discover("MallardBend",ValleyShape.Ground(ValleyWorld.ShoreX(-150,-1)-3,-150),18,"Mallard bend · A good place to stop and watch the ducks.");
@@ -93,6 +107,6 @@ namespace ExplorersByNature
         void Discover(string key,Vector3 position,float radius,string message)
         {if(PlayerPrefs.GetInt("Discovery."+key,0)==0&&Vector3.Distance(walker.transform.position,position)<radius){PlayerPrefs.SetInt("Discovery."+key,1);PlayerPrefs.Save();discovery=message;discoveryUntil=Time.time+12;}}
         void OnGUI(){if(Time.time<discoveryUntil){GUI.matrix=Matrix4x4.identity;GUI.Box(new Rect(Screen.width/2-260,25,520,55),discovery);}}
-        void OnDestroy(){foreach(var m in materials)Destroy(m);if(canopy!=null)Destroy(canopy);if(ambience!=null)Destroy(ambience);}
+        void OnDestroy(){foreach(var m in materials)Destroy(m);foreach(var mesh in wingMeshes)Destroy(mesh);if(canopy!=null)Destroy(canopy);}
     }
 }

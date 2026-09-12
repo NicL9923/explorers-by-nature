@@ -27,6 +27,8 @@ Material:
     m_Ints: []
     m_Floats:
     - _AtmosphereThickness: 0.85
+    - _CloudCover: 0
+    - _Daylight: 1
     - _Exposure: 1.3
     - _SunDisk: 2
     - _SunSize: 0.04
@@ -34,6 +36,7 @@ Material:
     m_Colors:
     - _GroundColor: {r: 0.36899996, g: 0.34899998, b: 0.34099993, a: 1}
     - _SkyTint: {r: 0.48, g: 0.56, b: 0.65, a: 1}
+    - _SunDirection: {r: 0, g: 1, b: 0, a: 0}
     - _Tint: {r: 0.19999996, g: 0.45, b: 0.7, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1

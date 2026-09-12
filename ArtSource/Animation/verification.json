@@ -1,0 +1,30 @@
+{
+  "Deer": {
+    "normalized_skin_weights": true,
+    "bones": 18
+  },
+  "Clover": {
+    "normalized_skin_weights": true,
+    "bones": 18
+  },
+  "Fox": {
+    "normalized_skin_weights": true,
+    "bones": 18
+  },
+  "Beaver": {
+    "normalized_skin_weights": true,
+    "bones": 18
+  },
+  "Rabbit": {
+    "normalized_skin_weights": true,
+    "bones": 18
+  },
+  "Duck": {
+    "normalized_skin_weights": true,
+    "bones": 10
+  },
+  "Hen": {
+    "normalized_skin_weights": true,
+    "bones": 10
+  }
+}

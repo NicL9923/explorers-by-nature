@@ -35,10 +35,21 @@ namespace ExplorersByNature
                 session.Connection.Send(new Request{action="place",kind="fence",x=-32,z=-79,turn=1});yield return new WaitForSeconds(.3f);
                 walker.Teleport(ValleyShape.Ground(-99,-230,.3f));yield return new WaitForSeconds(.3f);session.Connection.Send(new Request{action="milk"});yield return new WaitForSeconds(.3f);
                 walker.Teleport(ValleyShape.Ground(-108,-230,.3f));yield return new WaitForSeconds(.3f);session.Connection.Send(new Request{action="eggs"});
+                yield return new WaitForSeconds(.3f);
+                foreach(string action in new[]{"pack","picnic","claim"})
+                {
+                    walker.Teleport(ValleyShape.Ground(action=="picnic"?Ranch.ExpeditionX:Ranch.HomeX,action=="picnic"?Ranch.ExpeditionZ:Ranch.HomeZ,.3f));
+                    yield return new WaitForSeconds(.4f);session.Connection.Send(new Request{action=action});yield return new WaitForSeconds(.4f);
+                }
+                walker.Teleport(ValleyShape.Ground(-90,-237,.3f));yield return new WaitForSeconds(.4f);
+                string[] furnishings={"bench","lantern","trough","flowerbox","campfire","alpineflower"};
+                int[] xs={-31,-30,-32,-29,-28,-28},zs={-79,-79,-78,-79,-80,-79};
+                for(int i=0;i<furnishings.Length;i++){session.Connection.Send(new Request{action="place",kind=furnishings[i],x=xs[i],z=zs[i]});yield return new WaitForSeconds(.25f);}
+
             }
             deadline=Time.realtimeSinceStartup+25;
-            while((session.Connection.State.pieces.Count<14||session.Connection.State.eggs<3||session.Connection.State.milk<1)&&Time.realtimeSinceStartup<deadline)yield return null;
-            if(session.Connection.State.pieces.Count<14||session.Connection.State.eggs<3||session.Connection.State.milk<1){Debug.LogError("RANCH_SMOKE_FAILED "+session.Connection.Message);Application.Quit(3);yield break;}
+            while((session.Connection.State.pieces.Count<20||session.Connection.State.eggs<3||session.Connection.State.milk<1||session.Connection.State.expeditionStage<3)&&Time.realtimeSinceStartup<deadline)yield return null;
+            if(session.Connection.State.pieces.Count<20||session.Connection.State.eggs<3||session.Connection.State.milk<1||session.Connection.State.expeditionStage<3){Debug.LogError("RANCH_SMOKE_FAILED "+session.Connection.Message);Application.Quit(3);yield break;}
             walker.Teleport(ValleyShape.Ground(observer?-81:-83,-247,.3f));walker.transform.rotation=Quaternion.LookRotation(Vector3.ProjectOnPlane(ValleyShape.Ground(-99,-230,1)-walker.transform.position,Vector3.up));walker.view.transform.LookAt(ValleyShape.Ground(-99,-230,1));
             yield return new WaitForSeconds(4);
             int at=Array.IndexOf(args,"--smoke-output");string output=at>=0&&at+1<args.Length?args[at+1]:Path.Combine(Application.persistentDataPath,"Smoke");Directory.CreateDirectory(output);
@@ -77,6 +88,37 @@ namespace ExplorersByNature
                     ScreenCapture.CaptureScreenshot(Path.Combine(output,species.Replace(" ","-").ToLowerInvariant()+".png"));
                     yield return new WaitForSeconds(.3f);
                 }
+            }
+            if(!observer && Array.IndexOf(args,"--art-tour")>=0)
+            {
+                var comfort=FindFirstObjectByType<RanchComfort>();
+                foreach(var prop in FindObjectsByType<PropComfort>(FindObjectsSortMode.None))if(prop.Kind=="bench")
+                {
+                    comfort.Sit(prop);yield return null;if(!comfort.Seated)throw new Exception("Bench did not seat explorer");comfort.Stand();break;
+                }
+                HabitatAnimal fox=null;
+                foreach(var animal in FindObjectsByType<HabitatAnimal>(FindObjectsSortMode.None))if(animal.name=="Red fox"){fox=animal;break;}
+                if(fox!=null)
+                {
+                    fox.enabled=true;walker.Teleport(ValleyShape.Ground(fox.transform.position.x-9,fox.transform.position.z-5,.1f));
+                    // Wait for the natural walking interval before documenting the gait.
+                    float waitForWalk=Time.time+15;Vector3 stillPosition=fox.transform.position;
+                    while(Vector3.Distance(stillPosition,fox.transform.position)<.03f && Time.time<waitForWalk)yield return null;
+                    for(int frame=0;frame<24;frame++)
+                    {
+                        walker.view.fieldOfView=50;
+                        walker.view.transform.position=fox.transform.position+fox.transform.forward*1.7f+fox.transform.right+Vector3.up*.85f;
+                        walker.view.transform.LookAt(fox.transform.position+Vector3.up*.38f);
+                        yield return new WaitForSeconds(.15f);
+                        ScreenCapture.CaptureScreenshot(Path.Combine(output,"fox-motion-"+frame.ToString("D2")+".png"));
+                    }
+                    yield return new WaitForSeconds(.3f);
+                }
+                SkyWeather.Current.SetPreview(.77f,.65f);
+                walker.view.fieldOfView=75;
+                walker.Teleport(ValleyShape.Ground(-83,-247,.3f));walker.view.transform.localPosition=Vector3.up*1.65f;
+                walker.view.transform.LookAt(ValleyShape.Ground(-90,-236,1));
+                yield return new WaitForSeconds(2);ScreenCapture.CaptureScreenshot(Path.Combine(output,"evening-ranch.png"));yield return new WaitForSeconds(.4f);
             }
             Application.Quit();
         }
