@@ -8,3 +8,5 @@
 *.meta text eol=lf whitespace=-blank-at-eol
 *.jpg binary
 *.png binary
+*.fbx binary
+*.blend binary

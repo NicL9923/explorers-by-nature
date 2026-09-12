@@ -55,6 +55,13 @@ public sealed class WalkReadinessTests
         Assert.That(world.grassTexture, Is.Not.Null);
         Assert.That(world.earthTexture, Is.Not.Null);
         Assert.That(world.rockTexture, Is.Not.Null);
+        Assert.That(world.stoneMeshes, Has.Length.EqualTo(3));
+        foreach (Mesh stone in world.stoneMeshes)
+        {
+            Assert.That(stone, Is.Not.Null);
+            Assert.That(stone.vertexCount, Is.GreaterThan(20));
+            Assert.That(stone.bounds.size.magnitude, Is.InRange(1, 5), "FBX scale must stay in world meters");
+        }
         Assert.That(EditorBuildSettings.scenes[0].path, Is.EqualTo(PrototypeProject.ScenePath));
     }
 }

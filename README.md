@@ -6,25 +6,29 @@ Build a pioneer homestead together, plant flowers, gather milk and eggs, watch w
 
 ## Project status
 
-Unity prototype source is in place. Editor activation is still required on the development machine, so there is no verified playable build yet.
+The Pinewatch landscape prototype now imports, builds, and runs on Linux. Unity tests cover scene wiring, terrain, movement, and graphics switching. Trees and wildlife still use placeholder art.
 
 The first milestone is a small forest-to-overlook landscape benchmark on Windows and Linux. It will test whether the scenery is enjoyable and whether graphics can scale from integrated graphics to a dedicated GPU before we commit to production assets or build ranch systems.
 
-The project targets Unity **6000.3.24f1** with Universal Render Pipeline **17.3.0**. Engine suitability and minimum hardware remain unverified.
+The project targets Unity **6000.3.24f1** with Universal Render Pipeline **17.3.0**. Minimum hardware remains unverified; see the [validation ledger](docs/first-milestone.md).
+
+[Download the Linux or Windows prototype](https://github.com/NicL9923/explorers-by-nature/releases/tag/v0.1.0-prototype.1). Linux was exercised on NVIDIA and AMD integrated graphics; the Windows build has not been run on Windows yet.
+
+[View the current landscape blockout](docs/benchmarks/linux-nvidia-high.png).
 
 ## Run and build
 
-Install the pinned editor through Unity Hub, sign in, and activate an appropriate Unity license. On Linux, from the repository root:
+Install the pinned editor through Unity Hub, sign in, and activate an appropriate Unity license. Install the [official Unity CLI](https://docs.unity.com/en-us/unity-cli/use-unity-cli) for the project scripts. On Linux, from the repository root:
 
 ```bash
-.agents/tools/unity.sh setup
 .agents/tools/unity.sh open
 ```
 
-Press Play in the generated `Assets/Scenes/Pinewatch.unity` scene. The scene is also generated automatically on the first interactive editor open. The terrain and scenery are created when play starts, so edit mode initially shows the camera and scene configuration.
+Press Play in the checked-in `Assets/Scenes/Pinewatch.unity` scene. The scene is also generated automatically on the first interactive editor open. The terrain and scenery are created when play starts, so edit mode initially shows the camera and scene configuration.
 
 ```bash
 .agents/tools/unity.sh test
+.agents/tools/unity.sh playtest
 .agents/tools/unity.sh linux
 .agents/tools/unity.sh windows
 ```
@@ -37,7 +41,7 @@ See [development and validation](docs/development.md) for controls, benchmark co
 
 - A seeded valley with an arrival meadow, a forest trail, a winding river, and Pinewatch Overlook.
 - First-person walking, adjustable mouse sensitivity and field of view, no head bob, and a return-to-meadow action.
-- Pine trees with distance-based detail, wind-driven grass, and roaming deer placeholders.
+- Pine trees with distance-based detail, wind-driven grass, roaming deer placeholders, and original Blender-made river stones.
 - Low/high graphics presets that retain wildlife and terrain across settings.
 - A repeatable camera benchmark with frame-time statistics, hardware information, memory measurements, and a screenshot.
 

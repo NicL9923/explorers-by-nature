@@ -64,6 +64,13 @@ public static class PrototypeProject
         ValleyWorld world = new GameObject("Pinewatch Valley").AddComponent<ValleyWorld>();
         world.walker = walker;
         world.grassTexture = Texture("aerial_grass_rock"); world.earthTexture = Texture("brown_mud_leaves_01"); world.rockTexture = Texture("rock_boulder_dry");
+        world.stoneMeshes = new Mesh[3];
+        for (int i = 0; i < world.stoneMeshes.Length; i++)
+        {
+            var model = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Models/RiverStone" + (i + 1) + ".fbx");
+            if (model == null) throw new BuildFailedException("Missing Blender river-stone model " + (i + 1));
+            world.stoneMeshes[i] = model.GetComponentInChildren<MeshFilter>().sharedMesh;
+        }
         world.terrainMaterial = Material("Terrain", "Universal Render Pipeline/Terrain/Lit", Color.white);
         world.grassMaterial = Material("Grass", "Explorers/MeadowGrass", Color.white);
         world.waterMaterial = Material("Water", "Explorers/River", new Color(.07f, .23f, .25f));
@@ -86,7 +93,19 @@ public static class PrototypeProject
 
     static Texture2D Texture(string name)
     {
-        Texture2D texture = AssetDatabase.LoadAssetAtPath<Texture2D>("Assets/Textures/" + name + ".jpg");
+        string path = "Assets/Textures/" + name + ".jpg";
+        var importer = AssetImporter.GetAtPath(path) as TextureImporter;
+        if (importer != null)
+        {
+            importer.textureType = TextureImporterType.Default;
+            importer.textureShape = TextureImporterShape.Texture2D;
+            importer.wrapMode = TextureWrapMode.Repeat;
+            importer.mipmapEnabled = true;
+            importer.sRGBTexture = true;
+            importer.maxTextureSize = 1024;
+            importer.SaveAndReimport();
+        }
+        Texture2D texture = AssetDatabase.LoadAssetAtPath<Texture2D>(path);
         if (texture == null) throw new BuildFailedException("Missing texture " + name);
         return texture;
     }

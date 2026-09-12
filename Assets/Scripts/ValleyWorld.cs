@@ -17,6 +17,7 @@ namespace ExplorersByNature
         public Material leavesMaterial;
         public Material rockMaterial;
         public Material deerMaterial;
+        public Mesh[] stoneMeshes;
         public FirstPersonWalker walker;
         public Terrain Ground { get; private set; }
         public GameObject DenseGrass { get; private set; }
@@ -130,8 +131,10 @@ namespace ExplorersByNature
             for (int i = 0; i < 75; i++)
             {
                 float z = Range(rng, -310, 300), x = ValleyShape.RiverX(z) + (i % 2 == 0 ? -1 : 1) * Range(rng, 16, 24);
-                GameObject rock = Primitive("River stone", PrimitiveType.Sphere, transform, ValleyShape.Ground(x, z), new Vector3(Range(rng, 1, 4), Range(rng, 1, 3), Range(rng, 1, 4)), rockMaterial, false);
-                rock.transform.Rotate(Range(rng, 0, 40), Range(rng, 0, 360), 0);
+                MeshRenderer rock = MeshObject("River stone", stoneMeshes[i % stoneMeshes.Length], rockMaterial, transform);
+                rock.transform.localPosition = ValleyShape.Ground(x, z);
+                rock.transform.localScale = new Vector3(Range(rng, 1, 3), Range(rng, 1, 2), Range(rng, 1, 3));
+                rock.transform.Rotate(Range(rng, 0, 20), Range(rng, 0, 360), 0);
             }
         }
 
@@ -176,7 +179,7 @@ namespace ExplorersByNature
                         Color color = Color.Lerp(new Color(.22f, .31f, .08f), new Color(.53f, .58f, .21f), Range(rng, 0, 1));
                         int n = verts.Count;
                         verts.Add(p - side); verts.Add(p + Vector3.up * h + side * .5f); verts.Add(p + side);
-                        colors.Add(color); colors.Add(color * 1.2f); colors.Add(color);
+                        colors.Add(color.linear); colors.Add((color * 1.12f).linear); colors.Add(color.linear);
                         indices.AddRange(new[] { n, n + 1, n + 2 });
                     }
                     if (verts.Count == 0) continue;

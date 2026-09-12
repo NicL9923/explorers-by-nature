@@ -1,0 +1,23 @@
+{
+    "revision": "4637398/sha256:65c25f32369d9c659bdd0ffe63e7c2f5c1d62853724710bd8ffd2020e1529503",
+    "unity": "6000.3.24f1",
+    "utc": "2026-09-12T01:31:24.7817150Z",
+    "operatingSystem": "Linux 7.2 Fedora Linux 44 64bit",
+    "processor": "AMD Ryzen 9 9950X3D 16-Core Processor",
+    "graphics": "AMD Ryzen 9 9950X3D 16-Core Processor (RADV RAPHAEL_MENDOCINO)",
+    "graphicsAPI": "Vulkan",
+    "graphicsDriver": "Vulkan 1.1.0 [26.1.8 (0x06801008)]",
+    "quality": "Low",
+    "processorCount": 32,
+    "memoryMB": 31145,
+    "graphicsMemoryMB": 10723,
+    "width": 1280,
+    "height": 720,
+    "frames": 28851,
+    "framesOver50Ms": 0,
+    "meanMs": 2.079745292663574,
+    "p95Ms": 2.3476686477661135,
+    "p99Ms": 2.4080073833465578,
+    "unityAllocatedMB": 109,
+    "processWorkingSetMB": 338
+}

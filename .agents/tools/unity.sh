@@ -9,16 +9,22 @@ if [[ ! -x "$editor_binary" ]]; then
     exit 1
 fi
 mkdir -p Logs
+if ! command -v unity >/dev/null; then
+    printf 'Install the official Unity CLI before running this tool.\n' >&2
+    exit 1
+fi
 action="${1:-help}"
 case "$action" in
-    open) exec "$editor_binary" -projectPath "$repo_root" -logFile "$repo_root/Logs/editor.log" ;;
+    open) exec unity open "$repo_root" --editor-path "$editor_binary" ;;
     setup) method=PrototypeProject.CreateScene ;;
-    linux) method=PrototypeProject.BuildLinux ;;
-    windows) method=PrototypeProject.BuildWindows ;;
-    test)
-        exec "$editor_binary" -batchmode -nographics -projectPath "$repo_root" -runTests -testPlatform EditMode -testResults "$repo_root/Logs/editmode.xml" -logFile "$repo_root/Logs/tests.log"
+    linux) method=PrototypeProject.BuildLinux; target=StandaloneLinux64 ;;
+    windows) method=PrototypeProject.BuildWindows; target=StandaloneWindows64 ;;
+    test|playtest)
+        mode=EditMode
+        [[ "$action" == playtest ]] && mode=PlayMode
+        exec unity test "$repo_root" --editor-path "$editor_binary" --mode "$mode" --output "$repo_root/Logs/$action.xml" -- -nographics -logFile "$repo_root/Logs/$action.log"
         ;;
-    *) printf 'Usage: %s {open|setup|linux|windows|test}\n' "$0"; exit 0 ;;
+    *) printf 'Usage: %s {open|setup|linux|windows|test|playtest}\n' "$0"; exit 0 ;;
 esac
 # Include uncommitted source in the stamp, without adding anything to Git's index.
 source_digest="$(python3 - <<'PY'
@@ -35,4 +41,7 @@ print(digest.hexdigest())
 PY
 )"
 export EXPLORERS_BUILD_REVISION="$(git rev-parse --short HEAD)/sha256:$source_digest"
-exec "$editor_binary" -batchmode -nographics -quit -projectPath "$repo_root" -executeMethod "$method" -logFile "$repo_root/Logs/$action.log"
+if [[ "$action" == setup ]]; then
+    exec unity run "$repo_root" --editor-path "$editor_binary" -- -nographics -executeMethod "$method" -logFile "$repo_root/Logs/$action.log"
+fi
+exec unity build "$repo_root" --editor-path "$editor_binary" --target "$target" --execute-method "$method" --allow-dirty-build --no-tail --log-file "$repo_root/Logs/$action.log"

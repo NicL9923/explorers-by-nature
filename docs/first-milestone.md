@@ -8,7 +8,7 @@ This is the first technical milestone, not the full family-playable game. It is 
 
 ## Engine candidate
 
-Start evaluation with Unity 6000.3.24f1 and Universal Render Pipeline 17.3.0, using one rendering pipeline across quality levels. The editor and desktop support modules are installed; account/license activation currently blocks project import and execution.
+The prototype uses Unity 6000.3.24f1 and Universal Render Pipeline 17.3.0, with one rendering pipeline across quality levels. The editor and desktop support modules are installed and activated. The project imports, generates its scene, and runs as a standalone Linux player.
 
 Unity describes URP as covering mobile through high-end PCs and exposes quality controls. Those capabilities justify evaluating it; they do not establish performance for this game.
 
@@ -49,20 +49,33 @@ Record measurements against the exact commit and build configuration. Use the sa
 | Check | State | Evidence |
 | --- | --- | --- |
 | Exact low-end hardware identified | Pending | No specific CPU/GPU supplied |
-| Editor and direct packages pinned | Partial | Unity 6000.3.24f1, URP 17.3.0; transitive lockfile awaits first successful import |
+| Editor and packages pinned | Passed | Unity 6000.3.24f1, URP 17.3.0, committed package lockfile |
 | Hub and editor installation | Passed | Hub 3.21.2, editor, Windows Mono, Linux server modules installed |
-| Source and test code compilation | Passed, limited | `.agents/tools/check-source.py`, installed Unity/template assemblies; no editor execution |
-| Editor setup and scene generation | Blocked | Unity exits 198: no valid Editor license |
-| Unity EditMode tests and shaders | Pending | Test source compiles; tests and shader import have not run |
-| Windows standalone build | Pending | No build produced |
-| Linux standalone build | Pending | No build produced |
-| Low-preset performance | Pending | Requires hardware and scene |
-| High-preset appearance and performance | Pending | Requires hardware and scene |
+| Editor setup and scene generation | Passed | Official Unity CLI; scene, materials, and Blender FBX imported |
+| Unity EditMode tests | Passed | Three tests: trail, heightmap/river, scene wiring and shaders |
+| Unity PlayMode test | Passed | Terrain collision, six-meter walk, and wildlife retained at both quality levels |
+| Windows standalone build | Passed, execution pending | Windows x64 Mono player cross-built through Unity CLI; no Windows PC exercised |
+| Linux standalone build | Passed | Mono player built through Unity CLI and rendered on two GPUs |
+| Low-preset performance | Partial | 720p benchmark passed on desktop AMD integrated GPU; weakest intended PC still unidentified |
+| High-preset appearance and performance | Partial | 1080p RTX 5070 Ti benchmark and screenshot inspected; trees/deer/grass remain placeholder art |
 | Camera comfort and enjoyable view | Pending | Requires family playtest |
 
 Do not report supported minimum specifications or a validated engine choice from editor screenshots or documentation alone.
 
-The current implementation and commands are described in [development.md](development.md). No performance results have been collected. The benchmark's 60-second camera pass is deliberately accelerated; it is not the intended duration of a player's expedition.
+The current implementation and commands are described in [development.md](development.md). The benchmark's 60-second camera pass is deliberately accelerated; it is not the intended duration of a player's expedition.
+
+### Recorded benchmark evidence
+
+Captured September 11, 2026 local time, September 12 UTC. Both reports identify the same Linux player input state: base commit `4637398`, source SHA-256 `65c25f32369d9c659bdd0ffe63e7c2f5c1d62853724710bd8ffd2020e1529503`. This stamp includes uncommitted build inputs; the reports preceded the commit that publishes this ledger.
+
+| Run | Mean frame time | p95 / p99 | Frames over 50 ms | Final working set |
+| --- | --- | --- | --- | --- |
+| AMD integrated, Vulkan, Low, 1280×720 | 2.08 ms | 2.35 / 2.41 ms | 0 | 338 MB |
+| RTX 5070 Ti, OpenGL, High, 1920×1080 | 0.67 ms | 0.87 / 0.98 ms | 0 | 340 MB |
+
+Raw reports and screenshots: [AMD report](benchmarks/linux-amd-integrated-low.json), [AMD screenshot](benchmarks/linux-amd-integrated-low.png), [NVIDIA report](benchmarks/linux-nvidia-high.json), [NVIDIA screenshot](benchmarks/linux-nvidia-high.png).
+
+These are engine-reported frame intervals in a sparse, uncapped blockout. They are not GPU profiler timings, display refresh rates, or evidence for a finished game's performance. The runs use different GPUs, resolutions, and graphics APIs, so they do not isolate the cost of changing presets. Both used the same Ryzen 9 9950X3D desktop with 32 GB RAM. Process memory is an end-of-run snapshot, not a peak measurement. Neither benchmark substitutes for testing an actual two-core, 8 GB machine or a populated multiplayer ranch.
 
 ## After the benchmark
 

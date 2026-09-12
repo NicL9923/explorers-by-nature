@@ -13,7 +13,9 @@ import xml.etree.ElementTree as ET
 root = Path(__file__).resolve().parents[2]
 version = next(line.split(': ', 1)[1] for line in (root / 'ProjectSettings/ProjectVersion.txt').read_text().splitlines() if line.startswith('m_EditorVersion:'))
 editor = Path(os.environ.get('UNITY_EDITOR', str(Path.home() / 'Unity/Hub/Editor' / version / 'Editor/Unity'))).parent
-cache = editor / 'Data/Resources/PackageManager/ProjectTemplates/libcache/com.unity.template.3d-cross-platform-17.0.14/ScriptAssemblies'
+cache = root / 'Library/ScriptAssemblies'
+if not cache.is_dir():
+    cache = editor / 'Data/Resources/PackageManager/ProjectTemplates/libcache/com.unity.template.3d-cross-platform-17.0.14/ScriptAssemblies'
 if not cache.is_dir():
     raise SystemExit('Expected template assemblies are missing; run real Unity validation instead.')
 project = ET.Element('Project', Sdk='Microsoft.NET.Sdk')
@@ -26,6 +28,7 @@ for source in sorted((root / 'Assets').rglob('*.cs')):
 references = list((editor / 'Data/Managed/UnityEngine').glob('*.dll'))
 references += [path for path in (editor / 'Data/Managed').glob('UnityEditor*.dll') if path.name != 'UnityEditor.dll']
 references += list(cache.glob('Unity.RenderPipelines.*.dll'))
+references += list(cache.glob('UnityEngine.TestRunner.dll'))
 references += [editor / 'Data/Resources/PackageManager/BuiltInPackages/com.unity.ext.nunit/net40/unity-custom/nunit.framework.dll']
 for path in references:
     reference = ET.SubElement(items, 'Reference', Include=path.stem)
