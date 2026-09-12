@@ -8,7 +8,7 @@ public sealed class ArtImportTests
     [Test]
     public void OriginalModelsImportWithMaterialsAndCheaperDistanceMeshes()
     {
-        foreach (string name in new[] { "Clover", "Hen", "Homestead/Foundation", "Homestead/Wall", "Homestead/Door", "Homestead/Roof", "Homestead/Fence", "Homestead/Coop", "Woodland/Pine", "Woodland/Aspen", "Woodland/Wildflower", "Wildlife/Deer", "Wildlife/Rabbit" })
+        foreach (string name in new[] { "Clover", "Hen", "Homestead/Foundation", "Homestead/Wall", "Homestead/Door", "Homestead/Roof", "Homestead/Fence", "Homestead/Coop", "Woodland/Pine", "Woodland/Aspen", "Woodland/Wildflower", "Wildlife/Deer", "Wildlife/Rabbit", "RiverWildlife/Duck", "RiverWildlife/Beaver", "Fox/Fox" })
         {
             GameObject model = name.StartsWith("Woodland/") ? ModelArt.Tree(name, null) : ModelArt.Instantiate(name, null);
             Assert.That(model, Is.Not.Null, name);

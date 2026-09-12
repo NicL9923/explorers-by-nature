@@ -6,15 +6,15 @@ Build a pioneer homestead together, plant flowers, gather milk and eggs, watch w
 
 ## Project status
 
-Pinewatch now includes modular homesteads, decorative flowers, cow milking, egg gathering, a shared pantry, saved worlds, and private dedicated-server multiplayer. Explore the meadow, aspen grove, river and mountain overlook with deer, rabbits and birds. Original Blender models now furnish the ranch, trees and wildlife, with simpler meshes for distant views. See the [art gallery](docs/art-pass.md).
+Pinewatch now includes modular homesteads, decorative flowers, cow milking, egg gathering, a shared pantry, saved worlds, and private dedicated-server multiplayer. Explore the meadow, aspen grove, river and mountain overlook with deer, rabbits, mallards, beavers, foxes and birds. Original Blender models now furnish the ranch, trees and wildlife, with simpler meshes for distant views. See the [art gallery](docs/art-pass.md).
 
 Read the [morning playtest guide](docs/morning-playtest.md) for controls, multiplayer setup and saves.
 
 The project targets Unity **6000.3.24f1** with Universal Render Pipeline **17.3.0**. Minimum hardware remains unverified; see the [validation ledger](docs/first-milestone.md).
 
-[Download the Linux or Windows prototype](https://github.com/NicL9923/explorers-by-nature/releases/tag/v0.4.0-landscape.1). Linux was exercised on NVIDIA and AMD integrated graphics; the Windows build has not been run on Windows yet.
+[Download the Linux or Windows prototype](https://github.com/NicL9923/explorers-by-nature/releases/tag/v0.5.0-wildlife.1). Linux was exercised on NVIDIA and AMD integrated graphics; the Windows build has not been run on Windows yet.
 
-[View the landscape update](docs/landscape-pass.md).
+[View the latest wildlife and river update](docs/river-wildlife-pass.md).
 
 ## Run and build
 

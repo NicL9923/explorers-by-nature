@@ -84,6 +84,8 @@ namespace ExplorersByNature
                 for(int j=1;j<3;j++)birds[i].GetChild(j).localRotation=Quaternion.Euler(0,0,(j==1?-1:1)*Mathf.Sin(Time.time*11+i)*28);
             }
             if(walker==null||walker.Automated)return;
+            Discover("MallardBend",ValleyShape.Ground(ValleyWorld.ShoreX(-150,-1)-3,-150),18,"Mallard bend · A good place to stop and watch the ducks.");
+            Discover("FoxTrail",ValleyShape.Ground(-118,-178),12,"Fox trail · A quiet neighbor in the pines.");
             Discover("Riverbend",ValleyShape.Ground(0,-140),25,"Riverbend · Water, birdsong, and absolutely no appointments.");
             Discover("AspenGrove",ValleyShape.Ground(-150,-75),30,"Aspen grove · A quiet place for another little homestead.");
             Discover("Pinewatch",ValleyShape.Overlook,15,"Pinewatch Overlook · You made it. The view is yours.");

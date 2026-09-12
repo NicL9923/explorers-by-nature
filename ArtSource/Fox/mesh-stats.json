@@ -1,0 +1,11 @@
+{
+  "Fox_LOD0": 17900,
+  "Fox_LOD1": 2850,
+  "dimensions_blender_xyz_m": [
+    0.3918191194534302,
+    1.6377464532852173,
+    0.8285738229751587
+  ],
+  "unity_forward": "+Z",
+  "provenance": "Original procedural sculpt and original baked coat. No external source assets."
+}

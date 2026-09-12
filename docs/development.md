@@ -82,3 +82,5 @@ The last command requires published Linux server and player builds and a graphic
 Run `.agents/tools/unity.sh art` after changing foliage shader requirements to prepare the serialized shader variant. `python3 .agents/tools/ranch-smoke.py --art-tour` also captures close-up player screenshots.
 
 The [landscape pass](landscape-pass.md) adds procedural meadow/snow textures, distant mountain scenery and a cloud sky. The art tour now includes river and overlook captures. The scene material helper updates shaders on existing materials when regenerating the scene.
+
+The [wildlife and river pass](river-wildlife-pass.md) adds mallards, beavers and foxes with local ambient behavior. River geometry uses a bisection against the unchanged heightfield to find each bank. The art tour also captures each new species; habitat tests validate waterline and dry-land constraints.

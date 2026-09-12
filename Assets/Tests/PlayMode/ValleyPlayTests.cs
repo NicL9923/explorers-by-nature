@@ -31,13 +31,16 @@ public sealed class ValleyPlayTests
         Assert.That(hit.collider, Is.TypeOf<TerrainCollider>());
         int wildlife = Object.FindObjectsByType<WildlifeRoamer>(FindObjectsSortMode.None).Length;
         Assert.That(wildlife, Is.EqualTo(4));
+        Assert.That(Object.FindObjectsByType<HabitatAnimal>(FindObjectsSortMode.None), Has.Length.EqualTo(9));
         session.ApplyQuality(false);
         yield return null;
         Assert.That(world.DenseGrass.activeSelf, Is.False);
+        Assert.That(Object.FindObjectsByType<HabitatAnimal>(FindObjectsSortMode.None), Has.Length.EqualTo(9), "Low retains every new animal");
         Assert.That(Object.FindObjectsByType<WildlifeRoamer>(FindObjectsSortMode.None), Has.Length.EqualTo(wildlife));
         session.ApplyQuality(true);
         yield return null;
         Assert.That(world.DenseGrass.activeSelf, Is.True);
+        Assert.That(Object.FindObjectsByType<HabitatAnimal>(FindObjectsSortMode.None), Has.Length.EqualTo(9));
         Assert.That(Object.FindObjectsByType<WildlifeRoamer>(FindObjectsSortMode.None), Has.Length.EqualTo(wildlife));
     }
 }

@@ -59,6 +59,25 @@ namespace ExplorersByNature
                     yield return new WaitForSeconds(.3f);
                 }
             }
+            if (Array.IndexOf(args, "--art-tour") >= 0)
+            {
+                foreach(string species in new[]{"Mallard","Beaver","Red fox"})
+                {
+                    HabitatAnimal chosen=null;
+                    foreach(var animal in FindObjectsByType<HabitatAnimal>(FindObjectsSortMode.None))
+                        if(animal.name==species){chosen=animal;break;}
+                    if(chosen==null)throw new Exception("Missing wildlife for photo tour: "+species);
+                    chosen.enabled=false;
+                    var animalTransform=chosen.transform;
+                    walker.Teleport(ValleyShape.Ground(animalTransform.position.x-3,animalTransform.position.z,.1f));
+                    walker.view.fieldOfView=50;
+                    walker.view.transform.position=animalTransform.position+animalTransform.forward*1.6f+animalTransform.right*.9f+Vector3.up*(species=="Beaver"?1.35f:.85f);
+                    walker.view.transform.LookAt(animalTransform.position+Vector3.up*.3f);
+                    yield return new WaitForSeconds(.5f);
+                    ScreenCapture.CaptureScreenshot(Path.Combine(output,species.Replace(" ","-").ToLowerInvariant()+".png"));
+                    yield return new WaitForSeconds(.3f);
+                }
+            }
             Application.Quit();
         }
     }

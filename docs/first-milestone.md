@@ -148,3 +148,18 @@ Measured Linux source: `20559ec/sha256:ec440d08fd69a7429646e30c768937547ef017227
 | OpenGLCore / High / 1920×1080 | 1.14 ms | 1.53 / 1.68 ms | 0 | 589 MB |
 
 Evidence: [AMD integrated](benchmarks/landscape-amd-integrated-low.json), [RTX 5070 Ti](benchmarks/landscape-nvidia-high.json), [EditMode](validation/landscape-editmode.xml), [PlayMode](validation/landscape-playmode.xml), [matching shared state](validation/landscape-shared-ranch.json). These are uncapped engine intervals on the Ryzen 9/32 GB desktop. They do not establish the intended two-core/8 GB floor or populated multiplayer performance.
+
+## River and wildlife expansion (September 12, 2026 UTC)
+
+Two Astra modelers authored mallards, beavers and red foxes. Five ducks, two beavers and two foxes now populate small habitats. The river follows the actual terrain waterline, with finer ripples, reeds and bank stones. Small embedded outcrops add mountain detail. See the [player and Blender gallery](river-wildlife-pass.md).
+
+Six EditMode tests passed, covering the new model imports, shoreline intersection and habitat routes. Two PlayMode tests passed after final slope alignment and outcrop adjustments, including retention of all nine new animals across both quality levels and the existing ranch gameplay checks. Two rendered clients again matched the dedicated server and disk at revision 16, 14 pieces, one milk and three eggs. The extended tour verified all three new species in the player. Linux and Windows builds succeeded; native Windows execution remains untested.
+
+Final measured Linux player: `d10261f/sha256:57868296788e35b6c591f62fb5a9defc7252b0066999858b192a785a008da4d2`. The final runtime code and models are included; later documentation/evidence edits do not affect the measured scene.
+
+| Run | Mean | p95 / p99 | Frames over 50 ms | Final working set |
+| --- | --- | --- | --- | --- |
+| Vulkan / Low / 1280×720 | 6.24 ms | 8.47 / 9.12 ms | 0 | 483 MB |
+| OpenGLCore / High / 1920×1080 | 1.15 ms | 1.56 / 1.72 ms | 0 | 592 MB |
+
+Evidence: [AMD integrated](benchmarks/wildlife-amd-integrated-low.json), [RTX 5070 Ti](benchmarks/wildlife-nvidia-high.json), [EditMode](validation/wildlife-editmode.xml), [PlayMode](validation/wildlife-playmode.xml), [shared ranch snapshot](validation/wildlife-shared-ranch.json). Measurements are uncapped engine intervals on the Ryzen 9/32 GB desktop, not isolated GPU timings or proof of the two-core/8 GB minimum. Wildlife motion is local ambient scenery, not synchronized authoritative game state; articulated animal animation remains outstanding.

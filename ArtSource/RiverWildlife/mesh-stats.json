@@ -1,0 +1,48 @@
+{
+  "Duck": {
+    "triangles": {
+      "Duck_LOD0": 11442,
+      "Duck_LOD1": 2350
+    },
+    "unity_dimensions_m": {
+      "width": 0.32574036717414856,
+      "height": 0.43442872166633606,
+      "length": 0.7400437593460083
+    },
+    "forward": "Unity +Z; Blender -Y",
+    "origin": "underside; identity object transform",
+    "materials": [
+      "MallardPlumage",
+      "MallardOchre",
+      "MallardChestnut",
+      "RiverEyes",
+      "RiverEyeGlint",
+      "MallardWing",
+      "MallardFeatherEdge",
+      "RiverIvory",
+      "MallardSpeculum"
+    ]
+  },
+  "Beaver": {
+    "triangles": {
+      "Beaver_LOD0": 13800,
+      "Beaver_LOD1": 2350
+    },
+    "unity_dimensions_m": {
+      "width": 0.5382440686225891,
+      "height": 0.5186601877212524,
+      "length": 1.2390010356903076
+    },
+    "forward": "Unity +Z; Blender -Y",
+    "origin": "underside; identity object transform",
+    "materials": [
+      "BeaverUmber",
+      "BeaverTail",
+      "BeaverInnerEar",
+      "BeaverMuzzle",
+      "RiverEyes",
+      "RiverEyeGlint",
+      "BeaverIncisors"
+    ]
+  }
+}

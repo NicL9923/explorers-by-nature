@@ -30,8 +30,10 @@ namespace ExplorersByNature
             BuildBackdrop();
             BuildRiver();
             BuildForest();
+            BuildOutcrops();
             BuildGrass();
             BuildFlowerDrifts();
+            gameObject.AddComponent<WildlifeHabitats>();
             BuildWildlife();
             Physics.SyncTransforms();
             walker.Teleport(ValleyShape.Spawn);
@@ -134,6 +136,17 @@ namespace ExplorersByNature
             MeshObject("Distant alpine range",mesh,material,transform).shadowCastingMode=ShadowCastingMode.Off;
         }
 
+        public static float ShoreX(float z, int side)
+        {
+            float lo=7, hi=52, center=ValleyShape.RiverX(z);
+            for(int step=0;step<18;step++)
+            {
+                float mid=(lo+hi)*.5f;
+                if(ValleyShape.Height(center+side*mid,z)<ValleyShape.WaterHeight)lo=mid;else hi=mid;
+            }
+            return center+side*(lo+hi)*.5f;
+        }
+
         void BuildRiver()
         {
             var vertices = new List<Vector3>();
@@ -143,8 +156,8 @@ namespace ExplorersByNature
             {
                 float z = -450 + i * 5;
                 float center = ValleyShape.RiverX(z);
-                vertices.Add(new Vector3(center - 12, ValleyShape.WaterHeight, z));
-                vertices.Add(new Vector3(center + 12, ValleyShape.WaterHeight, z));
+                vertices.Add(new Vector3(ShoreX(z, -1), ValleyShape.WaterHeight, z));
+                vertices.Add(new Vector3(ShoreX(z, 1), ValleyShape.WaterHeight, z));
                 uv.Add(new Vector2(0, i * .25f)); uv.Add(new Vector2(1, i * .25f));
                 if (i == 180) continue;
                 int n = i * 2;
@@ -197,11 +210,29 @@ namespace ExplorersByNature
             }
             for (int i = 0; i < 130; i++)
             {
-                float z = Range(rng, -310, 300), x = ValleyShape.RiverX(z) + (i % 2 == 0 ? -1 : 1) * Range(rng, 16, 24);
+                float z = Range(rng, -310, 300);
+                int side = i % 2 == 0 ? -1 : 1;
+                float x = ShoreX(z, side) + side * Range(rng, .3f, 4);
                 MeshRenderer rock = MeshObject("River stone", stoneMeshes[i % stoneMeshes.Length], rockMaterial, transform);
                 rock.transform.localPosition = ValleyShape.Ground(x, z);
                 rock.transform.localScale = new Vector3(Range(rng, 1, 3), Range(rng, 1, 2), Range(rng, 1, 3));
                 rock.transform.Rotate(Range(rng, 0, 20), Range(rng, 0, 360), 0);
+            }
+        }
+
+        void BuildOutcrops()
+        {
+            var random=new System.Random(907);
+            for(int i=0;i<48;i++)
+            {
+                float x=Range(random,-320,330),z=Range(random,235,425);
+                if(ValleyShape.Height(x,z)<125)continue;
+                float size=Range(random,5,11);
+                var rock=MeshObject("Mountain granite outcrop",stoneMeshes[i%stoneMeshes.Length],rockMaterial,transform);
+                rock.transform.position=ValleyShape.Ground(x,z,-size*.55f);
+                rock.transform.localScale=new Vector3(size*1.4f,size*.7f,size);
+                rock.transform.rotation=Quaternion.Euler(Range(random,-15,15),Range(random,0,360),Range(random,-20,20));
+                rock.shadowCastingMode=ShadowCastingMode.Off;
             }
         }
 
