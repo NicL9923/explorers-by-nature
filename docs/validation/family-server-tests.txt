@@ -1,0 +1,36 @@
+PASS: join
+PASS: join
+PASS: second writer cannot open the same save
+PASS: malformed JSON disconnects only its sender
+PASS: conflicting placement commits once
+PASS: placement cannot overwrite an existing ID
+PASS: move cannot change a piece type
+PASS: concurrent collection grants once
+PASS: unsupported roof rejected
+PASS: hostile coordinate rejected
+PASS: join
+PASS: join
+PASS: join
+PASS: join
+PASS: join
+PASS: join
+PASS: join
+PASS: join
+PASS: join
+PASS: join
+PASS: join
+PASS: join
+PASS: join
+PASS: join
+PASS: join
+PASS: join
+PASS: join
+PASS: join
+PASS: 20 concurrent visitors poll consistent world
+PASS: oversized frame disconnected
+PASS: join
+PASS: restart and reconnect preserve world and products
+PASS: production cooldown survives restart
+PASS: wrong join code rejected
+PASS: missing save fields never silently reset
+PASS: damaged save never silently resets

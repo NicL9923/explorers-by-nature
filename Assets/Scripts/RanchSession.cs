@@ -132,15 +132,16 @@ namespace ExplorersByNature
         void OnGUI()
         {
             if(walker==null||walker.Automated)return;
-            GUI.matrix=Matrix4x4.identity;
-            float w=Screen.width,h=Screen.height;
+            float scale=Mathf.Clamp(Screen.height/900f,1f,1.6f);
+            GUI.matrix=Matrix4x4.Scale(Vector3.one*scale);
+            float w=Screen.width/scale,h=Screen.height/scale;
             GUI.Box(new Rect(20,130,470,105),GUIContent.none);
             GUI.Label(new Rect(32,138,445,22),(Connection?.Status??"Offline")+"  |  Milk "+(Connection?.State?.milk??0)+" · Eggs "+(Connection?.State?.eggs??0));
             GUI.Label(new Rect(32,162,445,22),building?"BUILD: 1 Floor  2 Wall  3 Doorway  4 Roof  5 Fence  6 Flowers":"B build · E interact · Tab journal / multiplayer");
             GUI.Label(new Rect(32,185,445,22),building?"Click place · Right click remove · R rotate · M move":"Clover and the hens live just west of the starting trail.");
             foreach(var visitor in visitors.Values)
             {
-                if(!visitor.activeSelf)continue;Vector3 label=walker.view.WorldToScreenPoint(visitor.transform.position+Vector3.up*2.1f);
+                if(!visitor.activeSelf)continue;Vector3 label=walker.view.WorldToScreenPoint(visitor.transform.position+Vector3.up*2.1f);label.x/=scale;label.y/=scale;
                 if(label.z>0&&label.z<40)GUI.Label(new Rect(label.x-60,h-label.y,160,22),visitor.name);
             }
             if(!walker.MenuOpen)

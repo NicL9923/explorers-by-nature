@@ -8,3 +8,4 @@
 - `server.sh`: test, publish self-contained Linux/Windows servers, or run the dedicated ranch authority.
 - `make-ranch-art.py`: generate original cow and hen Blender sources and Unity FBX models.
 - `ranch-smoke.py`: launch two rendered Linux players against an isolated published server and compare both snapshots with disk.
+- `package-release.py VERSION`: package tested desktop/server builds with the playtest guide, source identity and SHA-256 checksums.

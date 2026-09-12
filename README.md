@@ -14,7 +14,7 @@ The project targets Unity **6000.3.24f1** with Universal Render Pipeline **17.3.
 
 [Download the Linux or Windows prototype](https://github.com/NicL9923/explorers-by-nature/releases/tag/v0.2.0-family.1). Linux was exercised on NVIDIA and AMD integrated graphics; the Windows build has not been run on Windows yet.
 
-[View the current landscape blockout](docs/benchmarks/linux-nvidia-high.png).
+[View the shared ranch prototype](docs/benchmarks/family-ranch.png).
 
 ## Run and build
 

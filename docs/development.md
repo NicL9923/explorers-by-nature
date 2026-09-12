@@ -46,7 +46,7 @@ The player waits five seconds for warm-up, then follows a fixed 60-second camera
 
 Reports contain the build's Git revision and source digest, OS, CPU, GPU, graphics API/driver string, resolution, graphics preset, frame count, mean/p95/p99 frame times, frames over 50 ms, Unity allocated memory, and process working set at the end. Memory numbers are snapshots, not peak measurements. Watch system RAM and swapping separately on the low-end PC. The benchmark disables the application's frame cap; the compositor or driver may still impose one.
 
-Low quality reduces shadows, texture resolution, terrain detail, and tree LOD distance, and hides only decorative grass. It does not change terrain collision or wildlife count. The current integrated-GPU measurement uses the desktop’s AMD Radeon with a Ryzen 9 CPU and 32 GB RAM; it does not establish the proposed two-core, 8 GB minimum.
+Low quality reduces shadows, texture resolution, terrain detail, and tree LOD distance, and reduces decorative grass density. A lighter meadow layer remains visible on low graphics. It does not change terrain collision or wildlife count. The current integrated-GPU measurement uses the desktop’s AMD Radeon with a Ryzen 9 CPU and 32 GB RAM; it does not establish the proposed two-core, 8 GB minimum.
 
 ## Validation
 

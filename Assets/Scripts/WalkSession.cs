@@ -144,7 +144,7 @@ namespace ExplorersByNature
                 titleStyle = new GUIStyle(GUI.skin.label) { fontSize = 25, fontStyle = FontStyle.Bold };
                 textStyle = new GUIStyle(GUI.skin.label) { fontSize = 15, wordWrap = true };
             }
-            float scale = Mathf.Clamp(Screen.height / 900f, .8f, 1.6f);
+            float scale = Mathf.Clamp(Screen.height / 900f, 1f, 1.6f);
             GUI.matrix = Matrix4x4.Scale(Vector3.one * scale);
             float width = Screen.width / scale, height = Screen.height / scale;
             GUI.Box(new Rect(20, 20, 425, 99), GUIContent.none);

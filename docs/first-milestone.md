@@ -87,7 +87,7 @@ Prove a small dedicated-server session with two clients and persistence before b
 
 The ranch implementation adds shared modular construction, flowers, cow milking, eggs, pantry counts, private server play and atomic world saves. The original landscape measurements above remain historical evidence for the earlier blockout.
 
-Current validation before final packaging:
+Validation for runtime implementation `9a3043d`, including the tracked standalone project definitions in `b09351a`:
 
 | Check | Result | Evidence |
 | --- | --- | --- |
@@ -95,8 +95,20 @@ Current validation before final packaging:
 | Synthetic concurrency | Passed | 20 simultaneous TCP clients polling the same world |
 | Unity gameplay | Passed | Build, enter foundation without jumping, retain it across unchanged polls, plant/move flowers, collect milk/eggs, reload save, retain flowers on low graphics, validate cow scale and materials |
 | Original terrain/scene checks | Passed | Three EditMode tests; terrain walk and quality-preserved wildlife PlayMode test |
-| Cross-runtime rendered clients | Initial pass; final capture pending | Two Linux Unity clients matched the .NET server's 14-piece ranch and pantry; final rebuild includes explicit snapshot-presence fix |
-| Linux/Windows player and dedicated server packages | Final packaging pending | Native Windows execution remains untested |
-| Updated low/high rendered benchmark | Pending | New grass, broadleaf trees, wildlife and ranch runtime change the workload |
+| Cross-runtime rendered clients | Passed | Two rendered Linux Unity clients and the standalone .NET server agree at revision 16: 14 pieces, one milk, three eggs; includes snapshot-presence fix |
+| Linux/Windows player and dedicated server packages | Built | Both desktop players and both self-contained dedicated servers built successfully; native Windows execution remains untested |
+| Updated low/high rendered benchmark | Passed on available GPUs | Recorded below; actual minimum PC and a heavily populated ranch remain untested |
 
 The gameplay test exposed and fixed an unchanged-poll bug: Unity's inline JSON null handling could turn an absent snapshot into an empty ranch. Both the worker revision and main-thread world replacement now require `hasState`. The foundation-entry check caught the visible consequence and verifies persistence across repeated polls.
+
+
+Both updated reports identify Linux build `b09351a/sha256:74938f6a204b46f270f7129c1a56fe6c47ed2c116f0d1882465289e8e9aab541`. Later edits restore the authoring scene after builds, align HUD scaling between panels, and package the release. The benchmark reports identify the measured player before that HUD-only adjustment; gameplay and world geometry are unchanged.
+
+| Run | Mean frame time | p95 / p99 | Frames over 50 ms | Final working set |
+| --- | --- | --- | --- | --- |
+| AMD integrated, Vulkan, Low, 1280×720 | 2.23 ms | 2.64 / 2.73 ms | 0 | 377 MB |
+| RTX 5070 Ti, OpenGL, High, 1920×1080 | 0.72 ms | 0.97 / 1.13 ms | 0 | 408 MB |
+
+Evidence: [low report](benchmarks/family-amd-integrated-low.json), [high report](benchmarks/family-nvidia-high.json), [ranch screenshot](benchmarks/family-ranch.png), [Unity gameplay results](validation/family-playmode.xml), [server results from clean committed source](validation/family-server-tests.txt), [matching multiplayer/save snapshot](validation/family-shared-ranch.json).
+
+These remain accelerated, uncapped engine frame intervals on the same 32-thread, 32 GB desktop, with different graphics APIs and resolutions. They are not isolated GPU timings, a 20-player rendered-world load test, or proof of the intended two-core/8 GB floor. The automated ranch check exercises authority and rendering; the minigame's feel, family usability and native Windows behavior still require human playtesting.

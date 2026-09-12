@@ -142,18 +142,29 @@ public static class PrototypeProject
     static void Build(BuildTarget target, string output)
     {
         if (!File.Exists(ScenePath)) CreateScene();
-        EditorSceneManager.OpenScene(ScenePath);
-        WalkSession session = UnityEngine.Object.FindFirstObjectByType<WalkSession>();
-        session.buildRevision = Environment.GetEnvironmentVariable("EXPLORERS_BUILD_REVISION") ?? "unrecorded";
-        EditorSceneManager.SaveScene(SceneManager.GetActiveScene());
-        PlayerSettings.SetScriptingBackend(NamedBuildTarget.Standalone, ScriptingImplementation.Mono2x);
-        BuildReport report = BuildPipeline.BuildPlayer(new BuildPlayerOptions
+        string authoringScene = File.ReadAllText(ScenePath);
+        try
         {
-            scenes = new[] { ScenePath }, target = target, locationPathName = output, options = BuildOptions.None
-        });
-        session.buildRevision = "development";
-        EditorSceneManager.SaveScene(SceneManager.GetActiveScene());
-        if (report.summary.result != BuildResult.Succeeded) throw new BuildFailedException(report.summary.result.ToString());
-        Debug.Log("PROTOTYPE_BUILD_READY " + output);
+            EditorSceneManager.OpenScene(ScenePath);
+            WalkSession session = UnityEngine.Object.FindFirstObjectByType<WalkSession>();
+            session.buildRevision = Environment.GetEnvironmentVariable("EXPLORERS_BUILD_REVISION") ?? "unrecorded";
+            EditorUtility.SetDirty(session);
+            EditorSceneManager.MarkSceneDirty(SceneManager.GetActiveScene());
+            EditorSceneManager.SaveScene(SceneManager.GetActiveScene());
+            PlayerSettings.SetScriptingBackend(NamedBuildTarget.Standalone, ScriptingImplementation.Mono2x);
+            BuildReport report = BuildPipeline.BuildPlayer(new BuildPlayerOptions
+            {
+                scenes = new[] { ScenePath }, target = target, locationPathName = output, options = BuildOptions.None
+            });
+            if (report.summary.result != BuildResult.Succeeded) throw new BuildFailedException(report.summary.result.ToString());
+            Debug.Log("PROTOTYPE_BUILD_READY " + output);
+        }
+        finally
+        {
+            // BuildPipeline can reload the scene and invalidate the original component reference.
+            File.WriteAllText(ScenePath, authoringScene);
+            AssetDatabase.ImportAsset(ScenePath, ImportAssetOptions.ForceUpdate);
+            EditorSceneManager.OpenScene(ScenePath);
+        }
     }
 }
