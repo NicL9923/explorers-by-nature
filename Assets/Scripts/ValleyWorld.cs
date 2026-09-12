@@ -119,6 +119,16 @@ namespace ExplorersByNature
                 float height = Range(rng, 11, 23);
                 tree.localScale = new Vector3(height * Range(rng, .85f, 1.15f), height, height);
                 tree.Rotate(0, Range(rng, 0, 360), 0);
+                GameObject importedTree = ModelArt.Tree("Woodland/Pine", tree);
+                if (importedTree != null)
+                {
+                    // Source trees use metre units; the parent is normalized to a one-metre tree.
+                    float sourceHeight = ModelHeight(importedTree);
+                    importedTree.transform.localScale = Vector3.one / Mathf.Max(1, sourceHeight);
+                    var trunkShape = tree.gameObject.AddComponent<CapsuleCollider>();
+                    trunkShape.center = new Vector3(0, .3f, 0); trunkShape.height = .6f; trunkShape.radius = .018f;
+                    continue;
+                }
                 MeshRenderer near = MeshObject("Branches", pine, leavesMaterial, tree);
                 MeshRenderer far = MeshObject("Distant branches", distantPine, leavesMaterial, tree);
                 GameObject trunk = Primitive("Trunk", PrimitiveType.Cylinder, tree, new Vector3(0, .3f, 0), new Vector3(.045f, .3f, .045f), barkMaterial, false);
@@ -136,6 +146,22 @@ namespace ExplorersByNature
                 rock.transform.localScale = new Vector3(Range(rng, 1, 3), Range(rng, 1, 2), Range(rng, 1, 3));
                 rock.transform.Rotate(Range(rng, 0, 20), Range(rng, 0, 360), 0);
             }
+        }
+
+        public static float ModelHeight(GameObject model)
+        {
+            float min = float.PositiveInfinity, max = float.NegativeInfinity;
+            foreach (MeshFilter filter in model.GetComponentsInChildren<MeshFilter>())
+            {
+                Bounds bounds = filter.sharedMesh.bounds;
+                for (int corner = 0; corner < 8; corner++)
+                {
+                    Vector3 point = bounds.center + Vector3.Scale(bounds.extents, new Vector3((corner & 1) == 0 ? -1 : 1, (corner & 2) == 0 ? -1 : 1, (corner & 4) == 0 ? -1 : 1));
+                    float y = model.transform.InverseTransformPoint(filter.transform.TransformPoint(point)).y;
+                    min = Mathf.Min(min, y); max = Mathf.Max(max, y);
+                }
+            }
+            return max - min;
         }
 
         static Mesh PineMesh(int sides, int tiers)
@@ -170,7 +196,7 @@ namespace ExplorersByNature
             for (int z = -260; z < 165; z += 24)
                 for (int x = -160; x < 10; x += 24)
                 {
-                    var verts = new List<Vector3>(); var colors = new List<Color>(); var indices = new List<int>();
+                    var verts = new List<Vector3>(); var colors = new List<Color>(); var indices = new List<int>(); var bladeUV = new List<Vector2>();
                     for (int b = 0; b < (layer==0?360:950); b++)
                     {
                         float wx = x + Range(rng, 0, 24), wz = z + Range(rng, 0, 24);
@@ -180,13 +206,20 @@ namespace ExplorersByNature
                         Vector3 side = new Vector3(Mathf.Cos(angle), 0, Mathf.Sin(angle)) * .045f;
                         Color color = Color.Lerp(new Color(.28f, .39f, .11f), new Color(.49f, .57f, .22f), Range(rng, 0, 1));
                         int n = verts.Count;
-                        verts.Add(p - side); verts.Add(p + Vector3.up * h + side * .5f); verts.Add(p + side);
-                        colors.Add(color.linear); colors.Add((color * 1.12f).linear); colors.Add(color.linear);
-                        indices.AddRange(new[] { n, n + 1, n + 2 });
+                        Vector3 bend = new Vector3(-side.z, 0, side.x) * 2;
+                        verts.Add(p - side); verts.Add(p + side);
+                        verts.Add(p + Vector3.up * h * .55f + bend * .25f - side * .55f);
+                        verts.Add(p + Vector3.up * h * .55f + bend * .25f + side * .55f);
+                        verts.Add(p + Vector3.up * h + bend);
+                        colors.Add((color * .6f).linear); colors.Add((color * .6f).linear);
+                        colors.Add(color.linear); colors.Add(color.linear); colors.Add((color * 1.04f).linear);
+                        bladeUV.Add(Vector2.zero); bladeUV.Add(Vector2.right);
+                        bladeUV.Add(new Vector2(0, .55f)); bladeUV.Add(new Vector2(1, .55f)); bladeUV.Add(new Vector2(.5f, 1));
+                        indices.AddRange(new[] { n, n + 2, n + 1, n + 1, n + 2, n + 3, n + 2, n + 4, n + 3 });
                     }
                     if (verts.Count == 0) continue;
                     Mesh mesh = Own(new Mesh { name = "Grass patch" });
-                    mesh.SetVertices(verts); mesh.SetTriangles(indices, 0); mesh.SetColors(colors); mesh.RecalculateNormals(); mesh.RecalculateBounds();
+                    mesh.SetVertices(verts); mesh.SetTriangles(indices, 0); mesh.SetColors(colors); mesh.SetUVs(0, bladeUV); mesh.RecalculateNormals(); mesh.RecalculateBounds();
                     MeshRenderer renderer = MeshObject("Grass", mesh, grassMaterial, layer==0?meadowGrass.transform:DenseGrass.transform);
                     renderer.shadowCastingMode = ShadowCastingMode.Off;
                     LODGroup lod = renderer.gameObject.AddComponent<LODGroup>();
@@ -200,6 +233,13 @@ namespace ExplorersByNature
             {
                 var deer = new GameObject("Deer placeholder").transform;
                 deer.SetParent(transform); deer.position = ValleyShape.Ground(-100 + i * 9, -196 + i * 13);
+                GameObject detailedDeer = ModelArt.Instantiate("Wildlife/Deer", deer, false);
+                if (detailedDeer != null)
+                {
+                    var roaming = deer.gameObject.AddComponent<WildlifeRoamer>();
+                    roaming.legs = new Transform[0]; roaming.observer = walker.transform;
+                    continue;
+                }
                 Primitive("Body", PrimitiveType.Capsule, deer, new Vector3(0, 1, 0), new Vector3(.55f, .65f, .6f), deerMaterial, false).transform.localRotation = Quaternion.Euler(90, 0, 0);
                 Primitive("Neck", PrimitiveType.Capsule, deer, new Vector3(0, 1.35f, .48f), new Vector3(.26f, .45f, .3f), deerMaterial, false).transform.localRotation = Quaternion.Euler(25, 0, 0);
                 Primitive("Head", PrimitiveType.Capsule, deer, new Vector3(0, 1.8f, .68f), new Vector3(.25f, .26f, .28f), deerMaterial, false).transform.localRotation = Quaternion.Euler(65, 0, 0);

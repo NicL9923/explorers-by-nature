@@ -44,7 +44,22 @@ namespace ExplorersByNature
             int at=Array.IndexOf(args,"--smoke-output");string output=at>=0&&at+1<args.Length?args[at+1]:Path.Combine(Application.persistentDataPath,"Smoke");Directory.CreateDirectory(output);
             File.WriteAllText(Path.Combine(output,observer?"observer.json":"builder.json"),JsonUtility.ToJson(session.Connection.State,true));
             ScreenCapture.CaptureScreenshot(Path.Combine(output,observer?"observer.png":"builder.png"));Debug.Log("RANCH_SMOKE_PASSED "+session.Connection.State.revision);
-            yield return new WaitForSeconds(2);Application.Quit();
+            yield return new WaitForSeconds(2);
+            if (Array.IndexOf(args, "--art-tour") >= 0)
+            {
+                var positions = new[] { new Vector2(-95.5f, -221.5f), new Vector2(-105.2f, -222.5f), new Vector2(-89, -235), new Vector2(-77, -176) };
+                var targets = new[] { new Vector2(-99, -226), new Vector2(-108, -226), new Vector2(-87, -234), new Vector2(-115, -135) };
+                var names = new[] { "clover-close", "hens-close", "flowers-close", "woodland" };
+                for (int i = 0; i < positions.Length; i++)
+                {
+                    walker.Teleport(ValleyShape.Ground(positions[i].x, positions[i].y, .1f));
+                    walker.view.transform.LookAt(ValleyShape.Ground(targets[i].x, targets[i].y, i == 0 ? 1 : i == 1 ? .5f : i == 2 ? .3f : 5));
+                    yield return new WaitForSeconds(1);
+                    ScreenCapture.CaptureScreenshot(Path.Combine(output, names[i] + ".png"));
+                    yield return new WaitForSeconds(.3f);
+                }
+            }
+            Application.Quit();
         }
     }
 }

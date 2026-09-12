@@ -1,0 +1,49 @@
+{
+  "Clover": {
+    "LOD0_triangles": 23500,
+    "LOD1_triangles": 4400,
+    "dimensions_m": [
+      1.059999942779541,
+      2.4210000038146973,
+      2.0001883506774902
+    ],
+    "materials": [
+      "JerseyCoat",
+      "MuzzleVelvet",
+      "JerseyCream",
+      "Nostril",
+      "JerseySable",
+      "EyeAmber",
+      "EyeBlack",
+      "EyeGlint",
+      "JerseyFawn",
+      "EarRose",
+      "HornIvory",
+      "Hoof",
+      "UdderRose",
+      "JerseyGolden"
+    ]
+  },
+  "Hen": {
+    "LOD0_triangles": 11500,
+    "LOD1_triangles": 2496,
+    "dimensions_m": [
+      0.48049768805503845,
+      0.9143610000610352,
+      0.9225029945373535
+    ],
+    "materials": [
+      "HenBuff",
+      "HenGold",
+      "HenUmber",
+      "CombRed",
+      "EyeAmber",
+      "EyeBlack",
+      "EyeGlint",
+      "BeakGold",
+      "ClawIvory",
+      "HenCream",
+      "HenTail"
+    ]
+  }
+}

@@ -1,0 +1,123 @@
+{
+    "schema": 1,
+    "revision": 16,
+    "nextId": 15,
+    "milk": 1,
+    "eggs": 3,
+    "pieces": [
+        {
+            "id": 1,
+            "x": -31,
+            "z": -79,
+            "level": 0,
+            "turn": 0,
+            "kind": "foundation"
+        },
+        {
+            "id": 2,
+            "x": -31,
+            "z": -79,
+            "level": 0,
+            "turn": 0,
+            "kind": "roof"
+        },
+        {
+            "id": 3,
+            "x": -31,
+            "z": -79,
+            "level": 0,
+            "turn": 2,
+            "kind": "door"
+        },
+        {
+            "id": 4,
+            "x": -31,
+            "z": -78,
+            "level": 0,
+            "turn": 0,
+            "kind": "foundation"
+        },
+        {
+            "id": 5,
+            "x": -31,
+            "z": -78,
+            "level": 0,
+            "turn": 0,
+            "kind": "roof"
+        },
+        {
+            "id": 6,
+            "x": -31,
+            "z": -78,
+            "level": 0,
+            "turn": 0,
+            "kind": "wall"
+        },
+        {
+            "id": 7,
+            "x": -30,
+            "z": -79,
+            "level": 0,
+            "turn": 0,
+            "kind": "foundation"
+        },
+        {
+            "id": 8,
+            "x": -30,
+            "z": -79,
+            "level": 0,
+            "turn": 0,
+            "kind": "roof"
+        },
+        {
+            "id": 9,
+            "x": -30,
+            "z": -79,
+            "level": 0,
+            "turn": 2,
+            "kind": "door"
+        },
+        {
+            "id": 10,
+            "x": -30,
+            "z": -78,
+            "level": 0,
+            "turn": 0,
+            "kind": "foundation"
+        },
+        {
+            "id": 11,
+            "x": -30,
+            "z": -78,
+            "level": 0,
+            "turn": 0,
+            "kind": "roof"
+        },
+        {
+            "id": 12,
+            "x": -30,
+            "z": -78,
+            "level": 0,
+            "turn": 0,
+            "kind": "wall"
+        },
+        {
+            "id": 13,
+            "x": -29,
+            "z": -78,
+            "level": 0,
+            "turn": 0,
+            "kind": "flower"
+        },
+        {
+            "id": 14,
+            "x": -32,
+            "z": -79,
+            "level": 0,
+            "turn": 1,
+            "kind": "fence"
+        }
+    ],
+    "cowReady": 1789216691,
+    "henReady": 1789216662
+}

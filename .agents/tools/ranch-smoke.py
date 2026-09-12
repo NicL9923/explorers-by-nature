@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Exercise two rendered Unity clients against the published .NET authority."""
-import json, os, pathlib, socket, subprocess, tempfile, time
+import argparse, json, os, pathlib, socket, subprocess, tempfile, time
+parser=argparse.ArgumentParser();parser.add_argument("--art-tour",action="store_true");options=parser.parse_args()
 root=pathlib.Path(__file__).resolve().parents[2]
 out=root/'Logs'/'ranch-smoke';out.mkdir(parents=True,exist_ok=True)
 env=os.environ.copy();env.pop('LD_LIBRARY_PATH',None)
@@ -16,6 +17,8 @@ with tempfile.TemporaryDirectory(prefix='explorers-server-smoke-') as data:
   for role in ['builder','observer']:
    args=[str(root/'Builds/Linux/ExplorersByNature'),'--ranch-smoke','--ranch-host','127.0.0.1','--ranch-port',str(port),'--ranch-code','integration-check','--smoke-output',str(out),'--quality-low','-screen-width','1280','-screen-height','720','-logFile',str(out/f'{role}.log')]
    if role=='observer':args+=['--smoke-observer']
+   elif options.art_tour:
+    args.remove("--quality-low");args += ["--art-tour","--quality-high"]
    players.append(subprocess.Popen(args,env=env,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL))
   for player in players:
    if player.wait(timeout=75)!=0:raise RuntimeError('Unity client failed; see Logs/ranch-smoke')

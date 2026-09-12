@@ -1,0 +1,77 @@
+{
+  "Pine_LOD0": {
+    "triangles": 5774,
+    "height_m": 10.32,
+    "materials": [
+      "PineBark",
+      "PineNeedles"
+    ]
+  },
+  "Pine_LOD1": {
+    "triangles": 3182,
+    "height_m": 10.28,
+    "materials": [
+      "PineBark",
+      "PineNeedles"
+    ]
+  },
+  "Pine_LOD2": {
+    "triangles": 612,
+    "height_m": 10.15,
+    "materials": [
+      "PineBark",
+      "PineNeedlesDistant"
+    ]
+  },
+  "Aspen_LOD0": {
+    "triangles": 5920,
+    "height_m": 9.0,
+    "materials": [
+      "AspenBark",
+      "AspenLeaves"
+    ]
+  },
+  "Aspen_LOD1": {
+    "triangles": 2428,
+    "height_m": 8.76,
+    "materials": [
+      "AspenBark",
+      "AspenLeaves"
+    ]
+  },
+  "Aspen_LOD2": {
+    "triangles": 620,
+    "height_m": 9.03,
+    "materials": [
+      "AspenBark",
+      "AspenLeaves"
+    ]
+  },
+  "Wildflower_LOD0": {
+    "triangles": 693,
+    "height_m": 0.65,
+    "materials": [
+      "WildflowerStem",
+      "WildflowerPetals",
+      "WildflowerCenter"
+    ]
+  },
+  "Wildflower_LOD1": {
+    "triangles": 574,
+    "height_m": 0.65,
+    "materials": [
+      "WildflowerStem",
+      "WildflowerPetals",
+      "WildflowerCenter"
+    ]
+  },
+  "Wildflower_LOD2": {
+    "triangles": 455,
+    "height_m": 0.65,
+    "materials": [
+      "WildflowerStem",
+      "WildflowerPetals",
+      "WildflowerCenter"
+    ]
+  }
+}

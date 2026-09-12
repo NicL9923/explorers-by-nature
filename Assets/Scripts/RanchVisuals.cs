@@ -18,8 +18,15 @@ namespace ExplorersByNature
         { var go=GameObject.CreatePrimitive(type);go.name=name;go.transform.SetParent(parent,false);go.transform.localPosition=position;go.transform.localScale=scale;go.GetComponent<Renderer>().sharedMaterial=material;if(!collider)Object.Destroy(go.GetComponent<Collider>());return go; }
         public static GameObject Piece(Piece p,bool ghost=false)
         {
-            Materials();var root=new GameObject(p.kind);root.transform.position=ValleyShape.Ground(p.x*3,p.z*3,.18f);root.transform.rotation=Quaternion.Euler(0,p.turn*90,0);
+            Materials();var root=new GameObject(p.kind);root.transform.position=ValleyShape.Ground(p.x*3,p.z*3,p.kind=="flower"?.015f:.18f);root.transform.rotation=Quaternion.Euler(0,p.turn*90,0);
             if(!ghost)root.AddComponent<RanchTarget>().pieceId=p.id;
+            string resource = p.kind == "foundation" ? "Foundation" : p.kind == "wall" ? "Wall" : p.kind == "door" ? "Door" : p.kind == "roof" ? "Roof" : "Fence";
+            GameObject artwork = p.kind == "flower" ? ModelArt.Tree("Woodland/Wildflower", root.transform, false) : ModelArt.Instantiate("Homestead/" + resource, root.transform, false);
+            if (artwork != null)
+            {
+                if (!ghost) PieceColliders(root, p.kind);
+                return root;
+            }
             void Box(string name,Vector3 pos,Vector3 size,Material mat)=>Part(root.transform,name,PrimitiveType.Cube,pos,size,mat,!ghost);
             switch(p.kind)
             {
@@ -45,13 +52,48 @@ namespace ExplorersByNature
             }
             return root;
         }
+        static void ColliderBox(Transform parent, Vector3 position, Vector3 size, float tilt = 0)
+        {
+            var shape = new GameObject("Collision");
+            shape.transform.SetParent(parent, false);
+            shape.transform.localPosition = position;
+            shape.transform.localRotation = Quaternion.Euler(0, 0, tilt);
+            shape.AddComponent<BoxCollider>().size = size;
+        }
+
+        static void PieceColliders(GameObject root, string kind)
+        {
+            switch (kind)
+            {
+                case "foundation":
+                    var floor = root.AddComponent<BoxCollider>(); floor.center = new Vector3(0, -.4f, 0); floor.size = new Vector3(3, 1.7f, 3);
+                    foreach (int sign in new[] { -1, 1 })
+                    {
+                        ColliderBox(root.transform, new Vector3(0, .02f, sign * 1.9f), new Vector3(4.6f, .2f, .8f));
+                        ColliderBox(root.transform, new Vector3(sign * 1.9f, .02f, 0), new Vector3(.8f, .2f, 3));
+                    }
+                    break;
+                case "wall":
+                    foreach (int sign in new[] { -1, 1 }) ColliderBox(root.transform, new Vector3(sign * 1.015f, 1.65f, 1.45f), new Vector3(.97f, 2.4f, .18f));
+                    ColliderBox(root.transform, new Vector3(0, .935f, 1.45f), new Vector3(1.06f, .97f, .18f));
+                    ColliderBox(root.transform, new Vector3(0, 2.5125f, 1.45f), new Vector3(1.06f, .675f, .18f)); break;
+                case "door":
+                    foreach (int sign in new[] { -1, 1 }) ColliderBox(root.transform, new Vector3(sign, 1.65f, 1.45f), new Vector3(1, 2.4f, .18f));
+                    ColliderBox(root.transform, new Vector3(0, 2.7f, 1.45f), new Vector3(1, .3f, .18f)); break;
+                case "roof":
+                    foreach (int sign in new[] { -1, 1 }) ColliderBox(root.transform, new Vector3(sign * .8f, 3.15f, 0), new Vector3(1.9f, .15f, 3.4f), -sign * 25); break;
+                case "fence":
+                    foreach (float x in new[] { -1.4f, 1.4f }) ColliderBox(root.transform, new Vector3(x, .7f, 1.45f), new Vector3(.18f, 1.7f, .18f));
+                    foreach (float y in new[] { .45f, 1f }) ColliderBox(root.transform, new Vector3(0, y, 1.45f), new Vector3(3, .15f, .15f)); break;
+                case "flower": var flowers = root.AddComponent<BoxCollider>(); flowers.center = new Vector3(0, .3f, 0); flowers.size = new Vector3(1.5f, .65f, 1.5f); break;
+            }
+        }
+
         public static GameObject Animal(bool cow,Vector3 position)
         {
             Materials();var root=new GameObject(cow?"Clover the cow":"Juniper's chicken coop");root.transform.position=position;root.AddComponent<RanchTarget>().animal=cow?"milk":"eggs";
-            GameObject model=Resources.Load<GameObject>(cow?"Clover":"Hen");
-            if(model!=null) { var visual=Object.Instantiate(model,root.transform);visual.transform.localPosition=Vector3.zero;
-                foreach(var renderer in visual.GetComponentsInChildren<Renderer>())
-                { string n=renderer.sharedMaterial!=null?renderer.sharedMaterial.name:"Ivory";renderer.sharedMaterial=n.Contains("Patch")||n.Contains("Hoof")?dark:n.Contains("Nose")?nose:n.Contains("Comb")?red:n.Contains("Beak")?beak:cream; } }
+            GameObject visual = ModelArt.Instantiate(cow ? "Clover" : "Hen", root.transform, false);
+            if (visual != null) visual.transform.localPosition = Vector3.zero;
             else
             {
                 Part(root.transform,"Body",PrimitiveType.Sphere,new Vector3(0,cow?1.1f:.4f,0),cow?new Vector3(.9f,1,1.7f):new Vector3(.5f,.6f,.65f),cream,false);
@@ -61,9 +103,20 @@ namespace ExplorersByNature
             var c=root.AddComponent<BoxCollider>();c.center=new Vector3(0,cow?1:.5f,0);c.size=cow?new Vector3(1,2,2):new Vector3(.7f,1,1);
             if(!cow)
             {
-                Part(root.transform,"Nesting box",PrimitiveType.Cube,new Vector3(1,.35f,0),new Vector3(1,.7f,.9f),wood);
+                GameObject coop = ModelArt.Instantiate("Homestead/Coop", root.transform, false);
+                if (coop != null)
+                {
+                    coop.transform.localPosition = new Vector3(1.4f, 0, 0);
+                    ColliderBox(root.transform, new Vector3(1.4f, .65f, 0), new Vector3(1.4f, 1.3f, 1.2f));
+                }
+                else Part(root.transform,"Nesting box",PrimitiveType.Cube,new Vector3(1,.35f,0),new Vector3(1,.7f,.9f),wood);
                 for(int i=0;i<3;i++)Part(root.transform,"Egg",PrimitiveType.Sphere,new Vector3(.75f+i*.24f,.76f,0),new Vector3(.15f,.2f,.15f),cream,false);
-                for(int i=0;i<2;i++){var hen=Object.Instantiate(root.transform.GetChild(0).gameObject,root.transform);hen.transform.localPosition=new Vector3(-1-i*.65f,0,i*.5f);}
+                for(int i=0;i<2;i++)
+                {
+                    var hen=Object.Instantiate(root.transform.GetChild(0).gameObject,root.transform);
+                    hen.transform.localPosition=new Vector3(-1-i*.65f,0,i*.5f);
+                    ColliderBox(root.transform,hen.transform.localPosition+Vector3.up*.45f,new Vector3(.7f,.9f,.9f));
+                }
             }
             return root;
         }

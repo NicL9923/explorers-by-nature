@@ -28,7 +28,7 @@ After future imports or upgrades, commit relevant Unity-generated metadata, seri
 | Switch low/high graphics | F2 or settings |
 | Run camera benchmark | F6 or settings |
 
-Mouse sensitivity, field of view, and graphics preference are stored locally. No gameplay progress is saved. The settings menu releases the cursor but does not pause ambient wildlife.
+Mouse sensitivity, field of view, and graphics preference are stored locally. Ranch progress is saved locally or by the dedicated server. The settings menu releases the cursor but does not pause ambient wildlife.
 
 ## Benchmark
 
@@ -60,9 +60,9 @@ The validation ledger is in [first-milestone.md](first-milestone.md). It records
 
 Ground textures are 1K CC0 images from Poly Haven. Sources, download URLs, and SHA-256 checksums are recorded in [assets.json](assets.json). Poly Haven permits redistribution of its CC0 assets; see its [asset license](https://polyhaven.com/license), checked September 11, 2026.
 
-Blender 5.2.1 CLI generated three original river stones. Run `blender --background --factory-startup --python .agents/tools/make-rocks.py` to regenerate `Assets/Models/RiverStone*.fbx` and the editable `ArtSource/RiverStones.blend`. FBX export and Unity import were verified. Fedora’s Blender/OpenColorIO version mismatch emits a color-management fallback warning; geometry export succeeds, while color-managed Blender rendering remains unverified.
+Blender 5.2.1 CLI generated three original river stones. Run `blender --background --factory-startup --python .agents/tools/make-rocks.py` to regenerate `Assets/Models/RiverStone*.fbx` and the editable `ArtSource/RiverStones.blend`. FBX export and Unity import were verified. The newer art generators use a temporary compatible OpenColorIO configuration for studio renders without changing the system installation.
 
-Tree/deer meshes and grass/water shaders are original prototype assets. They establish placement and behavior, not final realism. Unity's template settings came from the installed Universal 3D template.
+Trees, deer, rabbits, ranch animals and buildings now use original Blender assets with distance meshes; see [the art pass](art-pass.md). Grass and water use original shaders. Unity's template settings came from the installed Universal 3D template.
 
 The ranch implementation is described in [network-design.md](network-design.md), and player/server instructions are in [morning-playtest.md](morning-playtest.md).
 
@@ -78,3 +78,5 @@ python3 .agents/tools/ranch-smoke.py
 ```
 
 The last command requires published Linux server and player builds and a graphical session. It opens two game windows, builds and harvests against an isolated server, compares both clients to its saved JSON, captures screenshots and cleans up the processes. `RanchPlayTests` uses isolated temporary saves and checks Unity rendering, placement, move, animal products and reload. The console server suite checks simultaneous commands, bounds, 20 clients, framing, authentication and restart.
+
+Run `.agents/tools/unity.sh art` after changing foliage shader requirements to prepare the serialized shader variant. `python3 .agents/tools/ranch-smoke.py --art-tour` also captures close-up player screenshots.

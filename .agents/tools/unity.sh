@@ -17,6 +17,7 @@ action="${1:-help}"
 case "$action" in
     open) exec unity open "$repo_root" --editor-path "$editor_binary" ;;
     setup) method=PrototypeProject.CreateScene ;;
+    art) method=ArtImportSettings.PrepareMaterials ;;
     linux) method=PrototypeProject.BuildLinux; target=StandaloneLinux64 ;;
     windows) method=PrototypeProject.BuildWindows; target=StandaloneWindows64 ;;
     test|playtest)
@@ -24,7 +25,7 @@ case "$action" in
         [[ "$action" == playtest ]] && mode=PlayMode
         exec unity test "$repo_root" --editor-path "$editor_binary" --mode "$mode" --output "$repo_root/Logs/$action.xml" -- -nographics -logFile "$repo_root/Logs/$action.log"
         ;;
-    *) printf 'Usage: %s {open|setup|linux|windows|test|playtest}\n' "$0"; exit 0 ;;
+    *) printf 'Usage: %s {open|setup|art|linux|windows|test|playtest}\n' "$0"; exit 0 ;;
 esac
 # Include uncommitted source in the stamp, without adding anything to Git's index.
 source_digest="$(python3 - <<'PY'
@@ -41,7 +42,7 @@ print(digest.hexdigest())
 PY
 )"
 export EXPLORERS_BUILD_REVISION="$(git rev-parse --short HEAD)/sha256:$source_digest"
-if [[ "$action" == setup ]]; then
+if [[ "$action" == setup || "$action" == art ]]; then
     exec unity run "$repo_root" --editor-path "$editor_binary" -- -nographics -executeMethod "$method" -logFile "$repo_root/Logs/$action.log"
 fi
 exec unity build "$repo_root" --editor-path "$editor_binary" --target "$target" --execute-method "$method" --allow-dirty-build --no-tail --log-file "$repo_root/Logs/$action.log"

@@ -9,3 +9,6 @@
 - `make-ranch-art.py`: generate original cow and hen Blender sources and Unity FBX models.
 - `ranch-smoke.py`: launch two rendered Linux players against an isolated published server and compare both snapshots with disk.
 - `package-release.py VERSION`: package tested desktop/server builds with the playtest guide, source identity and SHA-256 checksums.
+- `make-woodland-art.py`: generate original pine, aspen and daisy meshes with LODs, foliage textures, editable Blender sources and preview renders.
+- `make-homestead-art.py`: generate the timber building kit, coop, original wood textures, LOD meshes and Blender previews.
+- `make-wildlife-art.py`: generate sculpted deer/cottontail meshes, simplified LODs, baked original coat maps and Blender previews.

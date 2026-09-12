@@ -6,15 +6,15 @@ Build a pioneer homestead together, plant flowers, gather milk and eggs, watch w
 
 ## Project status
 
-Pinewatch now includes modular homesteads, decorative flowers, cow milking, egg gathering, a shared pantry, saved worlds, and private dedicated-server multiplayer. Explore the meadow, aspen grove, river and mountain overlook with deer, rabbits and birds. Trees and wildlife remain prototype art.
+Pinewatch now includes modular homesteads, decorative flowers, cow milking, egg gathering, a shared pantry, saved worlds, and private dedicated-server multiplayer. Explore the meadow, aspen grove, river and mountain overlook with deer, rabbits and birds. Original Blender models now furnish the ranch, trees and wildlife, with simpler meshes for distant views. See the [art gallery](docs/art-pass.md).
 
 Read the [morning playtest guide](docs/morning-playtest.md) for controls, multiplayer setup and saves.
 
 The project targets Unity **6000.3.24f1** with Universal Render Pipeline **17.3.0**. Minimum hardware remains unverified; see the [validation ledger](docs/first-milestone.md).
 
-[Download the Linux or Windows prototype](https://github.com/NicL9923/explorers-by-nature/releases/tag/v0.2.0-family.1). Linux was exercised on NVIDIA and AMD integrated graphics; the Windows build has not been run on Windows yet.
+[Download the Linux or Windows prototype](https://github.com/NicL9923/explorers-by-nature/releases/tag/v0.3.0-art.1). Linux was exercised on NVIDIA and AMD integrated graphics; the Windows build has not been run on Windows yet.
 
-[View the shared ranch prototype](docs/benchmarks/family-ranch.png).
+[View the shared ranch prototype](docs/benchmarks/art-ranch.png).
 
 ## Run and build
 
@@ -41,7 +41,7 @@ See [development and validation](docs/development.md) for controls, benchmark co
 
 - A seeded valley with an arrival meadow, a forest trail, a winding river, and Pinewatch Overlook.
 - First-person walking, adjustable mouse sensitivity and field of view, no head bob, and a return-to-meadow action.
-- Pine trees with distance-based detail, wind-driven grass, roaming deer placeholders, and original Blender-made river stones.
+- Pine trees with distance-based detail, wind-driven grass, original roaming deer models, and original Blender-made river stones.
 - Low/high graphics presets that retain wildlife and terrain across settings.
 - A repeatable camera benchmark with frame-time statistics, hardware information, memory measurements, and a screenshot.
 

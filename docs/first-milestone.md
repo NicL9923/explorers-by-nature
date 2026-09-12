@@ -114,3 +114,20 @@ Evidence: [low report](benchmarks/family-amd-integrated-low.json), [high report]
 These remain accelerated, uncapped engine frame intervals on the same 32-thread, 32 GB desktop, with different graphics APIs and resolutions. They are not isolated GPU timings, a 20-player rendered-world load test, or proof of the intended two-core/8 GB floor. The automated ranch check exercises authority and rendering; the minigame's feel, family usability and native Windows behavior still require human playtesting.
 
 Final Linux and Windows players were rebuilt at `2b36535` after the HUD alignment and build-script restoration changes. The final two-rendered-client test passed again against the standalone server at revision 16. The Windows build also verified that the authoring scene is restored byte-for-byte after stamping the player. No native Windows execution is claimed.
+
+## Original art expansion (September 12, 2026 UTC)
+
+Three Astra modelers created original Blender ranch, woodland and wildlife assets. The runtime preserves imported material slots, baked coat/wood maps, clipped foliage and distance meshes. Independent construction and interaction colliders retain the existing gameplay. The [art gallery](art-pass.md) distinguishes studio renders from player screenshots.
+
+Validation: four EditMode checks cover terrain/scene assets and actual model imports, including triangle budgets, scale, dark eye pigment and flower placement origin. Two PlayMode checks cover ranch construction, collection, reload, movement and quality-preserved wildlife. The rendered two-client/dedicated-server check passed again at revision 16 with 14 pieces, one milk and three eggs. Linux and Windows players were built; Windows execution remains untested.
+
+The art benchmark player identifies source `51cda7e/sha256:193b1255402c9eb5d5ab62020d1b6aecf360d42aa6b4e3a41dc891dd32efcbe5`. The subsequent flower-only export-origin correction does not alter the measured landscape route. Final release players include that correction; their runtime source stamps identify the release implementation commit. Raw reports retain the precise measured source identity.
+
+| Run | Mean frame time | p95 / p99 | Frames over 50 ms | Final working set |
+| --- | --- | --- | --- | --- |
+| AMD integrated, Vulkan, Low, 1280×720 | 6.45 ms | 8.20 / 8.62 ms | 0 | 416 MB |
+| RTX 5070 Ti, OpenGL, High, 1920×1080 | 1.07 ms | 1.39 / 1.52 ms | 0 | 533 MB |
+
+Evidence: [AMD report](benchmarks/art-amd-integrated-low.json), [NVIDIA report](benchmarks/art-nvidia-high.json), [EditMode](validation/art-editmode.xml), [PlayMode](validation/art-playmode.xml), [matching multiplayer state](validation/art-shared-ranch.json).
+
+These uncapped engine frame intervals cover the fixed landscape camera route on the available Ryzen 9/32 GB desktop. They are not GPU-only timings or proof of the two-core/8 GB minimum, a full ranch, or 20 rendered players. The new assets cost more than the old primitives; low quality retains the same animals and interactable objects. Skeletal animal animation, final landscape composition and native Windows playtesting remain outstanding.

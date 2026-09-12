@@ -31,6 +31,13 @@ namespace ExplorersByNature
                 float x=-210+(float)random.NextDouble()*230,z=-300+(float)random.NextDouble()*340;
                 if(Mathf.Abs(x-ValleyShape.TrailX(z))<10||Mathf.Abs(x-ValleyShape.RiverX(z))<25||Vector2.Distance(new Vector2(x,z),new Vector2(-98,-232))<24)continue;
                 var tree=new GameObject("Aspen");tree.transform.SetParent(transform);tree.transform.position=ValleyShape.Ground(x,z);float height=6+(float)random.NextDouble()*5;
+                GameObject imported = ModelArt.Tree("Woodland/Aspen", tree.transform);
+                if (imported != null)
+                {
+                    imported.transform.localScale = Vector3.one * height / Mathf.Max(1, ValleyWorld.ModelHeight(imported));
+                    var collision = tree.AddComponent<CapsuleCollider>(); collision.center = Vector3.up * height * .4f; collision.height = height * .8f; collision.radius = .16f;
+                    continue;
+                }
                 RanchVisuals.Part(tree.transform,"Trunk",PrimitiveType.Cylinder,new Vector3(0,height*.45f,0),new Vector3(.3f,height*.45f,.3f),bark);
                 var crown=new GameObject("Crown");crown.transform.SetParent(tree.transform,false);crown.transform.localPosition=Vector3.up*(height-2);crown.AddComponent<MeshFilter>().sharedMesh=canopy;crown.AddComponent<MeshRenderer>().sharedMaterial=leaf;
                 var lod=tree.AddComponent<LODGroup>();lod.SetLODs(new[]{new LOD(.025f,tree.GetComponentsInChildren<Renderer>())});lod.RecalculateBounds();
@@ -38,6 +45,7 @@ namespace ExplorersByNature
             for(int i=0;i<6;i++)
             {
                 var rabbit=new GameObject("Cottontail rabbit");rabbit.transform.SetParent(transform);Vector3 home=ValleyShape.Ground(-85-i*4,-206+i*9);rabbit.transform.position=home;homes.Add(home);rabbits.Add(rabbit.transform);
+                if (ModelArt.Instantiate("Wildlife/Rabbit", rabbit.transform, false) != null) continue;
                 RanchVisuals.Part(rabbit.transform,"Body",PrimitiveType.Sphere,new Vector3(0,.25f,0),new Vector3(.32f,.38f,.5f),fur,false);
                 RanchVisuals.Part(rabbit.transform,"Head",PrimitiveType.Sphere,new Vector3(0,.44f,.2f),Vector3.one*.26f,fur,false);
                 foreach(float x in new[]{-.075f,.075f})RanchVisuals.Part(rabbit.transform,"Ear",PrimitiveType.Capsule,new Vector3(x,.64f,.2f),new Vector3(.075f,.2f,.07f),fur,false);

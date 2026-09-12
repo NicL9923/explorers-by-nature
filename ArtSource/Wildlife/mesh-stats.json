@@ -1,0 +1,10 @@
+{
+  "Deer": {
+    "Deer_LOD0": 14108,
+    "Deer_LOD1": 2600
+  },
+  "Rabbit": {
+    "Rabbit_LOD0": 7500,
+    "Rabbit_LOD1": 1600
+  }
+}
