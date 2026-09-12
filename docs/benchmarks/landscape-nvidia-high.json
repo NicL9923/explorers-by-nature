@@ -1,0 +1,23 @@
+{
+    "revision": "20559ec/sha256:ec440d08fd69a7429646e30c768937547ef017227060f3976e148df4977a9326",
+    "unity": "6000.3.24f1",
+    "utc": "2026-09-12T13:11:54.9741870Z",
+    "operatingSystem": "Linux 7.2 Fedora Linux 44 64bit",
+    "processor": "AMD Ryzen 9 9950X3D 16-Core Processor",
+    "graphics": "NVIDIA GeForce RTX 5070 Ti/PCIe/SSE2",
+    "graphicsAPI": "OpenGLCore",
+    "graphicsDriver": "OpenGL 4.5.0 NVIDIA 610.57.04",
+    "quality": "High",
+    "processorCount": 32,
+    "memoryMB": 31145,
+    "graphicsMemoryMB": 16303,
+    "width": 1920,
+    "height": 1080,
+    "frames": 52827,
+    "framesOver50Ms": 0,
+    "meanMs": 1.1357985734939576,
+    "p95Ms": 1.534878134727478,
+    "p99Ms": 1.6802791357040406,
+    "unityAllocatedMB": 238,
+    "processWorkingSetMB": 589
+}

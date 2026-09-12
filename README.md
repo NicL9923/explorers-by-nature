@@ -12,9 +12,9 @@ Read the [morning playtest guide](docs/morning-playtest.md) for controls, multip
 
 The project targets Unity **6000.3.24f1** with Universal Render Pipeline **17.3.0**. Minimum hardware remains unverified; see the [validation ledger](docs/first-milestone.md).
 
-[Download the Linux or Windows prototype](https://github.com/NicL9923/explorers-by-nature/releases/tag/v0.3.0-art.1). Linux was exercised on NVIDIA and AMD integrated graphics; the Windows build has not been run on Windows yet.
+[Download the Linux or Windows prototype](https://github.com/NicL9923/explorers-by-nature/releases/tag/v0.4.0-landscape.1). Linux was exercised on NVIDIA and AMD integrated graphics; the Windows build has not been run on Windows yet.
 
-[View the shared ranch prototype](docs/benchmarks/art-ranch.png).
+[View the landscape update](docs/landscape-pass.md).
 
 ## Run and build
 

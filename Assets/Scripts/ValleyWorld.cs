@@ -27,9 +27,11 @@ namespace ExplorersByNature
         void Awake()
         {
             BuildTerrain();
+            BuildBackdrop();
             BuildRiver();
             BuildForest();
             BuildGrass();
+            BuildFlowerDrifts();
             BuildWildlife();
             Physics.SyncTransforms();
             walker.Teleport(ValleyShape.Spawn);
@@ -48,8 +50,8 @@ namespace ExplorersByNature
                 for (int x = 0; x < resolution; x++)
                     heights[z, x] = ValleyShape.Height(x * 900f / (resolution - 1) - 450, z * 900f / (resolution - 1) - 450) / 360;
             data.SetHeights(0, 0, heights);
-            data.terrainLayers = new[] { Layer(grassTexture, 7), Layer(earthTexture, 5), Layer(rockTexture, 12) };
-            var splat = new float[256, 256, 3];
+            data.terrainLayers = new[] { Layer(MeadowTexture(), 14), Layer(earthTexture, 5), Layer(rockTexture, 12), Layer(SnowTexture(), 20) };
+            var splat = new float[256, 256, 4];
             for (int z = 0; z < 256; z++)
                 for (int x = 0; x < 256; x++)
                 {
@@ -60,9 +62,11 @@ namespace ExplorersByNature
                         * (1 - SmoothRange(140, 160, wz)) * SmoothRange(-280, -250, wz);
                     float shore = 1 - SmoothRange(12, 23, Mathf.Abs(wx - ValleyShape.RiverX(wz)));
                     float earth = Mathf.Max(path, shore) * (1 - stone);
-                    splat[z, x, 0] = 1 - stone - earth;
-                    splat[z, x, 1] = earth;
-                    splat[z, x, 2] = stone;
+                    float snow = SmoothRange(170, 220, ValleyShape.Height(wx,wz) + Mathf.PerlinNoise(wx*.035f,wz*.035f)*30) * (1-SmoothRange(38,60,slope));
+                    splat[z, x, 0] = (1 - stone - earth) * (1-snow);
+                    splat[z, x, 1] = earth * (1-snow);
+                    splat[z, x, 2] = stone * (1-snow);
+                    splat[z, x, 3] = snow;
                 }
             data.SetAlphamaps(0, 0, splat);
             GameObject terrain = Terrain.CreateTerrainGameObject(data);
@@ -77,6 +81,58 @@ namespace ExplorersByNature
         }
 
         TerrainLayer Layer(Texture2D texture, float scale) => Own(new TerrainLayer { diffuseTexture = texture, tileSize = Vector2.one * scale, metallic = 0, smoothness = .05f });
+
+        Texture2D SnowTexture()
+        {
+            var texture=Own(new Texture2D(32,32,TextureFormat.RGB24,true){name="Alpine snow"});
+            var pixels=new Color[1024];
+            for(int i=0;i<pixels.Length;i++) pixels[i]=Color.Lerp(new Color(.76f,.82f,.84f),new Color(.93f,.94f,.90f),Mathf.PerlinNoise(i%32*.4f,i/32*.4f));
+            texture.SetPixels(pixels);texture.Apply(true,true);return texture;
+        }
+
+        Texture2D MeadowTexture()
+        {
+            var texture = Own(new Texture2D(256, 256, TextureFormat.RGB24, true) { name = "Living meadow", wrapMode = TextureWrapMode.Repeat });
+            var pixels = new Color[256 * 256];
+            for (int y = 0; y < 256; y++) for (int x = 0; x < 256; x++)
+            {
+                // Periodic waves keep the broad meadow variation seamless at tile boundaries.
+                float broad = .5f + .22f * Mathf.Sin(x * Mathf.PI / 128) * Mathf.Cos(y * Mathf.PI / 64);
+                float grain = Mathf.PerlinNoise(x * .38f, y * .38f);
+                pixels[y * 256 + x] = Color.Lerp(new Color(.34f,.43f,.16f), new Color(.53f,.60f,.29f), broad * .55f + grain * .45f);
+            }
+            texture.SetPixels(pixels); texture.Apply(true, true); return texture;
+        }
+
+        void BuildBackdrop()
+        {
+            // A sculpted mesh beyond the playable heightfield leaves shared ground heights unchanged.
+            const int columns=121, rows=65;
+            var vertices=new List<Vector3>();var colors=new List<Color>();var indices=new List<int>();
+            var summits=new[]{new Vector3(-530,330,780),new Vector3(-160,405,940),new Vector3(230,375,810),new Vector3(650,420,1020)};
+            for(int row=0;row<rows;row++) for(int col=0;col<columns;col++)
+            {
+                float x=-1100+col*2200f/(columns-1), z=450+row*950f/(rows-1);
+                float distance=z-450;
+                float peak=0;
+                foreach(Vector3 summit in summits)
+                {
+                    float dx=(x-summit.x)/150, dz=(z-summit.z)/180;
+                    peak=Mathf.Max(peak,summit.y*Mathf.Exp(-.5f*(dx*dx+dz*dz)));
+                }
+                float detail=(1-Mathf.Abs(Mathf.PerlinNoise((x+1900)*.012f,z*.014f)*2-1))*36;
+                float height=(peak+detail)*SmoothRange(0,110,distance);
+                if(distance<110 && Mathf.Abs(x)<450) height+=ValleyShape.Height(x,450)*(1-SmoothRange(0,110,distance));
+                vertices.Add(new Vector3(x,height,z));
+                float snow=SmoothRange(285,345,height+Mathf.PerlinNoise(x*.03f,z*.03f)*30);
+                colors.Add(Color.Lerp(new Color(.32f,.37f,.36f),new Color(.91f,.92f,.89f),snow).linear);
+                if(row==rows-1||col==columns-1)continue;
+                int n=row*columns+col;indices.AddRange(new[]{n,n+columns,n+1,n+1,n+columns,n+columns+1});
+            }
+            var mesh=Own(new Mesh{name="Sculpted alpine horizon"});mesh.SetVertices(vertices);mesh.SetColors(colors);mesh.SetTriangles(indices,0);mesh.RecalculateNormals();mesh.RecalculateBounds();
+            var material=Own(new Material(grassMaterial));material.SetFloat("_WindStrength",0);material.SetFloat("_SurfaceLighting",1);
+            MeshObject("Distant alpine range",mesh,material,transform).shadowCastingMode=ShadowCastingMode.Off;
+        }
 
         void BuildRiver()
         {
@@ -106,12 +162,13 @@ namespace ExplorersByNature
             Mesh distantPine = Own(PineMesh(5, 4));
             var forest = new GameObject("Pine forest").transform;
             forest.SetParent(transform);
-            for (int i = 0; i < 720; i++)
+            for (int i = 0; i < 1000; i++)
             {
                 float x = Range(rng, -340, 340), z = Range(rng, -320, 330);
                 if (Mathf.Abs(x - ValleyShape.RiverX(z)) < 28 || Mathf.Abs(x - ValleyShape.TrailX(z)) < 8) continue;
                 if (z < -180 && x > -130 && x < 0) continue; // Arrival meadow.
                 if (ValleyShape.Height(x, z) > 140) continue;
+                if (Mathf.PerlinNoise((x+600)*.015f,(z+400)*.015f) < .38f) continue;
                 float slope = Mathf.Abs(ValleyShape.Height(x + 2, z) - ValleyShape.Height(x - 2, z));
                 if (slope > 5) continue;
                 var tree = new GameObject("Pine").transform;
@@ -138,7 +195,7 @@ namespace ExplorersByNature
                 lod.SetLODs(new[] { new LOD(.09f, new Renderer[] { near, trunk.GetComponent<Renderer>() }), new LOD(.008f, new Renderer[] { far }) });
                 lod.RecalculateBounds();
             }
-            for (int i = 0; i < 75; i++)
+            for (int i = 0; i < 130; i++)
             {
                 float z = Range(rng, -310, 300), x = ValleyShape.RiverX(z) + (i % 2 == 0 ? -1 : 1) * Range(rng, 16, 24);
                 MeshRenderer rock = MeshObject("River stone", stoneMeshes[i % stoneMeshes.Length], rockMaterial, transform);
@@ -197,16 +254,16 @@ namespace ExplorersByNature
                 for (int x = -160; x < 10; x += 24)
                 {
                     var verts = new List<Vector3>(); var colors = new List<Color>(); var indices = new List<int>(); var bladeUV = new List<Vector2>();
-                    for (int b = 0; b < (layer==0?360:950); b++)
+                    for (int b = 0; b < (layer==0?950:2200); b++)
                     {
                         float wx = x + Range(rng, 0, 24), wz = z + Range(rng, 0, 24);
                         if (Mathf.Abs(wx - ValleyShape.TrailX(wz)) < 3 || Mathf.Abs(wx - ValleyShape.RiverX(wz)) < 23) continue;
                         Vector3 p = ValleyShape.Ground(wx, wz);
-                        float h = Range(rng, .18f, .48f), angle = Range(rng, 0, Mathf.PI * 2);
-                        Vector3 side = new Vector3(Mathf.Cos(angle), 0, Mathf.Sin(angle)) * .045f;
-                        Color color = Color.Lerp(new Color(.28f, .39f, .11f), new Color(.49f, .57f, .22f), Range(rng, 0, 1));
+                        float h = Range(rng, .13f, .36f), angle = Range(rng, 0, Mathf.PI * 2);
+                        Vector3 side = new Vector3(Mathf.Cos(angle), 0, Mathf.Sin(angle)) * .012f;
+                        Color color = Color.Lerp(new Color(.24f, .39f, .105f), new Color(.46f, .57f, .21f), Range(rng, 0, 1));
                         int n = verts.Count;
-                        Vector3 bend = new Vector3(-side.z, 0, side.x) * 2;
+                        Vector3 bend = new Vector3(-side.z, 0, side.x) * 6;
                         verts.Add(p - side); verts.Add(p + side);
                         verts.Add(p + Vector3.up * h * .55f + bend * .25f - side * .55f);
                         verts.Add(p + Vector3.up * h * .55f + bend * .25f + side * .55f);
@@ -225,6 +282,23 @@ namespace ExplorersByNature
                     LODGroup lod = renderer.gameObject.AddComponent<LODGroup>();
                     lod.SetLODs(new[] { new LOD(.07f, new Renderer[] { renderer }) }); lod.RecalculateBounds();
                 }
+        }
+
+        void BuildFlowerDrifts()
+        {
+            var root = new GameObject("Trailside daisies").transform; root.SetParent(transform);
+            var random = new System.Random(714);
+            for (int i=0; i<85; i++)
+            {
+                float z=Range(random,-260,115), x=ValleyShape.TrailX(z)+(i%2==0?-1:1)*Range(random,5,21);
+                if(i<25) { x=Range(random,-135,-75);z=Range(random,-245,-175); }
+                if (Mathf.Abs(x-ValleyShape.RiverX(z))<25) continue;
+                var flowers=ModelArt.Tree("Woodland/Wildflower",root);
+                if (flowers==null) break;
+                flowers.transform.position=ValleyShape.Ground(x,z,.02f);
+                flowers.transform.localScale=Vector3.one*Range(random,.8f,1.45f);
+                flowers.transform.Rotate(0,Range(random,0,360),0);
+            }
         }
 
         void BuildWildlife()

@@ -47,9 +47,9 @@ namespace ExplorersByNature
             yield return new WaitForSeconds(2);
             if (Array.IndexOf(args, "--art-tour") >= 0)
             {
-                var positions = new[] { new Vector2(-95.5f, -221.5f), new Vector2(-105.2f, -222.5f), new Vector2(-89, -235), new Vector2(-77, -176) };
-                var targets = new[] { new Vector2(-99, -226), new Vector2(-108, -226), new Vector2(-87, -234), new Vector2(-115, -135) };
-                var names = new[] { "clover-close", "hens-close", "flowers-close", "woodland" };
+                var positions = new[] { new Vector2(-95.5f, -221.5f), new Vector2(-105.2f, -222.5f), new Vector2(-89, -235), new Vector2(-77, -176), new Vector2(-20, -155), new Vector2(-47, 135) };
+                var targets = new[] { new Vector2(-99, -226), new Vector2(-108, -226), new Vector2(-87, -234), new Vector2(-115, -135), new Vector2(35, -70), new Vector2(130, 365) };
+                var names = new[] { "clover-close", "hens-close", "flowers-close", "woodland", "river", "overlook" };
                 for (int i = 0; i < positions.Length; i++)
                 {
                     walker.Teleport(ValleyShape.Ground(positions[i].x, positions[i].y, .1f));

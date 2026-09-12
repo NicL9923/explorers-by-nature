@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<test-run id="2" testcasecount="4" result="Passed" total="4" passed="4" failed="0" inconclusive="0" skipped="0" asserts="0" engine-version="3.5.0.0" clr-version="4.0.30319.42000" start-time="2026-09-12 13:08:47Z" end-time="2026-09-12 13:08:47Z" duration="0.1674571">
+  <test-suite type="TestSuite" id="1000" name="Explorers by Nature" fullname="Explorers by Nature" runstate="Runnable" testcasecount="4" result="Passed" start-time="2026-09-12 13:08:47Z" end-time="2026-09-12 13:08:47Z" duration="0.167457" total="4" passed="4" failed="0" inconclusive="0" skipped="0" asserts="0">
+    <properties>
+      <property name="platform" value="EditMode" />
+    </properties>
+    <test-suite type="Assembly" id="1007" name="Explorers.Tests.dll" fullname="/home/nicolas/dev/explorers-by-nature/Library/ScriptAssemblies/Explorers.Tests.dll" runstate="Runnable" testcasecount="4" result="Passed" start-time="2026-09-12 13:08:47Z" end-time="2026-09-12 13:08:47Z" duration="0.164142" total="4" passed="4" failed="0" inconclusive="0" skipped="0" asserts="0">
+      <properties>
+        <property name="_PID" value="47813" />
+        <property name="_APPDOMAIN" value="Unity Child Domain" />
+        <property name="platform" value="EditMode" />
+        <property name="EditorOnly" value="True" />
+      </properties>
+      <test-suite type="TestFixture" id="1001" name="ArtImportTests" fullname="ArtImportTests" classname="ArtImportTests" runstate="Runnable" testcasecount="1" result="Passed" start-time="2026-09-12 13:08:47Z" end-time="2026-09-12 13:08:47Z" duration="0.036406" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <test-case id="1002" name="OriginalModelsImportWithMaterialsAndCheaperDistanceMeshes" fullname="ArtImportTests.OriginalModelsImportWithMaterialsAndCheaperDistanceMeshes" methodname="OriginalModelsImportWithMaterialsAndCheaperDistanceMeshes" classname="ArtImportTests" runstate="Runnable" seed="424028635" result="Passed" start-time="2026-09-12 13:08:47Z" end-time="2026-09-12 13:08:47Z" duration="0.031218" asserts="0">
+          <properties>
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+        </test-case>
+      </test-suite>
+      <test-suite type="TestFixture" id="1003" name="WalkReadinessTests" fullname="WalkReadinessTests" classname="WalkReadinessTests" runstate="Runnable" testcasecount="3" result="Passed" start-time="2026-09-12 13:08:47Z" end-time="2026-09-12 13:08:47Z" duration="0.127140" total="3" passed="3" failed="0" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <test-case id="1006" name="PlayableSceneHasConnectedCameraMaterialsAndQualityPresets" fullname="WalkReadinessTests.PlayableSceneHasConnectedCameraMaterialsAndQualityPresets" methodname="PlayableSceneHasConnectedCameraMaterialsAndQualityPresets" classname="WalkReadinessTests" runstate="Runnable" seed="1536761748" result="Passed" start-time="2026-09-12 13:08:47Z" end-time="2026-09-12 13:08:47Z" duration="0.107147" asserts="0">
+          <properties>
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+        </test-case>
+        <test-case id="1005" name="TerrainStaysWithinItsHeightmapAndContainsTheRiver" fullname="WalkReadinessTests.TerrainStaysWithinItsHeightmapAndContainsTheRiver" methodname="TerrainStaysWithinItsHeightmapAndContainsTheRiver" classname="WalkReadinessTests" runstate="Runnable" seed="1521787844" result="Passed" start-time="2026-09-12 13:08:47Z" end-time="2026-09-12 13:08:47Z" duration="0.017566" asserts="0">
+          <properties>
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+        </test-case>
+        <test-case id="1004" name="TrailIsDryAndTraversableWithoutJumping" fullname="WalkReadinessTests.TrailIsDryAndTraversableWithoutJumping" methodname="TrailIsDryAndTraversableWithoutJumping" classname="WalkReadinessTests" runstate="Runnable" seed="1747026943" result="Passed" start-time="2026-09-12 13:08:47Z" end-time="2026-09-12 13:08:47Z" duration="0.001660" asserts="0">
+          <properties>
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+          <output><![CDATA[Saving results to: /home/nicolas/.config/unity3d/Explorers by Nature/Explorers by Nature/TestResults.xml
+]]></output>
+        </test-case>
+      </test-suite>
+    </test-suite>
+  </test-suite>
+</test-run>

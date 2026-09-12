@@ -46,7 +46,7 @@ public sealed class WalkReadinessTests
         Assert.That(session.lowPipeline, Is.Not.Null);
         Assert.That(session.highPipeline, Is.Not.Null);
         Assert.That(session.lowPipeline, Is.Not.SameAs(session.highPipeline));
-        foreach (Material material in new[] { world.terrainMaterial, world.waterMaterial, world.grassMaterial, world.barkMaterial, world.leavesMaterial, world.rockMaterial, world.deerMaterial })
+        foreach (Material material in new[] { world.terrainMaterial, world.waterMaterial, world.grassMaterial, world.barkMaterial, world.leavesMaterial, world.rockMaterial, world.deerMaterial, RenderSettings.skybox })
         {
             Assert.That(material, Is.Not.Null);
             Assert.That(material.shader, Is.Not.Null);

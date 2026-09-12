@@ -80,3 +80,5 @@ python3 .agents/tools/ranch-smoke.py
 The last command requires published Linux server and player builds and a graphical session. It opens two game windows, builds and harvests against an isolated server, compares both clients to its saved JSON, captures screenshots and cleans up the processes. `RanchPlayTests` uses isolated temporary saves and checks Unity rendering, placement, move, animal products and reload. The console server suite checks simultaneous commands, bounds, 20 clients, framing, authentication and restart.
 
 Run `.agents/tools/unity.sh art` after changing foliage shader requirements to prepare the serialized shader variant. `python3 .agents/tools/ranch-smoke.py --art-tour` also captures close-up player screenshots.
+
+The [landscape pass](landscape-pass.md) adds procedural meadow/snow textures, distant mountain scenery and a cloud sky. The art tour now includes river and overlook captures. The scene material helper updates shaders on existing materials when regenerating the scene.

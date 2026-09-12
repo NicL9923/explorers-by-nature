@@ -44,11 +44,11 @@ public static class PrototypeProject
         RenderSettings.ambientGroundColor = new Color(.18f, .22f, .16f);
         RenderSettings.fog = true; RenderSettings.fogMode = FogMode.ExponentialSquared;
         RenderSettings.fogColor = new Color(.64f, .74f, .8f); RenderSettings.fogDensity = .0017f;
-        Material sky = Material("Sky", "Skybox/Procedural", Color.white);
-        sky.SetColor("_SkyTint", new Color(.48f, .56f, .65f)); sky.SetFloat("_AtmosphereThickness", .85f);
+        Material sky = Material("Sky", "Explorers/ValleySky", Color.white);
+
         RenderSettings.skybox = sky;
         var sun = new GameObject("Late afternoon sun", typeof(Light)).GetComponent<Light>();
-        sun.type = LightType.Directional; sun.intensity = 1.5f; sun.color = new Color(1, .91f, .76f);
+        sun.type = LightType.Directional; sun.intensity = 1.7f; sun.color = new Color(1, .91f, .76f);
         sun.shadows = LightShadows.Soft; sun.transform.rotation = Quaternion.Euler(34, -35, 0); RenderSettings.sun = sun;
 
         var player = new GameObject("Explorer", typeof(CharacterController));
@@ -57,7 +57,7 @@ public static class PrototypeProject
         controller.height = 1.8f; controller.center = Vector3.up * .9f; controller.radius = .3f; controller.stepOffset = .4f; controller.slopeLimit = 55;
         var camera = new GameObject("Main Camera", typeof(Camera), typeof(AudioListener)).GetComponent<Camera>();
         camera.tag = "MainCamera"; camera.transform.SetParent(player.transform, false); camera.transform.localPosition = Vector3.up * 1.65f;
-        camera.nearClipPlane = .1f; camera.farClipPlane = 1200; camera.fieldOfView = 75;
+        camera.nearClipPlane = .1f; camera.farClipPlane = 1800; camera.fieldOfView = 75;
         camera.gameObject.AddComponent<UniversalAdditionalCameraData>();
         FirstPersonWalker walker = player.AddComponent<FirstPersonWalker>(); walker.view = camera;
 
@@ -120,6 +120,7 @@ public static class PrototypeProject
         if (shader == null) throw new BuildFailedException("Missing shader " + shaderName);
         Material material = AssetDatabase.LoadAssetAtPath<Material>(path);
         if (material == null) { material = new Material(shader); AssetDatabase.CreateAsset(material, path); }
+        material.shader = shader;
         material.enableInstancing = true;
         if (material.HasProperty("_BaseColor")) material.SetColor("_BaseColor", color);
         if (material.HasProperty("_Smoothness")) material.SetFloat("_Smoothness", .15f);

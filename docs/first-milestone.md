@@ -133,3 +133,18 @@ Evidence: [AMD report](benchmarks/art-amd-integrated-low.json), [NVIDIA report](
 These uncapped engine frame intervals cover the fixed landscape camera route on the available Ryzen 9/32 GB desktop. They are not GPU-only timings or proof of the two-core/8 GB minimum, a full ranch, or 20 rendered players. The new assets cost more than the old primitives; low quality retains the same animals and interactable objects. Skeletal animal animation, final landscape composition and native Windows playtesting remain outstanding.
 
 Final Linux and Windows players were rebuilt from implementation commit `22c9115`. The final art-tour run passed against the standalone server and visually confirmed planted flowers at the requested position. Player screenshots above come from that final build. The later evidence/packaging commit changes no runtime assets or code.
+
+## Landscape expansion (September 12, 2026 UTC)
+
+Original procedural meadow/snow textures, denser fine grass, clustered forest placement, daisy drifts, more river stones, a cloud sky and a distant mountain mesh were added. The walkable height function and server ground data are unchanged. See the [player gallery](landscape-pass.md).
+
+Four EditMode tests passed, including shader checks for the sky. Two PlayMode tests passed after the terrain/forest/sky integration; subsequent changes add snow texture blending, reposition decorative flowers and extend screenshot cameras. The final rendered two-client check passed at revision 16 with 14 pieces, one milk and three eggs. Linux built and ran; Windows built but native execution remains untested.
+
+Measured Linux source: `20559ec/sha256:ec440d08fd69a7429646e30c768937547ef017227060f3976e148df4977a9326`. The final runtime landscape and extended screenshot tour are present in this player; later edits affect tests, evidence and packaging.
+
+| Run | Mean | p95 / p99 | Frames over 50 ms | Final working set |
+| --- | --- | --- | --- | --- |
+| Vulkan / Low / 1280×720 | 6.23 ms | 8.45 / 9.01 ms | 0 | 477 MB |
+| OpenGLCore / High / 1920×1080 | 1.14 ms | 1.53 / 1.68 ms | 0 | 589 MB |
+
+Evidence: [AMD integrated](benchmarks/landscape-amd-integrated-low.json), [RTX 5070 Ti](benchmarks/landscape-nvidia-high.json), [EditMode](validation/landscape-editmode.xml), [PlayMode](validation/landscape-playmode.xml), [matching shared state](validation/landscape-shared-ranch.json). These are uncapped engine intervals on the Ryzen 9/32 GB desktop. They do not establish the intended two-core/8 GB floor or populated multiplayer performance.
