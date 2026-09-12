@@ -6,11 +6,42 @@ Build a pioneer homestead together, plant flowers, gather milk and eggs, watch w
 
 ## Project status
 
-Planning repository. There is no playable build or Unity project yet.
+Unity prototype source is in place. Editor activation is still required on the development machine, so there is no verified playable build yet.
 
 The first milestone is a small forest-to-overlook landscape benchmark on Windows and Linux. It will test whether the scenery is enjoyable and whether graphics can scale from integrated graphics to a dedicated GPU before we commit to production assets or build ranch systems.
 
-Unity 6 with Universal Render Pipeline is the provisional engine choice. The exact supported editor release and packages will be pinned when the project is created and tested.
+The project targets Unity **6000.3.24f1** with Universal Render Pipeline **17.3.0**. Engine suitability and minimum hardware remain unverified.
+
+## Run and build
+
+Install the pinned editor through Unity Hub, sign in, and activate an appropriate Unity license. On Linux, from the repository root:
+
+```bash
+.agents/tools/unity.sh setup
+.agents/tools/unity.sh open
+```
+
+Press Play in the generated `Assets/Scenes/Pinewatch.unity` scene. The scene is also generated automatically on the first interactive editor open. The terrain and scenery are created when play starts, so edit mode initially shows the camera and scene configuration.
+
+```bash
+.agents/tools/unity.sh test
+.agents/tools/unity.sh linux
+.agents/tools/unity.sh windows
+```
+
+Logs go to `Logs/`; standalone builds go to `Builds/Linux/` and `Builds/Windows/`. Both directories are ignored by Git. Override `UNITY_EDITOR` if the executable is installed elsewhere. On Windows, open the folder through Hub and use **Explorers > Create prototype scene**, then Unity's Build Profiles window.
+
+See [development and validation](docs/development.md) for controls, benchmark commands, and current limits.
+
+## Prototype source
+
+- A seeded valley with an arrival meadow, a forest trail, a winding river, and Pinewatch Overlook.
+- First-person walking, adjustable mouse sensitivity and field of view, no head bob, and a return-to-meadow action.
+- Pine trees with distance-based detail, wind-driven grass, and roaming deer placeholders.
+- Low/high graphics presets that retain wildlife and terrain across settings.
+- A repeatable camera benchmark with frame-time statistics, hardware information, memory measurements, and a screenshot.
+
+Trees and deer are original geometric placeholders, not finished realistic assets. This prototype has no ranch building, animal products, multiplayer, or world persistence yet.
 
 ## Start here
 

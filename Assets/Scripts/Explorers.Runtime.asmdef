@@ -1,0 +1,5 @@
+{
+  "name": "Explorers.Runtime",
+  "rootNamespace": "ExplorersByNature",
+  "references": ["Unity.RenderPipelines.Universal.Runtime", "Unity.RenderPipelines.Core.Runtime"]
+}

@@ -8,7 +8,7 @@ This is the first technical milestone, not the full family-playable game. It is 
 
 ## Engine candidate
 
-Start evaluation with Unity 6 and Universal Render Pipeline, using one rendering pipeline across quality levels. Select and pin a supported editor release and compatible package versions when creating the project.
+Start evaluation with Unity 6000.3.24f1 and Universal Render Pipeline 17.3.0, using one rendering pipeline across quality levels. The editor and desktop support modules are installed; account/license activation currently blocks project import and execution.
 
 Unity describes URP as covering mobile through high-end PCs and exposes quality controls. Those capabilities justify evaluating it; they do not establish performance for this game.
 
@@ -49,7 +49,11 @@ Record measurements against the exact commit and build configuration. Use the sa
 | Check | State | Evidence |
 | --- | --- | --- |
 | Exact low-end hardware identified | Pending | No specific CPU/GPU supplied |
-| Editor and packages pinned | Pending | No Unity project created |
+| Editor and direct packages pinned | Partial | Unity 6000.3.24f1, URP 17.3.0; transitive lockfile awaits first successful import |
+| Hub and editor installation | Passed | Hub 3.21.2, editor, Windows Mono, Linux server modules installed |
+| Source and test code compilation | Passed, limited | `.agents/tools/check-source.py`, installed Unity/template assemblies; no editor execution |
+| Editor setup and scene generation | Blocked | Unity exits 198: no valid Editor license |
+| Unity EditMode tests and shaders | Pending | Test source compiles; tests and shader import have not run |
 | Windows standalone build | Pending | No build produced |
 | Linux standalone build | Pending | No build produced |
 | Low-preset performance | Pending | Requires hardware and scene |
@@ -57,6 +61,8 @@ Record measurements against the exact commit and build configuration. Use the sa
 | Camera comfort and enjoyable view | Pending | Requires family playtest |
 
 Do not report supported minimum specifications or a validated engine choice from editor screenshots or documentation alone.
+
+The current implementation and commands are described in [development.md](development.md). No performance results have been collected. The benchmark's 60-second camera pass is deliberately accelerated; it is not the intended duration of a player's expedition.
 
 ## After the benchmark
 

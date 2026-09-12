@@ -1,0 +1,26 @@
+[
+  {
+    "file": "Assets/Textures/brown_mud_leaves_01.jpg",
+    "asset": "brown_mud_leaves_01",
+    "source": "https://polyhaven.com/a/brown_mud_leaves_01",
+    "download": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/brown_mud_leaves_01/brown_mud_leaves_01_diff_1k.jpg",
+    "license": "CC0-1.0",
+    "sha256": "c598c555f13cd5328409fd5e2a45496a26e319e52299e3959042f1449c2f1b06"
+  },
+  {
+    "file": "Assets/Textures/aerial_grass_rock.jpg",
+    "asset": "aerial_grass_rock",
+    "source": "https://polyhaven.com/a/aerial_grass_rock",
+    "download": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/aerial_grass_rock/aerial_grass_rock_diff_1k.jpg",
+    "license": "CC0-1.0",
+    "sha256": "57b8041bfe0d0f01430e4dbaad45e7ddddf0a9fc97317f90dbc51f7b0d9e1b5d"
+  },
+  {
+    "file": "Assets/Textures/rock_boulder_dry.jpg",
+    "asset": "rock_boulder_dry",
+    "source": "https://polyhaven.com/a/rock_boulder_dry",
+    "download": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/rock_boulder_dry/rock_boulder_dry_diff_1k.jpg",
+    "license": "CC0-1.0",
+    "sha256": "20f653a42fb24f42aa40641663070d578678da49af18cc1049dbdd4ed8679f3c"
+  }
+]

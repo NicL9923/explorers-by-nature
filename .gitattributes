@@ -1,0 +1,10 @@
+* text=auto
+*.cs text eol=lf
+*.shader text eol=lf
+*.sh text eol=lf
+*.py text eol=lf
+*.asset text eol=lf whitespace=-blank-at-eol
+*.unity text eol=lf whitespace=-blank-at-eol
+*.meta text eol=lf whitespace=-blank-at-eol
+*.jpg binary
+*.png binary
