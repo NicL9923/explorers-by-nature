@@ -18,6 +18,8 @@ namespace ExplorersByNature
         void Awake()
         {
             controller = GetComponent<CharacterController>();
+            // Keep downward interaction and tool rays from hitting our own capsule.
+            gameObject.layer = 2; // Unity Ignore Raycast; terrain collisions remain enabled.
             sensitivity = PlayerPrefs.GetFloat("LookSensitivity", 1.6f);
             view.fieldOfView = PlayerPrefs.GetFloat("FieldOfView", 75f);
             SetMenu(false);
@@ -42,6 +44,7 @@ namespace ExplorersByNature
         public void Move(Vector2 input, bool sprint, float dt)
         {
             dt = Mathf.Clamp(dt, 0, .05f);
+            if(HorseRiding.Current!=null && HorseRiding.Current.Mounted){IsWading=false;HorseRiding.Current.Move(input,sprint,dt);return;}
             Vector3 position = transform.position;
             float surface = RiverDynamics.Current == null ? ValleyShape.WaterHeight : RiverDynamics.Current.SurfaceHeight(position);
             IsWading = RiverDynamics.DepthAt(position.x, position.z) > .05f && position.y < surface + .12f;
@@ -69,6 +72,7 @@ namespace ExplorersByNature
 
         public void Teleport(Vector3 position)
         {
+            if(HorseRiding.Current!=null && HorseRiding.Current.Mounted)HorseRiding.Current.Release();
             controller.enabled = false;
             transform.position = position;
             controller.enabled = true;

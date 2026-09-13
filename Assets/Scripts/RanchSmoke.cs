@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.IO;
+using System.Linq;
 using ExplorersByNature.Shared;
 using UnityEngine;
 
@@ -12,17 +13,43 @@ namespace ExplorersByNature
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
         static void Install()
         {if(Array.IndexOf(Environment.GetCommandLineArgs(),"--ranch-smoke")>=0)new GameObject("Ranch integration check").AddComponent<RanchSmoke>();}
-        bool commandFailed;
+        bool commandFailed,hadModel,modelOverridden;
+        string originalModel;
+        [Serializable] sealed class AppearanceEvidence
+        {
+            public string initialOwn,initialPeer,finalOwn,finalPeer;
+            public bool initialAvatar,finalAvatar;
+            public int revisionBefore,revisionAfter;
+        }
+        bool PeerVisible(RanchSession session,string ownModel,string peerModel)
+        {
+            var reply=session.Connection.Latest;
+            return reply?.players!=null && reply.players.Any(p=>p.id==reply.playerId && p.model==ownModel)
+                && reply.players.Any(p=>p.id!=reply.playerId && p.model==peerModel)
+                && FindObjectsByType<PlayerAvatar>(FindObjectsSortMode.None).Any(a=>!a.Preview && a.ModelId==peerModel && a.Model!=null && a.Model.activeInHierarchy);
+        }
+        IEnumerator WaitForAppearance(RanchSession session,string ownModel,string peerModel)
+        {
+            float deadline=Time.realtimeSinceStartup+20;
+            while(!PeerVisible(session,ownModel,peerModel) && Time.realtimeSinceStartup<deadline)yield return null;
+            if(PeerVisible(session,ownModel,peerModel))yield break;
+            commandFailed=true;Debug.LogError("RANCH_SMOKE_FAILED appearance own="+ownModel+" peer="+peerModel);Application.Quit(4);
+        }
+        void OnDestroy()
+        {
+            if(!modelOverridden)return;
+            if(hadModel)PlayerPrefs.SetString("ExplorerModel",originalModel);else PlayerPrefs.DeleteKey("ExplorerModel");
+        }
         IEnumerator SendAndWait(RanchSession session,FirstPersonWalker walker,Request request)
         {
             var connection=session.Connection;
             float deadline=Time.realtimeSinceStartup+12;
             // Publish teleports before the worker attaches a pose to this command.
-            connection.Tick(walker.transform.position,walker.transform.eulerAngles.y);
+            connection.Tick(walker.transform.position,walker.transform.eulerAngles.y,PlayerWardrobe.SelectedId);
             while(!connection.Connected && Time.realtimeSinceStartup<deadline)
             {
                 yield return null;
-                connection.Tick(walker.transform.position,walker.transform.eulerAngles.y);
+                connection.Tick(walker.transform.position,walker.transform.eulerAngles.y,PlayerWardrobe.SelectedId);
             }
             int expectedRevision=(connection.State?.revision??0)+1;
             if(connection.Connected)connection.Send(request);
@@ -31,7 +58,7 @@ namespace ExplorersByNature
             while((connection.State?.revision??0)<expectedRevision && Time.realtimeSinceStartup<deadline)
             {
                 yield return null;
-                connection.Tick(walker.transform.position,walker.transform.eulerAngles.y);
+                connection.Tick(walker.transform.position,walker.transform.eulerAngles.y,PlayerWardrobe.SelectedId);
             }
             if((connection.State?.revision??0)>=expectedRevision)yield break;
             commandFailed=true;
@@ -46,10 +73,33 @@ namespace ExplorersByNature
             Debug.Log("RANCH_SMOKE_REVISION "+FindFirstObjectByType<WalkSession>().buildRevision);
             walker.Automated=true;walker.SetMenu(false);
             string[] args=Environment.GetCommandLineArgs();bool observer=Array.IndexOf(args,"--smoke-observer")>=0;
+            bool appearanceCheck=Array.IndexOf(args,"--smoke-appearance")>=0;
+            int outputAt=Array.IndexOf(args,"--smoke-output");string output=outputAt>=0&&outputAt+1<args.Length?args[outputAt+1]:Path.Combine(Application.persistentDataPath,"Smoke");Directory.CreateDirectory(output);
+            var appearance=new AppearanceEvidence {initialOwn=observer?PlayerModels.Homesteader:PlayerModels.RanchHand,initialPeer=observer?PlayerModels.RanchHand:PlayerModels.Homesteader};
+            if(appearanceCheck)
+            {
+                hadModel=PlayerPrefs.HasKey("ExplorerModel");originalModel=PlayerPrefs.GetString("ExplorerModel");modelOverridden=true;
+                PlayerPrefs.SetString("ExplorerModel",appearance.initialOwn);
+            }
             if(Array.IndexOf(args,"--ranch-host")<0){session.DataDirectory=Path.Combine(Path.GetTempPath(),"ranch-smoke-"+Guid.NewGuid());session.StartSolo();}
             float deadline=Time.realtimeSinceStartup+20;
             while(session.Connection?.State==null&&Time.realtimeSinceStartup<deadline)yield return null;
             if(session.Connection?.State==null){Debug.LogError("RANCH_SMOKE_FAILED no connection");Application.Quit(2);yield break;}
+            if(appearanceCheck)
+            {
+                // Overlapping remote avatars are intentionally hidden at the shared spawn.
+                walker.Teleport(ValleyShape.Ground(observer?-81:-83,-247,.1f));
+                yield return WaitForAppearance(session,appearance.initialOwn,appearance.initialPeer);if(commandFailed)yield break;
+                appearance.initialAvatar=true;
+                string ready=Path.Combine(output,"observer-appearance-ready");
+                if(observer)File.WriteAllText(ready,"ready");
+                else
+                {
+                    deadline=Time.realtimeSinceStartup+20;
+                    while(!File.Exists(ready)&&Time.realtimeSinceStartup<deadline)yield return null;
+                    if(!File.Exists(ready)){Debug.LogError("RANCH_SMOKE_FAILED observer initial appearance acknowledgement");Application.Quit(4);yield break;}
+                }
+            }
             walker.Teleport(ValleyShape.Ground(-93,-239,.3f));
             if(!observer)
             {
@@ -81,9 +131,25 @@ namespace ExplorersByNature
             deadline=Time.realtimeSinceStartup+(observer?60:25);
             while((session.Connection.State.pieces.Count<20||session.Connection.State.eggs<3||session.Connection.State.milk<1||session.Connection.State.expeditionStage<3)&&Time.realtimeSinceStartup<deadline)yield return null;
             if(session.Connection.State.pieces.Count<20||session.Connection.State.eggs<3||session.Connection.State.milk<1||session.Connection.State.expeditionStage<3){Debug.LogError("RANCH_SMOKE_FAILED "+session.Connection.Message);Application.Quit(3);yield break;}
+            if(appearanceCheck)
+            {
+                appearance.revisionBefore=session.Connection.State.revision;
+                appearance.finalOwn=observer?PlayerModels.Homesteader:PlayerModels.Frontiersman;
+                appearance.finalPeer=observer?PlayerModels.Frontiersman:PlayerModels.Homesteader;
+                if(!observer)PlayerPrefs.SetString("ExplorerModel",appearance.finalOwn);
+                yield return WaitForAppearance(session,appearance.finalOwn,appearance.finalPeer);if(commandFailed)yield break;
+                appearance.finalAvatar=true;appearance.revisionAfter=session.Connection.State.revision;
+                if(appearance.revisionBefore!=appearance.revisionAfter){Debug.LogError("RANCH_SMOKE_FAILED appearance changed ranch revision");Application.Quit(4);yield break;}
+                File.WriteAllText(Path.Combine(output,observer?"observer-appearance.json":"builder-appearance.json"),JsonUtility.ToJson(appearance,true));
+                if(!observer)
+                {
+                    deadline=Time.realtimeSinceStartup+20;
+                    while(!File.Exists(Path.Combine(output,"observer-appearance.json"))&&Time.realtimeSinceStartup<deadline)yield return null;
+                    if(!File.Exists(Path.Combine(output,"observer-appearance.json"))){Debug.LogError("RANCH_SMOKE_FAILED observer live appearance acknowledgement");Application.Quit(4);yield break;}
+                }
+            }
             walker.Teleport(ValleyShape.Ground(observer?-81:-83,-247,.3f));walker.transform.rotation=Quaternion.LookRotation(Vector3.ProjectOnPlane(ValleyShape.Ground(-99,-230,1)-walker.transform.position,Vector3.up));walker.view.transform.LookAt(ValleyShape.Ground(-99,-230,1));
             yield return new WaitForSeconds(4);
-            int at=Array.IndexOf(args,"--smoke-output");string output=at>=0&&at+1<args.Length?args[at+1]:Path.Combine(Application.persistentDataPath,"Smoke");Directory.CreateDirectory(output);
             File.WriteAllText(Path.Combine(output,observer?"observer.json":"builder.json"),JsonUtility.ToJson(session.Connection.State,true));
             ScreenCapture.CaptureScreenshot(Path.Combine(output,observer?"observer.png":"builder.png"));Debug.Log("RANCH_SMOKE_PASSED "+session.Connection.State.revision);
             yield return new WaitForSeconds(2);

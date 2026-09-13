@@ -63,7 +63,7 @@ namespace ExplorersByNature.Shared
                     Request hello=decode(Wire.Read(stream,4096));
                     if(hello==null || hello.protocol!=1 || hello.action!="join" || hello.token!=token)
                     { Wire.Write(stream,encode(new Reply { message="Wrong join code or incompatible game version." })); return; }
-                    Visitor player=new Visitor {id=Guid.NewGuid().ToString("N"),name=CleanName(hello.name),x=-69,y=30,z=-235};
+                    Visitor player=new Visitor {id=Guid.NewGuid().ToString("N"),name=CleanName(hello.name),model=PlayerModels.Normalize(hello.model),x=-69,y=30,z=-235};
                     lock(gate) clients[client]=player;
                     Wire.Write(stream,encode(new Reply {ok=true,playerId=player.id,message="Connected"}));
                     DateTime window=DateTime.UtcNow; int requests=0;
@@ -78,13 +78,13 @@ namespace ExplorersByNature.Shared
                         {
                             if(!running) break;
                             if(!Ranch.Finite(request.px)||!Ranch.Finite(request.py)||!Ranch.Finite(request.pz)||!Ranch.Finite(request.yaw)||Math.Abs(request.px)>450||Math.Abs(request.pz)>450||request.py<0||request.py>400) break;
-                            player.x=request.px;player.y=request.py;player.z=request.pz;player.yaw=request.yaw;
+                            player.x=request.px;player.y=request.py;player.z=request.pz;player.yaw=request.yaw;player.model=PlayerModels.Normalize(request.model);player.mounted=request.mounted;
                             long now=DateTimeOffset.UtcNow.ToUnixTimeSeconds();
                             string error;
                             try { error=ranch.Apply(request,player,now); }
                             catch(IOException) { error="Save failed. No change was made; check server storage."; }
                             catch(UnauthorizedAccessException) { error="Save failed. Check server folder permissions."; }
-                            reply=new Reply {hasState=request.revision!=ranch.Revision,action=request.action,ok=error.Length==0,message=error,utc=now,playerId=player.id,state=request.revision!=ranch.Revision?ranch.Snapshot:null,players=clients.Values.Where(p=>p!=null).Select(p=>new Visitor {id=p.id,name=p.name,x=p.x,y=p.y,z=p.z,yaw=p.yaw}).ToArray()};
+                            reply=new Reply {hasState=request.revision!=ranch.Revision,action=request.action,ok=error.Length==0,message=error,utc=now,playerId=player.id,state=request.revision!=ranch.Revision?ranch.Snapshot:null,players=clients.Values.Where(p=>p!=null).Select(p=>new Visitor {id=p.id,name=p.name,model=p.model,mounted=p.mounted,x=p.x,y=p.y,z=p.z,yaw=p.yaw}).ToArray()};
                         }
                         Wire.Write(stream,encode(reply));
                     }

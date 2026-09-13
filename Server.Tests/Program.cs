@@ -7,11 +7,37 @@ string Encode(object o)=>JsonSerializer.Serialize(o,json);
 T Decode<T>(string s)=>JsonSerializer.Deserialize<T>(s,json);
 string dir=Path.Combine(Path.GetTempPath(),"explorers-test-"+Guid.NewGuid());Directory.CreateDirectory(dir);
 Ranch Make()=>new Ranch(Path.Combine(dir,"ranch.json"),Encode,Decode<RanchState>,(x,z)=>20);
-TcpClient Join(int port) { var c=new TcpClient("127.0.0.1",port);c.ReceiveTimeout=5000;Wire.Write(c.GetStream(),Encode(new Request {action="join",token="test-code",name="Visitor"}));Check(Decode<Reply>(Wire.Read(c.GetStream())).ok,"join");return c; }
+TcpClient Join(int port,string model=null) { var c=new TcpClient("127.0.0.1",port);c.ReceiveTimeout=5000;Wire.Write(c.GetStream(),Encode(new Request {action="join",token="test-code",name="Visitor",model=model}));Check(Decode<Reply>(Wire.Read(c.GetStream())).ok,"join");return c; }
 Reply Send(TcpClient c,Request r) { r.px=-99;r.py=20;r.pz=-226;Wire.Write(c.GetStream(),Encode(r));return Decode<Reply>(Wire.Read(c.GetStream())); }
 void Check(bool condition,string label) { if(!condition)throw new Exception("FAIL: "+label);Console.WriteLine("PASS: "+label); }
 try
 {
+ FrontierTests.Run(dir,Encode,Decode<RanchState>,Check);
+ using(var server=new RanchServer(IPAddress.Loopback,0,"test-code",Make(),Encode,Decode<Request>))
+ {
+  using var a=Join(server.Port,PlayerModels.Homesteader);using var b=Join(server.Port,PlayerModels.TrailScout);
+  var initial=Send(a,new Request {action="poll",model=PlayerModels.Homesteader});
+  string aId=initial.playerId,bId=initial.players.Single(p=>p.id!=aId).id;
+  Check(initial.players.Single(p=>p.id==bId).model==PlayerModels.TrailScout,"join appearance reaches an existing visitor");
+  foreach(string model in new[]{PlayerModels.RanchHand,PlayerModels.TrailScout,PlayerModels.Homesteader,PlayerModels.Frontiersman})
+  {
+   var changed=Send(a,new Request {action="poll",revision=0,model=model});
+   var seen=Send(b,new Request {action="poll",revision=0,model=PlayerModels.TrailScout});
+   Check(changed.ok && seen.ok && seen.players.Single(p=>p.id==aId).model==model,"live appearance reaches the other client: "+model);
+   Check(seen.players.Single(p=>p.id==bId).model==PlayerModels.TrailScout,"appearance change preserves the other visitor: "+model);
+   Check(!changed.hasState && changed.state==null && !seen.hasState && seen.state==null,"appearance poll does not advance ranch revision: "+model);
+  }
+  foreach(string invalid in new[]{null,"","unknown-model","../trail-scout","TRAIL-SCOUT"})
+  {
+   var changed=Send(a,new Request {action="poll",model=invalid});
+   var seen=Send(b,new Request {action="poll",model=PlayerModels.TrailScout});
+   Check(changed.ok && seen.players.Single(p=>p.id==aId).model==PlayerModels.Default,"invalid appearance defaults for peers: "+(invalid??"null"));
+  }
+  Wire.Write(a.GetStream(),"{\"protocol\":1,\"action\":\"poll\",\"revision\":0,\"px\":-99,\"py\":20,\"pz\":-226}");
+  var legacy=Decode<Reply>(Wire.Read(a.GetStream()));
+  Check(legacy.ok && legacy.players.Single(p=>p.id==aId).model==PlayerModels.Default,"protocol 1 poll without model remains compatible");
+  Check(!legacy.hasState && !File.Exists(Path.Combine(dir,"ranch.json")),"appearance-only traffic never saves the ranch");
+ }
  using(var server=new RanchServer(IPAddress.Loopback,0,"test-code",Make(),Encode,Decode<Request>))
  {
   using var a=Join(server.Port);using var b=Join(server.Port);

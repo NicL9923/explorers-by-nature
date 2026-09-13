@@ -1,0 +1,130 @@
+PASS: near deer box edge is hittable without aiming at its center
+PASS: distant shot beside deer box misses even within the former aim cone
+PASS: deer box behind the ray cannot be hit
+PASS: rotated deer length accepts a world-x offset beyond unrotated width
+PASS: shot outside rotated deer box misses
+PASS: sixty-metre ray can reach a deer box whose center is farther away
+PASS: ray cannot reach a deer box beyond sixty metres
+PASS: ray starting inside deer box matches Unity's no-hit behavior
+PASS: new ranch starts with building supplies and hunting off
+PASS: foundation purchases with shared supplies
+PASS: foundation charges wood and stone exactly once
+PASS: moving built pieces costs no resources
+PASS: removing built pieces refunds the full cost
+PASS: axe gathering awards eight wood
+PASS: depleted node cannot grant twice or advance revision
+PASS: gathering tools enforce a shared two-second cooldown
+PASS: pickaxe gathering awards six stone
+PASS: gathering requires being within four metres
+PASS: gathering rejects invalid site IDs and resource kinds
+PASS: wood node remains depleted until regrowth deadline
+PASS: wood node regrows after sixty seconds
+PASS: riders must dismount to gather
+PASS: deer hunting starts disabled
+PASS: untargeted shot works with hunting off without saving ranch
+PASS: untargeted shots also enforce reload time
+PASS: hunting toggle rejects invalid mode
+PASS: hunting requires an explicit shared opt-in
+PASS: shot facing away cannot harvest deer
+PASS: misses consume the eight-second reload interval
+PASS: near deer body-edge hit awards two meat
+PASS: hunted deer returns after 120 seconds
+PASS: depleted deer cannot be harvested twice
+PASS: deer beyond sixty metres cannot be harvested
+PASS: shots cannot target farm animals or arbitrary IDs
+PASS: riders must dismount before firing
+PASS: invalid aim vectors cannot fire
+PASS: returned deer can be hunted again
+PASS: resource balances and cooldown snapshots are detached from authority
+PASS: restart preserves resources hunting mode and regrowth
+PASS: preview and authority reject unaffordable construction
+PASS: explicit zero balances are never mistaken for legacy saves
+PASS: legacy save migration restores starter supplies even with Unity-style missing defaults
+PASS: negative saved wood is rejected
+PASS: negative saved stone is rejected
+PASS: negative saved meat is rejected
+PASS: saved cooldowns require a catalog site
+PASS: mounted pose reaches authority before gathering validation
+PASS: two clients share gathering rewards and node depletion
+PASS: mounted appearance propagates to the other client
+PASS: shared hunting opt-in replicates without resetting supplies
+PASS: join
+PASS: join
+PASS: join appearance reaches an existing visitor
+PASS: live appearance reaches the other client: ranch-hand
+PASS: appearance change preserves the other visitor: ranch-hand
+PASS: appearance poll does not advance ranch revision: ranch-hand
+PASS: live appearance reaches the other client: trail-scout
+PASS: appearance change preserves the other visitor: trail-scout
+PASS: appearance poll does not advance ranch revision: trail-scout
+PASS: live appearance reaches the other client: homesteader
+PASS: appearance change preserves the other visitor: homesteader
+PASS: appearance poll does not advance ranch revision: homesteader
+PASS: live appearance reaches the other client: frontiersman
+PASS: appearance change preserves the other visitor: frontiersman
+PASS: appearance poll does not advance ranch revision: frontiersman
+PASS: invalid appearance defaults for peers: null
+PASS: invalid appearance defaults for peers: 
+PASS: invalid appearance defaults for peers: unknown-model
+PASS: invalid appearance defaults for peers: ../trail-scout
+PASS: invalid appearance defaults for peers: TRAIL-SCOUT
+PASS: protocol 1 poll without model remains compatible
+PASS: appearance-only traffic never saves the ranch
+PASS: join
+PASS: join
+PASS: second writer cannot open the same save
+PASS: malformed JSON disconnects only its sender
+PASS: conflicting placement commits once
+PASS: placement cannot overwrite an existing ID
+PASS: move cannot change a piece type
+PASS: concurrent collection grants once
+PASS: unsupported roof rejected
+PASS: hostile coordinate rejected
+PASS: join
+PASS: join
+PASS: join
+PASS: join
+PASS: join
+PASS: join
+PASS: join
+PASS: join
+PASS: join
+PASS: join
+PASS: join
+PASS: join
+PASS: join
+PASS: join
+PASS: join
+PASS: join
+PASS: join
+PASS: join
+PASS: 20 concurrent visitors poll consistent world
+PASS: oversized frame disconnected
+PASS: join
+PASS: restart and reconnect preserve world and products
+PASS: production cooldown survives restart
+PASS: wrong join code rejected
+PASS: older saves begin with an unpacked picnic
+PASS: alpine flowers require expedition unlock
+PASS: cannot claim seeds before expedition
+PASS: packing requires the home basket
+PASS: pack shared picnic
+PASS: picnic requires reaching overlook
+PASS: overlook picnic discovers seeds
+PASS: return home unlocks flowers
+PASS: shared reward cannot be claimed twice
+PASS: place bench
+PASS: remove bench
+PASS: place lantern
+PASS: remove lantern
+PASS: place trough
+PASS: remove trough
+PASS: place flowerbox
+PASS: remove flowerbox
+PASS: place campfire
+PASS: remove campfire
+PASS: place alpineflower
+PASS: remove alpineflower
+PASS: expedition unlock survives restart
+PASS: missing save fields never silently reset
+PASS: damaged save never silently resets

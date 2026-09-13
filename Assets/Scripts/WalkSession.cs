@@ -98,7 +98,7 @@ namespace ExplorersByNature
             QualitySettings.lodBias = high ? 1.5f : .75f;
             QualitySettings.globalTextureMipmapLimit = high ? 0 : 1;
             QualitySettings.vSyncCount = 0;
-            Application.targetFrameRate = 60;
+            Application.targetFrameRate = ValidationFrameLimit;
             if (world.Ground != null) world.Ground.heightmapPixelError = high ? 5 : 12;
             if (world.DenseGrass != null) world.DenseGrass.SetActive(high);
             FindFirstObjectByType<WoodlandAtmosphere>()?.SetQuality(high);
@@ -110,7 +110,7 @@ namespace ExplorersByNature
             samples.Clear(); elapsed = 0; benchmark = true; walker.Automated = true;
             nextRiverPebble=2;initialRiverImpacts=RiverDynamics.Current==null?0:RiverDynamics.Current.ImpactCount;
             walker.SetMenu(false);
-            Application.targetFrameRate = -1;
+            Application.targetFrameRate = ValidationFrameLimit;
             status = "Walking the benchmark route...";
         }
 
@@ -152,7 +152,7 @@ namespace ExplorersByNature
                 status = "Could not save benchmark. Check the player log.";
                 if (quitAfterBenchmark) Application.Quit(1);
             }
-            Application.targetFrameRate = 60;
+            Application.targetFrameRate = ValidationFrameLimit;
             if (!quitAfterBenchmark)
             {
                 walker.view.transform.localRotation = Quaternion.identity;
@@ -160,12 +160,17 @@ namespace ExplorersByNature
             }
         }
 
+        public static int ValidationFrameLimit
+        {
+            get {var args=Environment.GetCommandLineArgs();int at=Array.IndexOf(args,"--validation-fps");return at>=0 && at+1<args.Length && int.TryParse(args[at+1],out int fps)?Mathf.Clamp(fps,15,60):60;}
+        }
+
         float Percentile(float fraction) => samples.Count == 0 ? 0 : samples[Mathf.Clamp(Mathf.CeilToInt(samples.Count * fraction) - 1, 0, samples.Count - 1)];
         void Quit() => Application.Quit();
 
         void OnGUI()
         {
-            if(ReferenceGrove.PhotoMode && !walker.MenuOpen)return;
+            if(PlayerWardrobe.IsOpen || (ReferenceGrove.PhotoMode && !walker.MenuOpen))return;
             if (titleStyle == null)
             {
                 titleStyle = new GUIStyle(GUI.skin.label) { fontSize = 25, fontStyle = FontStyle.Bold };
@@ -193,6 +198,7 @@ namespace ExplorersByNature
             }
             if (WindWeather.Current != null && GUILayout.Button(WindWeather.Current.ModeLabel, GUILayout.Height(30))) WindWeather.Current.NextMode();
             if (GUILayout.Button("Graphics: " + (high ? "High" : "Low"), GUILayout.Height(32))) ApplyQuality(!high);
+            if (GUILayout.Button("Choose your explorer · F4", GUILayout.Height(32))) PlayerWardrobe.Current?.Open();
             if (GUILayout.Button("Walk the benchmark route", GUILayout.Height(32))) BeginBenchmark();
             if (GUILayout.Button("Return to the meadow", GUILayout.Height(32))) { walker.Teleport(ValleyShape.Spawn); walker.SetMenu(false); }
             if (GUILayout.Button("Resume", GUILayout.Height(32))) walker.SetMenu(false);

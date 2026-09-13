@@ -1,0 +1,24 @@
+{
+  "triangles": 29806,
+  "withers_m": 1.55,
+  "seat_m": 1.65,
+  "forward": "Unity +Z",
+  "pivots": [
+    "Horse",
+    "FrontLegL",
+    "FrontKneeL",
+    "FrontLegR",
+    "FrontKneeR",
+    "HindLegL",
+    "HindKneeL",
+    "HindLegR",
+    "HindKneeR",
+    "Neck",
+    "Head",
+    "SaddleSeat",
+    "StirrupL",
+    "StirrupR",
+    "Tail"
+  ],
+  "provenance": "Original scripted geometry and textures; no third-party assets."
+}

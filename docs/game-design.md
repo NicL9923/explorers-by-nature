@@ -10,15 +10,25 @@ Stardew Valley, Minecraft, and cozy simulation games are points of reference for
 
 ### Audience and pace
 
-Cozy adults and kids playing together. The initial game is completely peaceful. There is no definite ending; tending the homestead and exploring provide continuing reasons to return.
+Cozy adults and kids playing together. Peaceful ranch play remains the default. The family can opt into non-graphic hunting; players and farm animals cannot be harmed. There is no definite ending; tending the homestead and exploring provide continuing reasons to return.
 
 ### Homestead
 
 Start with pioneer-era tools and materials. Use a simple modular building system for cabins, ranch structures, and fences. Players can plant decorative flowers, gather milk from cows, and collect chicken eggs through short manual interactions or minigames.
 
+Axes and pickaxes gather wood and stone from replenishing timber and rock sites. Shared supplies pay for construction; moving is free and dismantling refunds materials. Existing ranches receive starter supplies.
+
 Begin with a small set of enjoyable activities. Breeding, elaborate supply chains, and settlement management are outside the first playable scope.
 
 Players must be able to leave for an expedition without worrying about neglected animals. Pausing relevant production or using forgiving capped accumulation are acceptable approaches; the exact implementation is undecided.
+
+### Explorer equipment and horses
+
+Choose a pioneer or cowboy outfit with a preview and a choice saved on the local PC. Other players see changes without reconnecting. A compass shows cardinal directions and the home bearing.
+
+A personal saddle horse supports walking and cantering, with mounted appearances visible in multiplayer. It returns to its ranch starting position when the scene loads.
+
+A muzzleloader can fire harmlessly with hunting off. Reloading takes eight seconds and has visible hand, hammer and ramrod motion. Shared hunting is opt-in, with designated meadow deer, venison rewards and timed recovery. There is no player or farm-animal damage.
 
 ### Exploration
 

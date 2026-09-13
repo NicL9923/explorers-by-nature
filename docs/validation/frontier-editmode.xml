@@ -1,0 +1,282 @@
+<?xml version="1.0" encoding="utf-8"?>
+<test-run id="2" testcasecount="37" result="Passed" total="37" passed="37" failed="0" inconclusive="0" skipped="0" asserts="0" engine-version="3.5.0.0" clr-version="4.0.30319.42000" start-time="2026-09-13 17:15:30Z" end-time="2026-09-13 17:15:31Z" duration="0.842754">
+  <test-suite type="TestSuite" id="1000" name="Explorers by Nature" fullname="Explorers by Nature" runstate="Runnable" testcasecount="37" result="Passed" start-time="2026-09-13 17:15:30Z" end-time="2026-09-13 17:15:31Z" duration="0.842754" total="37" passed="37" failed="0" inconclusive="0" skipped="0" asserts="0">
+    <properties>
+      <property name="platform" value="EditMode" />
+    </properties>
+    <test-suite type="Assembly" id="1052" name="Explorers.Tests.dll" fullname="/home/nicolas/dev/explorers-by-nature/Library/ScriptAssemblies/Explorers.Tests.dll" runstate="Runnable" testcasecount="37" result="Passed" start-time="2026-09-13 17:15:30Z" end-time="2026-09-13 17:15:31Z" duration="0.839094" total="37" passed="37" failed="0" inconclusive="0" skipped="0" asserts="0">
+      <properties>
+        <property name="_PID" value="60428" />
+        <property name="_APPDOMAIN" value="Unity Child Domain" />
+        <property name="platform" value="EditMode" />
+        <property name="EditorOnly" value="True" />
+      </properties>
+      <test-suite type="TestFixture" id="1001" name="AnimalFurTests" fullname="AnimalFurTests" classname="AnimalFurTests" runstate="Runnable" testcasecount="8" result="Passed" start-time="2026-09-13 17:15:30Z" end-time="2026-09-13 17:15:30Z" duration="0.126389" total="8" passed="8" failed="0" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <test-suite type="ParameterizedMethod" id="1010" name="ImportedCoatGroomHasValidPinnedRootsAndNoFacialHair" fullname="AnimalFurTests.ImportedCoatGroomHasValidPinnedRootsAndNoFacialHair" classname="AnimalFurTests" runstate="Runnable" testcasecount="5" result="Passed" start-time="2026-09-13 17:15:30Z" end-time="2026-09-13 17:15:30Z" duration="0.120200" total="5" passed="5" failed="0" inconclusive="0" skipped="0" asserts="0">
+          <properties />
+          <test-case id="1005" name="ImportedCoatGroomHasValidPinnedRootsAndNoFacialHair(&quot;ReferenceDeer/Deer&quot;)" fullname="AnimalFurTests.ImportedCoatGroomHasValidPinnedRootsAndNoFacialHair(&quot;ReferenceDeer/Deer&quot;)" methodname="ImportedCoatGroomHasValidPinnedRootsAndNoFacialHair" classname="AnimalFurTests" runstate="Runnable" seed="1250705698" result="Passed" start-time="2026-09-13 17:15:30Z" end-time="2026-09-13 17:15:30Z" duration="0.037743" asserts="0">
+            <properties>
+              <property name="retryIteration" value="0" />
+              <property name="repeatIteration" value="0" />
+            </properties>
+          </test-case>
+          <test-case id="1006" name="ImportedCoatGroomHasValidPinnedRootsAndNoFacialHair(&quot;Wildlife/Deer&quot;)" fullname="AnimalFurTests.ImportedCoatGroomHasValidPinnedRootsAndNoFacialHair(&quot;Wildlife/Deer&quot;)" methodname="ImportedCoatGroomHasValidPinnedRootsAndNoFacialHair" classname="AnimalFurTests" runstate="Runnable" seed="807891328" result="Passed" start-time="2026-09-13 17:15:30Z" end-time="2026-09-13 17:15:30Z" duration="0.023844" asserts="0">
+            <properties>
+              <property name="retryIteration" value="0" />
+              <property name="repeatIteration" value="0" />
+            </properties>
+          </test-case>
+          <test-case id="1007" name="ImportedCoatGroomHasValidPinnedRootsAndNoFacialHair(&quot;Wildlife/Rabbit&quot;)" fullname="AnimalFurTests.ImportedCoatGroomHasValidPinnedRootsAndNoFacialHair(&quot;Wildlife/Rabbit&quot;)" methodname="ImportedCoatGroomHasValidPinnedRootsAndNoFacialHair" classname="AnimalFurTests" runstate="Runnable" seed="1574384056" result="Passed" start-time="2026-09-13 17:15:30Z" end-time="2026-09-13 17:15:30Z" duration="0.016102" asserts="0">
+            <properties>
+              <property name="retryIteration" value="0" />
+              <property name="repeatIteration" value="0" />
+            </properties>
+          </test-case>
+          <test-case id="1008" name="ImportedCoatGroomHasValidPinnedRootsAndNoFacialHair(&quot;Fox/Fox&quot;)" fullname="AnimalFurTests.ImportedCoatGroomHasValidPinnedRootsAndNoFacialHair(&quot;Fox/Fox&quot;)" methodname="ImportedCoatGroomHasValidPinnedRootsAndNoFacialHair" classname="AnimalFurTests" runstate="Runnable" seed="1717445579" result="Passed" start-time="2026-09-13 17:15:30Z" end-time="2026-09-13 17:15:30Z" duration="0.015591" asserts="0">
+            <properties>
+              <property name="retryIteration" value="0" />
+              <property name="repeatIteration" value="0" />
+            </properties>
+          </test-case>
+          <test-case id="1009" name="ImportedCoatGroomHasValidPinnedRootsAndNoFacialHair(&quot;Clover&quot;)" fullname="AnimalFurTests.ImportedCoatGroomHasValidPinnedRootsAndNoFacialHair(&quot;Clover&quot;)" methodname="ImportedCoatGroomHasValidPinnedRootsAndNoFacialHair" classname="AnimalFurTests" runstate="Runnable" seed="438114459" result="Passed" start-time="2026-09-13 17:15:30Z" end-time="2026-09-13 17:15:30Z" duration="0.024109" asserts="0">
+            <properties>
+              <property name="retryIteration" value="0" />
+              <property name="repeatIteration" value="0" />
+            </properties>
+          </test-case>
+        </test-suite>
+        <test-case id="1004" name="LowAndHighFrameRatesConvergeWithoutExplodingInGusts" fullname="AnimalFurTests.LowAndHighFrameRatesConvergeWithoutExplodingInGusts" methodname="LowAndHighFrameRatesConvergeWithoutExplodingInGusts" classname="AnimalFurTests" runstate="Runnable" seed="1848106424" result="Passed" start-time="2026-09-13 17:15:30Z" end-time="2026-09-13 17:15:30Z" duration="0.001237" asserts="0">
+          <properties>
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+        </test-case>
+        <test-case id="1003" name="MotionHasInertiaAndTeleportsDoNotStretchCoat" fullname="AnimalFurTests.MotionHasInertiaAndTeleportsDoNotStretchCoat" methodname="MotionHasInertiaAndTeleportsDoNotStretchCoat" classname="AnimalFurTests" runstate="Runnable" seed="673044779" result="Passed" start-time="2026-09-13 17:15:30Z" end-time="2026-09-13 17:15:30Z" duration="0.000959" asserts="0">
+          <properties>
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+        </test-case>
+        <test-case id="1002" name="WindBendsPinnedHairAndStillAirSettlesIt" fullname="AnimalFurTests.WindBendsPinnedHairAndStillAirSettlesIt" methodname="WindBendsPinnedHairAndStillAirSettlesIt" classname="AnimalFurTests" runstate="Runnable" seed="1984068569" result="Passed" start-time="2026-09-13 17:15:30Z" end-time="2026-09-13 17:15:30Z" duration="0.000275" asserts="0">
+          <properties>
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+        </test-case>
+      </test-suite>
+      <test-suite type="TestFixture" id="1011" name="AnimalMotionTests" fullname="AnimalMotionTests" classname="AnimalMotionTests" runstate="Runnable" testcasecount="9" result="Passed" start-time="2026-09-13 17:15:30Z" end-time="2026-09-13 17:15:30Z" duration="0.023971" total="9" passed="9" failed="0" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <test-suite type="ParameterizedMethod" id="1021" name="BothImportedLodsHaveHeadAndLegSkinning" fullname="AnimalMotionTests.BothImportedLodsHaveHeadAndLegSkinning" classname="AnimalMotionTests" runstate="Runnable" testcasecount="7" result="Passed" start-time="2026-09-13 17:15:30Z" end-time="2026-09-13 17:15:30Z" duration="0.022497" total="7" passed="7" failed="0" inconclusive="0" skipped="0" asserts="0">
+          <properties />
+          <test-case id="1014" name="BothImportedLodsHaveHeadAndLegSkinning(&quot;Wildlife/Deer&quot;)" fullname="AnimalMotionTests.BothImportedLodsHaveHeadAndLegSkinning(&quot;Wildlife/Deer&quot;)" methodname="BothImportedLodsHaveHeadAndLegSkinning" classname="AnimalMotionTests" runstate="Runnable" seed="1500610229" result="Passed" start-time="2026-09-13 17:15:30Z" end-time="2026-09-13 17:15:30Z" duration="0.005842" asserts="0">
+            <properties>
+              <property name="retryIteration" value="0" />
+              <property name="repeatIteration" value="0" />
+            </properties>
+          </test-case>
+          <test-case id="1015" name="BothImportedLodsHaveHeadAndLegSkinning(&quot;Wildlife/Rabbit&quot;)" fullname="AnimalMotionTests.BothImportedLodsHaveHeadAndLegSkinning(&quot;Wildlife/Rabbit&quot;)" methodname="BothImportedLodsHaveHeadAndLegSkinning" classname="AnimalMotionTests" runstate="Runnable" seed="365574974" result="Passed" start-time="2026-09-13 17:15:30Z" end-time="2026-09-13 17:15:30Z" duration="0.001858" asserts="0">
+            <properties>
+              <property name="retryIteration" value="0" />
+              <property name="repeatIteration" value="0" />
+            </properties>
+          </test-case>
+          <test-case id="1016" name="BothImportedLodsHaveHeadAndLegSkinning(&quot;Fox/Fox&quot;)" fullname="AnimalMotionTests.BothImportedLodsHaveHeadAndLegSkinning(&quot;Fox/Fox&quot;)" methodname="BothImportedLodsHaveHeadAndLegSkinning" classname="AnimalMotionTests" runstate="Runnable" seed="1651165410" result="Passed" start-time="2026-09-13 17:15:30Z" end-time="2026-09-13 17:15:30Z" duration="0.002186" asserts="0">
+            <properties>
+              <property name="retryIteration" value="0" />
+              <property name="repeatIteration" value="0" />
+            </properties>
+          </test-case>
+          <test-case id="1017" name="BothImportedLodsHaveHeadAndLegSkinning(&quot;RiverWildlife/Beaver&quot;)" fullname="AnimalMotionTests.BothImportedLodsHaveHeadAndLegSkinning(&quot;RiverWildlife/Beaver&quot;)" methodname="BothImportedLodsHaveHeadAndLegSkinning" classname="AnimalMotionTests" runstate="Runnable" seed="1902238352" result="Passed" start-time="2026-09-13 17:15:30Z" end-time="2026-09-13 17:15:30Z" duration="0.002866" asserts="0">
+            <properties>
+              <property name="retryIteration" value="0" />
+              <property name="repeatIteration" value="0" />
+            </properties>
+          </test-case>
+          <test-case id="1018" name="BothImportedLodsHaveHeadAndLegSkinning(&quot;RiverWildlife/Duck&quot;)" fullname="AnimalMotionTests.BothImportedLodsHaveHeadAndLegSkinning(&quot;RiverWildlife/Duck&quot;)" methodname="BothImportedLodsHaveHeadAndLegSkinning" classname="AnimalMotionTests" runstate="Runnable" seed="829909404" result="Passed" start-time="2026-09-13 17:15:30Z" end-time="2026-09-13 17:15:30Z" duration="0.003079" asserts="0">
+            <properties>
+              <property name="retryIteration" value="0" />
+              <property name="repeatIteration" value="0" />
+            </properties>
+          </test-case>
+          <test-case id="1019" name="BothImportedLodsHaveHeadAndLegSkinning(&quot;Clover&quot;)" fullname="AnimalMotionTests.BothImportedLodsHaveHeadAndLegSkinning(&quot;Clover&quot;)" methodname="BothImportedLodsHaveHeadAndLegSkinning" classname="AnimalMotionTests" runstate="Runnable" seed="2111676221" result="Passed" start-time="2026-09-13 17:15:30Z" end-time="2026-09-13 17:15:30Z" duration="0.002732" asserts="0">
+            <properties>
+              <property name="retryIteration" value="0" />
+              <property name="repeatIteration" value="0" />
+            </properties>
+          </test-case>
+          <test-case id="1020" name="BothImportedLodsHaveHeadAndLegSkinning(&quot;Hen&quot;)" fullname="AnimalMotionTests.BothImportedLodsHaveHeadAndLegSkinning(&quot;Hen&quot;)" methodname="BothImportedLodsHaveHeadAndLegSkinning" classname="AnimalMotionTests" runstate="Runnable" seed="2038537120" result="Passed" start-time="2026-09-13 17:15:30Z" end-time="2026-09-13 17:15:30Z" duration="0.003474" asserts="0">
+            <properties>
+              <property name="retryIteration" value="0" />
+              <property name="repeatIteration" value="0" />
+            </properties>
+          </test-case>
+        </test-suite>
+        <test-case id="1013" name="GrazingEntersAndLeavesWithoutPoseJumps" fullname="AnimalMotionTests.GrazingEntersAndLeavesWithoutPoseJumps" methodname="GrazingEntersAndLeavesWithoutPoseJumps" classname="AnimalMotionTests" runstate="Runnable" seed="1525982632" result="Passed" start-time="2026-09-13 17:15:30Z" end-time="2026-09-13 17:15:30Z" duration="0.000302" asserts="0">
+          <properties>
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+        </test-case>
+        <test-case id="1012" name="StanceCancelsForwardTravelAndSwingClearsGround" fullname="AnimalMotionTests.StanceCancelsForwardTravelAndSwingClearsGround" methodname="StanceCancelsForwardTravelAndSwingClearsGround" classname="AnimalMotionTests" runstate="Runnable" seed="1906741431" result="Passed" start-time="2026-09-13 17:15:30Z" end-time="2026-09-13 17:15:30Z" duration="0.000286" asserts="0">
+          <properties>
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+        </test-case>
+      </test-suite>
+      <test-suite type="TestFixture" id="1022" name="ArtImportTests" fullname="ArtImportTests" classname="ArtImportTests" runstate="Runnable" testcasecount="1" result="Passed" start-time="2026-09-13 17:15:30Z" end-time="2026-09-13 17:15:30Z" duration="0.020847" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <test-case id="1023" name="OriginalModelsImportWithMaterialsAndCheaperDistanceMeshes" fullname="ArtImportTests.OriginalModelsImportWithMaterialsAndCheaperDistanceMeshes" methodname="OriginalModelsImportWithMaterialsAndCheaperDistanceMeshes" classname="ArtImportTests" runstate="Runnable" seed="466026340" result="Passed" start-time="2026-09-13 17:15:30Z" end-time="2026-09-13 17:15:30Z" duration="0.020251" asserts="0">
+          <properties>
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+        </test-case>
+      </test-suite>
+      <test-suite type="TestFixture" id="1024" name="GroveSurfaceTests" fullname="GroveSurfaceTests" classname="GroveSurfaceTests" runstate="Runnable" testcasecount="2" result="Passed" start-time="2026-09-13 17:15:30Z" end-time="2026-09-13 17:15:31Z" duration="0.235017" total="2" passed="2" failed="0" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <test-suite type="ParameterizedMethod" id="1027" name="TerrainDiffuseCarriesDrySmoothnessWithoutTransparencyProcessing" fullname="GroveSurfaceTests.TerrainDiffuseCarriesDrySmoothnessWithoutTransparencyProcessing" classname="GroveSurfaceTests" runstate="Runnable" testcasecount="2" result="Passed" start-time="2026-09-13 17:15:30Z" end-time="2026-09-13 17:15:31Z" duration="0.234363" total="2" passed="2" failed="0" inconclusive="0" skipped="0" asserts="0">
+          <properties />
+          <test-case id="1025" name="TerrainDiffuseCarriesDrySmoothnessWithoutTransparencyProcessing(&quot;ForestFloor&quot;)" fullname="GroveSurfaceTests.TerrainDiffuseCarriesDrySmoothnessWithoutTransparencyProcessing(&quot;ForestFloor&quot;)" methodname="TerrainDiffuseCarriesDrySmoothnessWithoutTransparencyProcessing" classname="GroveSurfaceTests" runstate="Runnable" seed="2106333679" result="Passed" start-time="2026-09-13 17:15:30Z" end-time="2026-09-13 17:15:31Z" duration="0.159445" asserts="0">
+            <properties>
+              <property name="retryIteration" value="0" />
+              <property name="repeatIteration" value="0" />
+            </properties>
+          </test-case>
+          <test-case id="1026" name="TerrainDiffuseCarriesDrySmoothnessWithoutTransparencyProcessing(&quot;TrailGround&quot;)" fullname="GroveSurfaceTests.TerrainDiffuseCarriesDrySmoothnessWithoutTransparencyProcessing(&quot;TrailGround&quot;)" methodname="TerrainDiffuseCarriesDrySmoothnessWithoutTransparencyProcessing" classname="GroveSurfaceTests" runstate="Runnable" seed="1976166712" result="Passed" start-time="2026-09-13 17:15:31Z" end-time="2026-09-13 17:15:31Z" duration="0.074435" asserts="0">
+            <properties>
+              <property name="retryIteration" value="0" />
+              <property name="repeatIteration" value="0" />
+            </properties>
+          </test-case>
+        </test-suite>
+      </test-suite>
+      <test-suite type="TestFixture" id="1028" name="HabitatTests" fullname="HabitatTests" classname="HabitatTests" runstate="Runnable" testcasecount="2" result="Passed" start-time="2026-09-13 17:15:31Z" end-time="2026-09-13 17:15:31Z" duration="0.005782" total="2" passed="2" failed="0" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <test-case id="1030" name="HabitatRoutesKeepDucksAfloatAndBeaversDry" fullname="HabitatTests.HabitatRoutesKeepDucksAfloatAndBeaversDry" methodname="HabitatRoutesKeepDucksAfloatAndBeaversDry" classname="HabitatTests" runstate="Runnable" seed="2130144167" result="Passed" start-time="2026-09-13 17:15:31Z" end-time="2026-09-13 17:15:31Z" duration="0.001990" asserts="0">
+          <properties>
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+        </test-case>
+        <test-case id="1029" name="RiverMeshEdgesMeetGroundAtWaterLevel" fullname="HabitatTests.RiverMeshEdgesMeetGroundAtWaterLevel" methodname="RiverMeshEdgesMeetGroundAtWaterLevel" classname="HabitatTests" runstate="Runnable" seed="1026155020" result="Passed" start-time="2026-09-13 17:15:31Z" end-time="2026-09-13 17:15:31Z" duration="0.003145" asserts="0">
+          <properties>
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+        </test-case>
+      </test-suite>
+      <test-suite type="TestFixture" id="1031" name="MountainSurfaceTests" fullname="MountainSurfaceTests" classname="MountainSurfaceTests" runstate="Runnable" testcasecount="1" result="Passed" start-time="2026-09-13 17:15:31Z" end-time="2026-09-13 17:15:31Z" duration="0.002580" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <test-case id="1032" name="MountainMaterialKeepsItsDedicatedShaderInPlayerBuilds" fullname="MountainSurfaceTests.MountainMaterialKeepsItsDedicatedShaderInPlayerBuilds" methodname="MountainMaterialKeepsItsDedicatedShaderInPlayerBuilds" classname="MountainSurfaceTests" runstate="Runnable" seed="692286251" result="Passed" start-time="2026-09-13 17:15:31Z" end-time="2026-09-13 17:15:31Z" duration="0.002243" asserts="0">
+          <properties>
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+        </test-case>
+      </test-suite>
+      <test-suite type="TestFixture" id="1033" name="RiverWaveTests" fullname="RiverWaveTests" classname="RiverWaveTests" runstate="Runnable" testcasecount="9" result="Passed" start-time="2026-09-13 17:15:31Z" end-time="2026-09-13 17:15:31Z" duration="0.281244" total="9" passed="9" failed="0" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <test-suite type="ParameterizedMethod" id="1042" name="ClampedValleyLimitDoesNotRecenterEveryFrame" fullname="RiverWaveTests.ClampedValleyLimitDoesNotRecenterEveryFrame" classname="RiverWaveTests" runstate="Runnable" testcasecount="4" result="Passed" start-time="2026-09-13 17:15:31Z" end-time="2026-09-13 17:15:31Z" duration="0.000552" total="4" passed="4" failed="0" inconclusive="0" skipped="0" asserts="0">
+          <properties />
+          <test-case id="1038" name="ClampedValleyLimitDoesNotRecenterEveryFrame(443.0f)" fullname="RiverWaveTests.ClampedValleyLimitDoesNotRecenterEveryFrame(443.0f)" methodname="ClampedValleyLimitDoesNotRecenterEveryFrame" classname="RiverWaveTests" runstate="Runnable" seed="1574174127" result="Passed" start-time="2026-09-13 17:15:31Z" end-time="2026-09-13 17:15:31Z" duration="0.000234" asserts="0">
+            <properties>
+              <property name="retryIteration" value="0" />
+              <property name="repeatIteration" value="0" />
+            </properties>
+          </test-case>
+          <test-case id="1039" name="ClampedValleyLimitDoesNotRecenterEveryFrame(439.0f)" fullname="RiverWaveTests.ClampedValleyLimitDoesNotRecenterEveryFrame(439.0f)" methodname="ClampedValleyLimitDoesNotRecenterEveryFrame" classname="RiverWaveTests" runstate="Runnable" seed="508754377" result="Passed" start-time="2026-09-13 17:15:31Z" end-time="2026-09-13 17:15:31Z" duration="0.000033" asserts="0">
+            <properties>
+              <property name="retryIteration" value="0" />
+              <property name="repeatIteration" value="0" />
+            </properties>
+          </test-case>
+          <test-case id="1040" name="ClampedValleyLimitDoesNotRecenterEveryFrame(-443.0f)" fullname="RiverWaveTests.ClampedValleyLimitDoesNotRecenterEveryFrame(-443.0f)" methodname="ClampedValleyLimitDoesNotRecenterEveryFrame" classname="RiverWaveTests" runstate="Runnable" seed="267229495" result="Passed" start-time="2026-09-13 17:15:31Z" end-time="2026-09-13 17:15:31Z" duration="0.000023" asserts="0">
+            <properties>
+              <property name="retryIteration" value="0" />
+              <property name="repeatIteration" value="0" />
+            </properties>
+          </test-case>
+          <test-case id="1041" name="ClampedValleyLimitDoesNotRecenterEveryFrame(-439.0f)" fullname="RiverWaveTests.ClampedValleyLimitDoesNotRecenterEveryFrame(-439.0f)" methodname="ClampedValleyLimitDoesNotRecenterEveryFrame" classname="RiverWaveTests" runstate="Runnable" seed="1010972139" result="Passed" start-time="2026-09-13 17:15:31Z" end-time="2026-09-13 17:15:31Z" duration="0.000020" asserts="0">
+            <properties>
+              <property name="retryIteration" value="0" />
+              <property name="repeatIteration" value="0" />
+            </properties>
+          </test-case>
+        </test-suite>
+        <test-case id="1036" name="CurrentCarriesWaveEnergyDownstream" fullname="RiverWaveTests.CurrentCarriesWaveEnergyDownstream" methodname="CurrentCarriesWaveEnergyDownstream" classname="RiverWaveTests" runstate="Runnable" seed="2017431077" result="Passed" start-time="2026-09-13 17:15:31Z" end-time="2026-09-13 17:15:31Z" duration="0.031128" asserts="0">
+          <properties>
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+        </test-case>
+        <test-case id="1035" name="DryBankCannotReceiveOrTransportWaves" fullname="RiverWaveTests.DryBankCannotReceiveOrTransportWaves" methodname="DryBankCannotReceiveOrTransportWaves" classname="RiverWaveTests" runstate="Runnable" seed="964582997" result="Passed" start-time="2026-09-13 17:15:31Z" end-time="2026-09-13 17:15:31Z" duration="0.028954" asserts="0">
+          <properties>
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+        </test-case>
+        <test-case id="1037" name="MovingGridPreservesOverlappingWaveAndItsMomentum" fullname="RiverWaveTests.MovingGridPreservesOverlappingWaveAndItsMomentum" methodname="MovingGridPreservesOverlappingWaveAndItsMomentum" classname="RiverWaveTests" runstate="Runnable" seed="359731984" result="Passed" start-time="2026-09-13 17:15:31Z" end-time="2026-09-13 17:15:31Z" duration="0.013273" asserts="0">
+          <properties>
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+        </test-case>
+        <test-case id="1034" name="PebbleWavePropagatesDecaysAndSurvivesAFrameStall" fullname="RiverWaveTests.PebbleWavePropagatesDecaysAndSurvivesAFrameStall" methodname="PebbleWavePropagatesDecaysAndSurvivesAFrameStall" classname="RiverWaveTests" runstate="Runnable" seed="1207228571" result="Passed" start-time="2026-09-13 17:15:31Z" end-time="2026-09-13 17:15:31Z" duration="0.206090" asserts="0">
+          <properties>
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+        </test-case>
+        <test-case id="1043" name="WoodSettlesAtSurfaceAndRespondsToARisingWave" fullname="RiverWaveTests.WoodSettlesAtSurfaceAndRespondsToARisingWave" methodname="WoodSettlesAtSurfaceAndRespondsToARisingWave" classname="RiverWaveTests" runstate="Runnable" seed="1170683478" result="Passed" start-time="2026-09-13 17:15:31Z" end-time="2026-09-13 17:15:31Z" duration="0.000493" asserts="0">
+          <properties>
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+        </test-case>
+      </test-suite>
+      <test-suite type="TestFixture" id="1044" name="VegetationWindTests" fullname="VegetationWindTests" classname="VegetationWindTests" runstate="Runnable" testcasecount="1" result="Passed" start-time="2026-09-13 17:15:31Z" end-time="2026-09-13 17:15:31Z" duration="0.010854" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <test-case id="1045" name="MovingVegetationRetainsPbrMapsAndMatchingGeometryPasses" fullname="VegetationWindTests.MovingVegetationRetainsPbrMapsAndMatchingGeometryPasses" methodname="MovingVegetationRetainsPbrMapsAndMatchingGeometryPasses" classname="VegetationWindTests" runstate="Runnable" seed="818426748" result="Passed" start-time="2026-09-13 17:15:31Z" end-time="2026-09-13 17:15:31Z" duration="0.009969" asserts="0">
+          <properties>
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+        </test-case>
+      </test-suite>
+      <test-suite type="TestFixture" id="1046" name="WalkReadinessTests" fullname="WalkReadinessTests" classname="WalkReadinessTests" runstate="Runnable" testcasecount="3" result="Passed" start-time="2026-09-13 17:15:31Z" end-time="2026-09-13 17:15:31Z" duration="0.128834" total="3" passed="3" failed="0" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <test-case id="1049" name="PlayableSceneHasConnectedCameraMaterialsAndQualityPresets" fullname="WalkReadinessTests.PlayableSceneHasConnectedCameraMaterialsAndQualityPresets" methodname="PlayableSceneHasConnectedCameraMaterialsAndQualityPresets" classname="WalkReadinessTests" runstate="Runnable" seed="1465372290" result="Passed" start-time="2026-09-13 17:15:31Z" end-time="2026-09-13 17:15:31Z" duration="0.104534" asserts="0">
+          <properties>
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+        </test-case>
+        <test-case id="1048" name="TerrainStaysWithinItsHeightmapAndContainsTheRiver" fullname="WalkReadinessTests.TerrainStaysWithinItsHeightmapAndContainsTheRiver" methodname="TerrainStaysWithinItsHeightmapAndContainsTheRiver" classname="WalkReadinessTests" runstate="Runnable" seed="224768492" result="Passed" start-time="2026-09-13 17:15:31Z" end-time="2026-09-13 17:15:31Z" duration="0.021900" asserts="0">
+          <properties>
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+        </test-case>
+        <test-case id="1047" name="TrailIsDryAndTraversableWithoutJumping" fullname="WalkReadinessTests.TrailIsDryAndTraversableWithoutJumping" methodname="TrailIsDryAndTraversableWithoutJumping" classname="WalkReadinessTests" runstate="Runnable" seed="1790967730" result="Passed" start-time="2026-09-13 17:15:31Z" end-time="2026-09-13 17:15:31Z" duration="0.001606" asserts="0">
+          <properties>
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+        </test-case>
+      </test-suite>
+      <test-suite type="TestFixture" id="1050" name="WindWeatherTests" fullname="WindWeatherTests" classname="WindWeatherTests" runstate="Runnable" testcasecount="1" result="Passed" start-time="2026-09-13 17:15:31Z" end-time="2026-09-13 17:15:31Z" duration="0.002619" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <test-case id="1051" name="CalmStopsWindAndGustsStayCoherentAcrossFramesAndNearbyPlants" fullname="WindWeatherTests.CalmStopsWindAndGustsStayCoherentAcrossFramesAndNearbyPlants" methodname="CalmStopsWindAndGustsStayCoherentAcrossFramesAndNearbyPlants" classname="WindWeatherTests" runstate="Runnable" seed="1751763095" result="Passed" start-time="2026-09-13 17:15:31Z" end-time="2026-09-13 17:15:31Z" duration="0.000713" asserts="0">
+          <properties>
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+          <output><![CDATA[Saving results to: /home/nicolas/.config/unity3d/Explorers by Nature/Explorers by Nature/TestResults.xml
+]]></output>
+        </test-case>
+      </test-suite>
+    </test-suite>
+  </test-suite>
+</test-run>

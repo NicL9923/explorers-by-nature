@@ -67,7 +67,7 @@ public sealed class ArtImportSettings : AssetPostprocessor
 
     void OnPreprocessModel()
     {
-        if(!assetPath.StartsWith("Assets/Resources/ReferenceGround/") && !assetPath.StartsWith("Assets/Resources/ReferenceDeer/"))return;
+        if(!assetPath.StartsWith("Assets/Resources/Horse/") && !assetPath.StartsWith("Assets/Resources/Tools/") && !assetPath.StartsWith("Assets/Resources/Players/") && !assetPath.StartsWith("Assets/Resources/ReferenceGround/") && !assetPath.StartsWith("Assets/Resources/ReferenceDeer/"))return;
         var importer=(ModelImporter)assetImporter;
         importer.globalScale=1;importer.useFileScale=true;
         importer.materialImportMode=ModelImporterMaterialImportMode.ImportStandard;

@@ -25,10 +25,32 @@ namespace ExplorersByNature
         public string Message {get;private set;}="";
         public RanchConnection(string host,int port,string code,string name)
         { this.host=host;this.port=port;this.code=code;this.name=name;new Thread(Run){IsBackground=true,Name="Ranch client"}.Start(); }
-        public void Send(Request request) { if(Connected && commands.Count<8) commands.Enqueue(JsonUtility.ToJson(request)); }
-        public void Tick(Vector3 p,float yaw)
+        public void Send(Request request)
         {
-            Interlocked.Exchange(ref position,JsonUtility.ToJson(new Request{px=p.x,py=p.y,pz=p.z,yaw=yaw}));
+            if(!Connected || commands.Count>=8)return;
+            if(request.action=="fire")
+            {
+                // A shot's aim and origin describe the same instant, even if the
+                // worker sends it after the player has moved or mounted a horse.
+                string pose=Interlocked.CompareExchange(ref position,null,null);
+                if(string.IsNullOrEmpty(pose))return;
+                CopyPose(request,JsonUtility.FromJson<Request>(pose));
+            }
+            commands.Enqueue(JsonUtility.ToJson(request));
+        }
+        static void CopyPose(Request request,Request pose)
+        {request.px=pose.px;request.py=pose.py;request.pz=pose.pz;request.yaw=pose.yaw;request.model=pose.model;request.mounted=pose.mounted;}
+        public void SendShot(int targetId,Vector3 aim,Vector3 origin,float yaw,string model=PlayerModels.Default,bool mounted=false)
+        {
+            if(!Connected || commands.Count>=8)return;
+            // Equipment supplies its exact click pose; Update ordering must not
+            // make the shot depend on when the last regular Tick occurred.
+            commands.Enqueue(JsonUtility.ToJson(new Request{action="fire",id=targetId,ax=aim.x,ay=aim.y,az=aim.z,
+                px=origin.x,py=origin.y,pz=origin.z,yaw=yaw,model=PlayerModels.Normalize(model),mounted=mounted}));
+        }
+        public void Tick(Vector3 p,float yaw,string model=PlayerModels.Default,bool mounted=false)
+        {
+            Interlocked.Exchange(ref position,JsonUtility.ToJson(new Request{px=p.x,py=p.y,pz=p.z,yaw=yaw,model=PlayerModels.Normalize(model),mounted=mounted}));
             while(replies.TryDequeue(out string json))
             {
                 if(json.StartsWith("!")) { Connected=false;Status=json.Substring(1);continue; }
@@ -58,7 +80,8 @@ namespace ExplorersByNature
                             if(string.IsNullOrEmpty(pose)) { Thread.Sleep(50);continue; }
                             Request p=JsonUtility.FromJson<Request>(pose);
                             Request request=commands.TryDequeue(out string command)?JsonUtility.FromJson<Request>(command):new Request{action="poll"};
-                            request.px=p.px;request.py=p.py;request.pz=p.pz;request.yaw=p.yaw;request.revision=revision;
+                            if(request.action!="fire")CopyPose(request,p);
+                            request.revision=revision;
                             Wire.Write(stream,JsonUtility.ToJson(request));string json=Wire.Read(stream);
                             Reply reply=JsonUtility.FromJson<Reply>(json);if(reply.hasState && reply.state!=null)revision=reply.state.revision;
                             if(replies.Count>32)throw new InvalidOperationException("Client stalled");

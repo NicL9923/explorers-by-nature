@@ -1,3 +1,13 @@
+# Frontier playtest
+
+**F4** opens the explorer selector. Browse four outfits, inspect the rotating model, then choose **Use this explorer**. Your choice is remembered on this PC and shown to other players.
+
+**Q** cycles empty hands, axe, pickaxe and muzzleloader. Look at timber or stone near the ranch and **left-click** to gather. Wood and stone pay for building; moving is free and removing returns materials. Existing saves get starter stock.
+
+With the muzzleloader, **left-click** fires, **right-click** aims and **R** performs the eight-second reload. Shots are harmless by default. Open **Tab** and enable ranch hunting to hunt designated deer in the western meadow for venison. This setting is shared. Players, horses and farm animals cannot be damaged.
+
+Walk to the saddled horse near the ranch and press **H** to mount. **WASD** rides, **Shift** canters, and **H** dismounts on open ground. The compass at the top shows heading and the home direction.
+
 # A morning in Pinewatch
 
 Start `ExplorersByNature` on Linux or `ExplorersByNature.exe` on Windows. Your solo ranch opens automatically and saves each completed change. Use **High** graphics to see the new woodland mist, leaf lighting and filmic grading. **Low** keeps the new plants and detailed animals with fewer effects.
@@ -8,7 +18,7 @@ Start `ExplorersByNature` on Linux or `ExplorersByNature.exe` on Windows. Your s
 
 1. Walk west from the trail to Clover and the hens. Aim at Clover and press **E**, then press **Space** three times as the marker crosses the green band. Aim at a hen/nesting box and press **E** to gather eggs.
 2. Press **B** and look at nearby ground. **1** floor, **2** wall, **3** doorway, **4** roof, **5** fence, **6** flowers. **[ / ]** browse all pieces, including benches, lanterns, troughs, flower boxes and campfires. **R** rotates; left click places. Green previews are valid; red previews explain what needs changing. Walls and roofs attach to a foundation's three-metre cell.
-3. Aim at a piece and press **M**, then click a new location to move it. Right click removes a piece. Remove a foundation's walls and roof first. Pieces are free; experiment freely.
+3. Aim at a piece and press **M**, then click a new location to move it. Right click removes a piece. Remove a foundation's walls and roof first. Placement spends shared wood and stone; dismantling refunds them.
 4. Press **E** at the picnic basket beside the arrival trail to pack. Follow the trail north to Pinewatch Overlook, press **E** at the blanket, and enjoy five quiet seconds. Return to the basket and press **E** to unlock alpine flowers for the whole ranch. The aspen grove lies northwest of the ranch; Riverbend is east and north. **Tab** opens your discovery journal and multiplayer connection screen.
 5. **Escape** opens camera, audio and graphics settings. Choose changing weather, clear skies or drizzle, and a gentle day cycle, daylight or evening. **F2** changes graphics quality. **Home** returns to the starting meadow. Nothing starves, dies, or punishes an absence.
 

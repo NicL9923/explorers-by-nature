@@ -1,0 +1,165 @@
+{
+  "runtimeStamp": "5deccf8/sha256:8e09a1835f84012620d14cf96ff97f8056893ae19e425e96afb77dc1d5ecfba6",
+  "builds": {
+    "linux": {
+      "runtimeStamp": "5deccf8/sha256:8e09a1835f84012620d14cf96ff97f8056893ae19e425e96afb77dc1d5ecfba6",
+      "level0SHA256": "7e5978bc24db6764eba1e881ab83f5696139ccae31a81b553424e2c5e34bb2a0",
+      "result": "Success",
+      "nativeExecution": true
+    },
+    "windows": {
+      "runtimeStamp": "5deccf8/sha256:8e09a1835f84012620d14cf96ff97f8056893ae19e425e96afb77dc1d5ecfba6",
+      "level0SHA256": "1ac4739850958f06c5de8a86e5d2ec9fa033f72cd017d6dc00044cc2183c1d3b",
+      "result": "Success",
+      "nativeExecution": false
+    }
+  },
+  "tests": {
+    "editmode": 37,
+    "playmode": 25,
+    "serverAssertions": 130
+  },
+  "wardrobe": {
+    "low-1280x720": {
+      "width": 1280,
+      "height": 720,
+      "models": [
+        "ranch-hand",
+        "trail-scout",
+        "homesteader",
+        "frontiersman"
+      ],
+      "completionStamp": "5deccf8/sha256:8e09a1835f84012620d14cf96ff97f8056893ae19e425e96afb77dc1d5ecfba6"
+    },
+    "high-1280x720": {
+      "width": 1280,
+      "height": 720,
+      "models": [
+        "ranch-hand",
+        "trail-scout",
+        "homesteader",
+        "frontiersman"
+      ],
+      "completionStamp": "5deccf8/sha256:8e09a1835f84012620d14cf96ff97f8056893ae19e425e96afb77dc1d5ecfba6"
+    },
+    "low-960x600": {
+      "width": 960,
+      "height": 600,
+      "models": [
+        "ranch-hand",
+        "trail-scout",
+        "homesteader",
+        "frontiersman"
+      ],
+      "completionStamp": "5deccf8/sha256:8e09a1835f84012620d14cf96ff97f8056893ae19e425e96afb77dc1d5ecfba6"
+    }
+  },
+  "gameplay": {
+    "low": {
+      "proof": {
+        "revision": "5deccf8/sha256:8e09a1835f84012620d14cf96ff97f8056893ae19e425e96afb77dc1d5ecfba6",
+        "woodGained": 8,
+        "stoneGained": 6,
+        "meatGained": 2,
+        "frames": 240,
+        "fps": 24,
+        "riddenMetres": 8.255513191223145,
+        "reloaded": true
+      },
+      "video": {
+        "width": 1280,
+        "height": 720,
+        "r_frame_rate": "24/1",
+        "duration": "10.000000",
+        "nb_frames": "240"
+      }
+    },
+    "high": {
+      "proof": {
+        "revision": "5deccf8/sha256:8e09a1835f84012620d14cf96ff97f8056893ae19e425e96afb77dc1d5ecfba6",
+        "woodGained": 8,
+        "stoneGained": 6,
+        "meatGained": 2,
+        "frames": 240,
+        "fps": 24,
+        "riddenMetres": 8.255513191223145,
+        "reloaded": true
+      },
+      "video": {
+        "width": 1280,
+        "height": 720,
+        "r_frame_rate": "24/1",
+        "duration": "10.000000",
+        "nb_frames": "240"
+      }
+    }
+  },
+  "appearances": {
+    "builder": {
+      "initialOwn": "ranch-hand",
+      "initialPeer": "homesteader",
+      "finalOwn": "frontiersman",
+      "finalPeer": "homesteader",
+      "initialAvatar": true,
+      "finalAvatar": true,
+      "revisionBefore": 25,
+      "revisionAfter": 25
+    },
+    "observer": {
+      "initialOwn": "homesteader",
+      "initialPeer": "ranch-hand",
+      "finalOwn": "homesteader",
+      "finalPeer": "frontiersman",
+      "initialAvatar": true,
+      "finalAvatar": true,
+      "revisionBefore": 25,
+      "revisionAfter": 25
+    }
+  },
+  "sourceFiles": 606,
+  "qualityEvidence": "Requested quality is identified by capture directory; these capture protocols do not record actual QualitySettings names.",
+  "savedStateEvidence": "ranch-smoke.py compared the temporary dedicated save with both clients before its success line; the temporary save itself is not retained.",
+  "filesSHA256": {
+    "docs/validation/frontier-editmode.xml": "acc113c5340c6dca0b756ff86e41815b9164376e5d7e6ddba0a6dd22fec17fee",
+    "docs/validation/frontier-playmode.xml": "232509ecf199571263eca19eee959763b00d44b7f3f11dd3b1bddeef5b5f71e6",
+    "docs/validation/frontier-server-tests.txt": "97100b1071d74ceb44776ee3758e33a7ac668129f01134480061712df7a65f06",
+    "docs/benchmarks/frontier-low-ranch-hand.png": "bc4252072c679028247eec839f8c7d73287f257c358cf27e259bce6615c18932",
+    "docs/benchmarks/frontier-low-trail-scout.png": "69dfeb7f536984fbca4adbec90b8a0d60c4c6fa0c3bef220b2e687f85dc16ac8",
+    "docs/benchmarks/frontier-low-homesteader.png": "0aa3eb91f6355ec9f3d1f6409707873cb66f37ac66242f15230b0589648d66a5",
+    "docs/benchmarks/frontier-low-frontiersman.png": "ab5f6974f04c983a7dbf9a27337c3acd6c0f556be364a9a26f5fc80bb53cc6ba",
+    "docs/validation/frontier-low-1280x720-wardrobe.txt": "4e2e1467ccc63d6176d72ca0b149408be19eb3edf3c0087470507fb15bed3ee7",
+    "docs/benchmarks/frontier-high-ranch-hand.png": "5213044488a72fcf3da933c75be2640b4048e5a977c9c4cf03d22b42359c2e2a",
+    "docs/benchmarks/frontier-high-trail-scout.png": "6709a73271d625ec425c93f5e24f657f9af3f89f6b1b41b77a7f9cbfbc809a45",
+    "docs/benchmarks/frontier-high-homesteader.png": "b8d70581e144e8d082e372225007201b32cd14d618bee36f9330f326043a87ce",
+    "docs/benchmarks/frontier-high-frontiersman.png": "6bc88f924bd0e10254c4c81b7f88358ac6181264f7b3ab36a8b848f82f96e733",
+    "docs/validation/frontier-high-1280x720-wardrobe.txt": "c8ea5d27acd3a50a21472a9bee4d75500858bdee80dc534be833a268350af17a",
+    "docs/benchmarks/frontier-low-960x600-ranch-hand.png": "4e94c9b366b63821c6b9541fe7a4bcf6268ec7d3470da7551efc8efc8492c4a2",
+    "docs/benchmarks/frontier-low-960x600-trail-scout.png": "615bdfe76cdcedc9d7478e3e6c2fd33df22da83dc7d30907c13bd90014b67851",
+    "docs/benchmarks/frontier-low-960x600-homesteader.png": "870bb51c59349decb48c1fb4911237c21a30c378609e32da802c5e9085fd866a",
+    "docs/benchmarks/frontier-low-960x600-frontiersman.png": "77c26f7c0cc36d2f47f7ab1f9d9ba9e438321c318f37c661cacd5936002fbc21",
+    "docs/validation/frontier-low-960x600-wardrobe.txt": "6cbeb0c43713e80172d4a660af208a69c3e5a72b02ddf1275c970f044bfe56a5",
+    "docs/benchmarks/frontier-low-axe.png": "82d579c1c21b5755eeef85283c524f2b8fc8ac460845821fd32e7bdbff07b633",
+    "docs/benchmarks/frontier-low-pickaxe.png": "973223805f16b6a51ae666a267a001cc5b220badd035dcbbd3ac919e74603e22",
+    "docs/benchmarks/frontier-low-riding.png": "41dc34ba078af6304de870379a0277fdaf6233433a164b03ede0a195d6ca65f7",
+    "docs/benchmarks/frontier-low-muzzle-flash.png": "40ba84c593d448a97b5fdb6516310ee926cb2e84b60a05011f2d90f81db4e09d",
+    "docs/benchmarks/frontier-low-reload.png": "49d3805a4c78170d9da0ac7a34bbe39660a0ae3f7915eec8da26aec7e005e7bc",
+    "docs/validation/frontier-low-gameplay.json": "607f665994e72eef168dfd2bc14dfa5d154d3f3b7b8798096cccdb85fa601642",
+    "docs/validation/frontier-low-gameplay.txt": "e16e8dfeb4e56d2785e82229941df000b133409abc8a99899a45e99e5be59d8d",
+    "docs/benchmarks/frontier-low-reload.mp4": "4b0fe0d05dececa1a7a2e69fb95f938021576376a2efc4a960d28c66a21d49d4",
+    "docs/benchmarks/frontier-high-axe.png": "3b55a9567cc1e1f5be5d5b579a84a1028d0d2e91419340a7b69942b6f061b7d4",
+    "docs/benchmarks/frontier-high-pickaxe.png": "6dd3416fc6d80419af0d252f2081de1f6a8b53c070bc79b456f91a9246724a28",
+    "docs/benchmarks/frontier-high-riding.png": "bf4d6ad0d0aa2d781885fe3a1766844fcee70fa80a4f13120e595a48d449f742",
+    "docs/benchmarks/frontier-high-muzzle-flash.png": "2d58af2dde9b62359722e389a1fd71acebf3e4455cb92c878c1e78583ac4e4db",
+    "docs/benchmarks/frontier-high-reload.png": "79673cc33fa2c4679b7eb33223b8fe13956535c845fa10679db0277a472473b7",
+    "docs/validation/frontier-high-gameplay.json": "607f665994e72eef168dfd2bc14dfa5d154d3f3b7b8798096cccdb85fa601642",
+    "docs/validation/frontier-high-gameplay.txt": "9ea440b8ad0a901b027564d17674ec3a01afee208e02bcadf1bc823de172a182",
+    "docs/benchmarks/frontier-high-reload.mp4": "69aebcb15411504c71b0b43e8ad282d24e0ed58cd1c5e895aaecc7bdbf19727f",
+    "docs/validation/frontier-builder-appearance.json": "b18d358571db34d227fe8403b0542f11be9d834cf42d3b43cb58d9b9147b9258",
+    "docs/validation/frontier-builder.txt": "6347a1815d014d68b8bc4ce34860dfba752809b33563231c3e2b2085f9389bf4",
+    "docs/validation/frontier-observer-appearance.json": "c012d2598d0be2462ab60dd678f426eaec7a9bdd253cc55b775cdf4a02384d0b",
+    "docs/validation/frontier-observer.txt": "1c123b06235921bf7cc8c713d8190f0a5541d064769dc800f362cdbd57834e40",
+    "docs/validation/frontier-multiplayer.txt": "a74050235d590908a5194d0f033b08d931449e1fc6841b883de620554e8690e6",
+    "docs/validation/frontier-shared-ranch.json": "c39cdf07ffa8fb4aa46d3163b1a109c03eb4c6e0c1b9dc80f4c84ab8dfb17cd6",
+    "docs/validation/frontier-source-files.json": "6aec6f956ae753ae90ba91aedafb73dc26f0990b8b26c5687e131bbb3bb96123"
+  }
+}

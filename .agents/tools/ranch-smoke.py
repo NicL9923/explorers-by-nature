@@ -1,9 +1,15 @@
 #!/usr/bin/env python3
 """Exercise two rendered Unity clients against the published .NET authority."""
 import argparse, json, os, pathlib, socket, subprocess, tempfile, time
-parser=argparse.ArgumentParser();parser.add_argument("--art-tour",action="store_true");options=parser.parse_args()
+parser=argparse.ArgumentParser();parser.add_argument("--art-tour",action="store_true")
+parser.add_argument("--vulkan-device-index",type=int)
+parser.add_argument("--validation-fps",type=int,default=30)
+options=parser.parse_args()
+if options.validation_fps<1:parser.error("--validation-fps must be positive")
 root=pathlib.Path(__file__).resolve().parents[2]
 out=root/'Logs'/'ranch-smoke';out.mkdir(parents=True,exist_ok=True)
+for artifact in ['observer-appearance-ready','builder-appearance.json','observer-appearance.json']:
+ (out/artifact).unlink(missing_ok=True)
 env=os.environ.copy();env.pop('LD_LIBRARY_PATH',None)
 with socket.socket() as s:s.bind(('127.0.0.1',0));port=s.getsockname()[1]
 with tempfile.TemporaryDirectory(prefix='explorers-server-smoke-') as data:
@@ -15,7 +21,9 @@ with tempfile.TemporaryDirectory(prefix='explorers-server-smoke-') as data:
     with socket.create_connection(('127.0.0.1',port),timeout=.2):break
    except OSError:time.sleep(.1)
   for role in ['builder','observer']:
-   args=[str(root/'Builds/Linux/ExplorersByNature'),'--ranch-smoke','--ranch-host','127.0.0.1','--ranch-port',str(port),'--ranch-code','integration-check','--smoke-output',str(out),'--quality-low','-screen-width','1280','-screen-height','720','-logFile',str(out/f'{role}.log')]
+   args=[str(root/'Builds/Linux/ExplorersByNature'),'--ranch-smoke','--smoke-appearance','--ranch-host','127.0.0.1','--ranch-port',str(port),'--ranch-code','integration-check','--smoke-output',str(out),'--quality-low','-screen-width','1280','-screen-height','720','-logFile',str(out/f'{role}.log')]
+   args+=['--validation-fps',str(options.validation_fps)]
+   if options.vulkan_device_index is not None:args+=['-force-vulkan','-force-device-index',str(options.vulkan_device_index)]
    if role=='observer':args+=['--smoke-observer']
    elif options.art_tour:
     args.remove("--quality-low");args += ["--art-tour","--quality-high"]
@@ -26,6 +34,12 @@ with tempfile.TemporaryDirectory(prefix='explorers-server-smoke-') as data:
   assert builder==observer,'Clients diverged'
   saved=json.loads((pathlib.Path(data)/'ranch.json').read_text());assert saved==builder,'Disk and clients diverged'
   assert builder['expeditionStage']==3 and len(builder['pieces'])==20,'Expedition and furnishing loop incomplete'
+  for role,initial,peer,final,final_peer in [('builder','ranch-hand','homesteader','frontiersman','homesteader'),('observer','homesteader','ranch-hand','homesteader','frontiersman')]:
+   appearance=json.loads((out/f'{role}-appearance.json').read_text())
+   assert (appearance['initialOwn'],appearance['initialPeer'],appearance['finalOwn'],appearance['finalPeer'])==(initial,peer,final,final_peer),f'{role} appearance mismatch'
+   assert appearance['initialAvatar'] and appearance['finalAvatar'],f'{role} did not render its peer'
+   assert appearance['revisionBefore']==appearance['revisionAfter']==builder['revision'],f'{role} appearance reset the ranch'
+  print('PASS: distinct explorer models rendered on both peers; live builder change preserved ranch state')
   print(f'PASS: two rendered Unity clients and dedicated save agree at revision {builder["revision"]}, {len(builder["pieces"])} pieces, milk={builder["milk"]}, eggs={builder["eggs"]}')
  except Exception:
   save=pathlib.Path(data)/'ranch.json'

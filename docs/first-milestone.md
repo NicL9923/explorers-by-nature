@@ -302,3 +302,23 @@ The first player capture exposed a quality configuration defect: Low excluded th
 | [Riverbend, RTX 5070 Ti, OpenGL, High, 1920×1080](validation/wind-water-high-river.json) | 1.469 ms | 1.875 / 2.365 ms | 0 | 840 MB |
 
 Each Riverbend run recorded 16 water impacts. All four runs used the same player on the Ryzen 9 9950X3D with 32 GB RAM. These are uncapped engine frame intervals, not GPU-only timings. Memory readings are final snapshots, not peaks. The fixed-rate motion recordings demonstrate movement and must not be used as performance measurements. The actual two-core, 8 GB minimum PC, native Windows execution and a populated 20-player rendered ranch remain unverified.
+
+
+## Frontier tools and explorer choice, September 13
+
+Four original western explorer models now support local selection and live multiplayer changes. A personal rideable horse, compass, axe, pickaxe and animated muzzleloader extend the ranch loop. Wood and stone are shared construction supplies with persistent regrowth timers; hunting is off by default and limited to designated deer. See [feature details and recordings](frontier.md) for controls, original assets and limitations.
+
+Both desktop players carry runtime stamp `5deccf8/sha256:8e09a1835f84012620d14cf96ff97f8056893ae19e425e96afb77dc1d5ecfba6`.
+
+| Check | Result and evidence |
+| --- | --- |
+| Editor checks | [37 EditMode tests passed](validation/frontier-editmode.xml). |
+| Gameplay checks | [25 PlayMode tests passed](validation/frontier-playmode.xml), including import scale, wardrobe cleanup, tool rewards, reload motion, horse movement/dismount, seated interaction restrictions and exact shot-pose preservation across network dispatch. |
+| Authority | [130 server assertions passed](validation/frontier-server-tests.txt), including migration, construction costs/refunds, regrowth, hunting bounds and pose/model validation. Dedicated servers republished for Linux and Windows. |
+| Desktop builds and captures | [Matching successful builds and evidence](validation/frontier-builds.json). Low/High Linux gameplay captures gain eight wood, six stone and two venison, ride more than eight metres, and finish a reload. Four outfit previews checked at 1280×720 on both presets and 960×600 on Low. |
+| Multiplayer | [Two rendered clients passed](validation/frontier-multiplayer.txt): distinct outfits, a live model change, and identical shared state/dedicated save at revision 25 with 20 pieces, one milk and three eggs. |
+| Source identity | [606 source file hashes](validation/frontier-source-files.json). The final smoke-only change separates test players before checking visible avatars, since overlapping avatars are deliberately hidden. Existing gameplay/editor results remain applicable. |
+
+After the desktop lockup, editor/build/capture work uses one project-wide lock, a three-core CPU quota, 8 GiB memory pressure threshold, 10 GiB hard limit, no additional swap, lower scheduling priority and a 25-minute timeout. Rendered checks use the AMD integrated GPU and a 30 FPS cap. No recorded OOM kill or explicit GPU fault established the original cause; these limits reduce validation load rather than prove the freeze fixed.
+
+Reload recordings contain 240 frames at 24 simulation frames per second and are animation evidence, not performance benchmarks. Models use articulated rigid parts and have no authored distance LODs yet. The personal horse position resets on scene load; mounted visitors show their horse remotely. Native Windows execution, the proposed two-core/8 GB minimum PC and a populated 20-player rendered ranch remain unverified. Earlier NVIDIA evidence belongs to earlier releases; this release's rendered checks used AMD integrated graphics.

@@ -16,3 +16,5 @@ Read README.md and docs/game-design.md before changing scope. Use docs/first-mil
 - Keep project documents current as working proposals become decisions.
 - Use `.agents/tools/unity.sh` for setup, opening, tests, and builds. Scene generation also runs on the first interactive editor open. The source-only compiler check does not replace Unity validation.
 - Use Blender CLI for scripted assets. `.agents/tools/make-rocks.py` regenerates the checked-in FBX stones and editable ArtSource/RiverStones.blend.
+
+- After the September 13 desktop lockup, run editor/build/render/capture workloads through `.agents/tools/bounded-run.sh`. Keep one heavy workload at a time. Render validation at 30 FPS with `--validation-fps 30`; do not run uncapped benchmarks on the shared desktop. The crash cause was not established.

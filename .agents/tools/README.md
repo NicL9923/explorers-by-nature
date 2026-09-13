@@ -41,3 +41,12 @@
 
 - `nature-motion.py`: record isolated 20-second player clips and exact frame posters showing wind, spring fur, cow tail hair, and water interaction.
 - `record-nature-validation.py --prefix NAME`: verify matching desktop stamps, both motion clips, actual quality budgets, and Riverbend benchmarks before collecting release evidence.
+- `player-capture.py`: capture all four in-game explorer previews at a chosen resolution and quality with isolated preferences.
+
+- `make-player-art.py`: generate four original frontier characters, fabric/leather maps, articulated FBX parts, editable Blender source and a studio contact sheet. Run with Python to apply the Fedora Blender color configuration workaround.
+- `make-frontier-tools.py`: generate original muzzleloader, axe, pickaxe and gripping hands with named moving parts, textures, FBX exports and editable Blender studio.
+- `check-frontier-art.py`: round-trip all nine frontier FBX assets and record file hashes, dimensions, triangle counts, UV coverage and required pivot checks.
+- `make-horse-art.py`: build and render the original articulated saddle horse and packed Blender source.
+- `frontier-capture.py`: exercise gathering, riding and hunting in the player, and record the full reload with matching gameplay proof.
+- `bounded-run.sh COMMAND...`: serialize heavy validation and cap it at 3 CPU equivalents, 8 GiB memory pressure / 10 GiB hard limit, no swap, and 25 minutes; use for editor, builds, captures and rendering on the shared desktop.
+- `record-frontier-validation.py --source-manifest PATH [--require-small-ui]`: verify frozen sources, matching desktop builds, tests, wardrobe/gameplay captures, encoded reloads, and multiplayer appearance/save evidence before collecting the frontier gallery and ledger artifacts.

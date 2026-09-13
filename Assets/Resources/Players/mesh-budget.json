@@ -1,0 +1,65 @@
+{
+  "RanchHand": {
+    "triangles": 13516,
+    "height_m": 1.84,
+    "parts": [
+      "Hips",
+      "Torso",
+      "Head",
+      "ArmL",
+      "ArmR",
+      "LegL",
+      "LegR",
+      "KneeL",
+      "KneeR"
+    ]
+  },
+  "TrailScout": {
+    "triangles": 16876,
+    "height_m": 1.84,
+    "parts": [
+      "Hips",
+      "Torso",
+      "Head",
+      "ArmL",
+      "ArmR",
+      "LegL",
+      "LegR",
+      "KneeL",
+      "KneeR"
+    ]
+  },
+  "Homesteader": {
+    "triangles": 17840,
+    "height_m": 1.84,
+    "parts": [
+      "Hips",
+      "Torso",
+      "Head",
+      "ArmL",
+      "ArmR",
+      "LegL",
+      "LegR",
+      "KneeL",
+      "KneeR",
+      "StandingSkirt",
+      "RidingSkirtL",
+      "RidingSkirtR"
+    ]
+  },
+  "Frontiersman": {
+    "triangles": 13860,
+    "height_m": 1.84,
+    "parts": [
+      "Hips",
+      "Torso",
+      "Head",
+      "ArmL",
+      "ArmR",
+      "LegL",
+      "LegR",
+      "KneeL",
+      "KneeR"
+    ]
+  }
+}

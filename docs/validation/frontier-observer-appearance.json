@@ -1,0 +1,10 @@
+{
+    "initialOwn": "homesteader",
+    "initialPeer": "ranch-hand",
+    "finalOwn": "homesteader",
+    "finalPeer": "frontiersman",
+    "initialAvatar": true,
+    "finalAvatar": true,
+    "revisionBefore": 25,
+    "revisionAfter": 25
+}

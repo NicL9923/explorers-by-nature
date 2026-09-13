@@ -11,6 +11,7 @@ namespace ExplorersByNature
     {
         public static bool PanelOpen {get;private set;}
         public RanchConnection Connection {get;private set;}
+        public bool Building=>building;
         FirstPersonWalker walker;
         RanchServer local;
         readonly Dictionary<int,GameObject> pieces=new Dictionary<int,GameObject>();
@@ -36,6 +37,11 @@ namespace ExplorersByNature
             walker=FindFirstObjectByType<FirstPersonWalker>();
             expedition=gameObject.AddComponent<Expedition>();
             comfort=gameObject.AddComponent<RanchComfort>();
+            gameObject.AddComponent<PlayerWardrobe>();
+            gameObject.AddComponent<HorseRiding>();
+            gameObject.AddComponent<FrontierWorld>();
+            gameObject.AddComponent<FrontierEquipment>();
+            gameObject.AddComponent<TrailCompass>();
             playerName=PlayerPrefs.GetString("ExplorerName","Explorer");host=PlayerPrefs.GetString("RanchHost","127.0.0.1");
             RanchVisuals.Animal(true,ValleyShape.Ground(-99,-226));RanchVisuals.Animal(false,ValleyShape.Ground(-108,-226));
             string[] args=Environment.GetCommandLineArgs();int at=Array.IndexOf(args,"--ranch-host");
@@ -62,9 +68,11 @@ namespace ExplorersByNature
         void Update()
         {
             if(walker==null)return;
-            Connection?.Tick(walker.transform.position,walker.transform.eulerAngles.y);
+            Connection?.Tick(walker.transform.position,walker.transform.eulerAngles.y,PlayerWardrobe.SelectedId,HorseRiding.Current!=null && HorseRiding.Current.Mounted);
             if(Connection?.State!=null && revision!=Connection.State.revision)Refresh();
             if(Connection?.Latest?.players!=null)UpdateVisitors();
+            if(PlayerWardrobe.IsOpen)return;
+            if(HorseRiding.Current!=null && HorseRiding.Current.Mounted)return;
             if(comfort!=null && (comfort.Seated || comfort.JustStood)){notice="Resting on the bench · E, Space or a movement key to stand";return;}
             if(picnicking)
             {
@@ -163,7 +171,9 @@ namespace ExplorersByNature
             foreach(var v in Connection.Latest.players)
             {
                 if(v.id==Connection.Latest.playerId)continue;keep.Add(v.id);
-                if(!visitors.TryGetValue(v.id,out var go)){go=RanchVisuals.Explorer(v.name);go.transform.position=new Vector3(v.x,v.y,v.z);visitors[v.id]=go;}
+                if(!visitors.TryGetValue(v.id,out var go)){go=new GameObject(v.name);go.AddComponent<PlayerAvatar>().SetModel(v.model);go.transform.position=new Vector3(v.x,v.y,v.z);visitors[v.id]=go;}
+                go.GetComponent<PlayerAvatar>().SetModel(v.model);
+                go.GetComponent<PlayerAvatar>().SetMounted(v.mounted,true);
                 go.SetActive(Vector3.Distance(new Vector3(v.x,v.y,v.z),walker.transform.position)>.8f);
                 go.transform.position=Vector3.Lerp(go.transform.position,new Vector3(v.x,v.y,v.z),1-Mathf.Exp(-Time.deltaTime*12));go.transform.rotation=Quaternion.Slerp(go.transform.rotation,Quaternion.Euler(0,v.yaw,0),Time.deltaTime*12);
             }
@@ -171,7 +181,7 @@ namespace ExplorersByNature
         }
         void OnGUI()
         {
-            if(walker==null||walker.Automated||ReferenceGrove.PhotoMode)return;
+            if(walker==null||walker.Automated||ReferenceGrove.PhotoMode||PlayerWardrobe.IsOpen)return;
             float scale=Mathf.Clamp(Screen.height/900f,1f,1.6f);
             GUI.matrix=Matrix4x4.Scale(Vector3.one*scale);
             float w=Screen.width/scale,h=Screen.height/scale;
@@ -207,8 +217,13 @@ namespace ExplorersByNature
                 GUILayout.Label("Building: B toggles tools. Look at nearby ground. 1–6 select building basics; [ and ] browse every prop and flower; R rotates. Walls and roofs need a foundation. M picks up the piece you are looking at; click to move it. Remove walls/roof before their foundation.");
                 GUILayout.Label("Discoveries: "+(PlayerPrefs.GetInt("Discovery.Riverbend",0)==1?"✓":"○")+" Riverbend (east, then north) · "+(PlayerPrefs.GetInt("Discovery.AspenGrove",0)==1?"✓":"○")+" Aspen grove (northwest) · "+(PlayerPrefs.GetInt("Discovery.Pinewatch",0)==1?"✓":"○")+" Pinewatch Overlook (follow the trail north)");
                 GUILayout.Space(10);GUILayout.Label("PICNIC EXPEDITION");GUILayout.Label(Expedition.Journal(Connection?.State?.expeditionStage??0));
+                GUILayout.Space(10);GUILayout.Label("SUPPLIES · "+(Connection?.State?.wood??0)+" wood / "+(Connection?.State?.stone??0)+" stone / "+(Connection?.State?.meat??0)+" venison");
+                if(Connection?.State!=null && GUILayout.Button(Connection.State.huntingEnabled?"Ranch hunting: on · Turn off":"Ranch hunting: off · Turn on",GUILayout.Height(32)))Send(new Request{action="hunting-mode",id=Connection.State.huntingEnabled?0:1});
+                GUILayout.Label("Q cycles tools. Left click uses the tool; right click aims the muzzleloader. R reloads. H mounts your horse. Hunting has no player or farm-animal damage.");
                 GUILayout.Space(10);GUILayout.Label("PANTRY · "+(Connection?.State?.milk??0)+" milk / "+(Connection?.State?.eggs??0)+" eggs");
                 GUILayout.Label("Clover rests 2 minutes after milking; the nesting box refills after 90 seconds. Nothing suffers while you are away.");
+                GUILayout.Space(10);
+                if(GUILayout.Button("Choose your explorer · F4",GUILayout.Height(36))){book=false;PanelOpen=false;PlayerWardrobe.Current.Open();}
                 GUILayout.Space(10);GUILayout.Label("PRIVATE SERVER");
                 GUILayout.Label("Your name");playerName=GUILayout.TextField(playerName,24);
                 GUILayout.Label("Address (trusted LAN or encrypted private network)");host=GUILayout.TextField(host,200);

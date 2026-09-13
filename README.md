@@ -8,11 +8,13 @@ Build a pioneer homestead together, plant flowers, gather milk and eggs, watch w
 
 Pinewatch now includes modular homesteads, decorative flowers, cow milking, egg gathering, a shared pantry, saved worlds, and private dedicated-server multiplayer. Explore the meadow, aspen grove, river and mountain overlook with deer, rabbits, mallards, beavers, foxes and birds. Seven animal species now have skinned animation, detailed coat maps and revised facial features. Ferns, flowering shrubs and mossy logs fill the woods; high quality adds shadowed mist and filmic lighting. Pack a picnic, visit the overlook, and bring home alpine flowers. Sit on benches, furnish the ranch, and enjoy gentle rain, evening lanterns and spatial nature audio. Original Blender models furnish the ranch and wildlife. Fern Hollow adds CC0 Poly Haven trees and scanned plants and rocks, with simpler meshes for distant views. See the [art gallery](docs/art-pass.md).
 
+Choose a western explorer with **F4**, gather building supplies with **Q** tools, and saddle up with **H**. The muzzleloader has an animated reload and opt-in shared hunting. A compass keeps the ranch in reach. [Frontier feature notes](docs/frontier.md).
+
 Read the [morning playtest guide](docs/morning-playtest.md) for controls, multiplayer setup and saves.
 
 The project targets Unity **6000.3.24f1** with Universal Render Pipeline **17.3.0**. Minimum hardware remains unverified; see the [validation ledger](docs/first-milestone.md).
 
-[Download the Linux or Windows prototype](https://github.com/NicL9923/explorers-by-nature/releases/tag/v0.10.0-wind-water.1). Linux was exercised on NVIDIA and AMD integrated graphics; the Windows build has not been run on Windows yet.
+[Download the Linux or Windows prototype](https://github.com/NicL9923/explorers-by-nature/releases/tag/v0.11.0-frontier.1). This release was exercised on AMD integrated graphics. Earlier releases also ran on NVIDIA; the Windows build has not been run on Windows yet.
 
 [Wind, animal fur and interactive river water](docs/wind-water.md) now bring motion to the valley. **F7** visits the river; **G** tosses a pebble. Escape opens the wind settings.
 

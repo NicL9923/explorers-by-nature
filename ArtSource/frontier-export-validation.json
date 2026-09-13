@@ -1,0 +1,146 @@
+{
+  "RanchHand": {
+    "sha256": "2b93882a1b43443baacea061ff0ffcdcfa0ff403159d1105f78c57271ddbcf46",
+    "triangles": 13516,
+    "meshes": 9,
+    "blender_bounds_min": [
+      -0.3580000102519989,
+      -0.19699999690055847,
+      0.0030000037513673306
+    ],
+    "blender_bounds_max": [
+      0.3580000102519989,
+      0.174010768532753,
+      1.8413000106811523
+    ],
+    "uv_complete": true
+  },
+  "TrailScout": {
+    "sha256": "7ff457ea54d57eec303e35e1c66e0b05046cad66752de1c18ca5089b55dd1b18",
+    "triangles": 16876,
+    "meshes": 9,
+    "blender_bounds_min": [
+      -0.3230000138282776,
+      -0.19699999690055847,
+      0.0030000037513673306
+    ],
+    "blender_bounds_max": [
+      0.3230000138282776,
+      0.174010768532753,
+      1.8413000106811523
+    ],
+    "uv_complete": true
+  },
+  "Homesteader": {
+    "sha256": "76c00396bbd4a46903e9573fe8e441a0494e0c392f34152aa625e55f0e370491",
+    "triangles": 17840,
+    "meshes": 12,
+    "blender_bounds_min": [
+      -0.3715200126171112,
+      -0.25899991393089294,
+      0.0030000037513673306
+    ],
+    "blender_bounds_max": [
+      0.3715200126171112,
+      0.2526337504386902,
+      1.8413000106811523
+    ],
+    "uv_complete": true
+  },
+  "Frontiersman": {
+    "sha256": "5490f5c8f6f2129cf42ecfd255df7685178fc5c1f8a66c01ceb5834713a65ad1",
+    "triangles": 13860,
+    "meshes": 9,
+    "blender_bounds_min": [
+      -0.3580000102519989,
+      -0.19699999690055847,
+      0.0030000037513673306
+    ],
+    "blender_bounds_max": [
+      0.3580000102519989,
+      0.174010768532753,
+      1.8413000106811523
+    ],
+    "uv_complete": true
+  },
+  "Muzzleloader": {
+    "sha256": "acb70fac507a8f42c625f53547c6a7c8fe6241cef788d54760e98eb1c9fae24a",
+    "triangles": 2420,
+    "meshes": 3,
+    "blender_bounds_min": [
+      -0.03799999877810478,
+      -0.8786000609397888,
+      -0.14600007236003876
+    ],
+    "blender_bounds_max": [
+      0.0653499960899353,
+      0.4140000343322754,
+      0.13238678872585297
+    ],
+    "uv_complete": true
+  },
+  "Axe": {
+    "sha256": "3cd625a8ac48f5fcdad0c94df9580b8d55f54d764df3f1652706d0047e76213f",
+    "triangles": 3872,
+    "meshes": 1,
+    "blender_bounds_min": [
+      -0.03400000184774399,
+      -0.2540000379085541,
+      -0.13067659735679626
+    ],
+    "blender_bounds_max": [
+      0.03400000184774399,
+      0.10000012069940567,
+      0.7288837432861328
+    ],
+    "uv_complete": true
+  },
+  "Pickaxe": {
+    "sha256": "33edc517ddd35263777e71ce76aaafbd8a7fbb5b03b013569353662d556eca03",
+    "triangles": 3912,
+    "meshes": 1,
+    "blender_bounds_min": [
+      -0.028999999165534973,
+      -0.3994496762752533,
+      -0.13067664206027985
+    ],
+    "blender_bounds_max": [
+      0.028999999165534973,
+      0.3966059684753418,
+      0.6650000810623169
+    ],
+    "uv_complete": true
+  },
+  "HandL": {
+    "sha256": "c03f450c1d99a07fd8a4012f4ec9cc2d20a3bed4c4b6f58535675e9e143805d2",
+    "triangles": 3004,
+    "meshes": 1,
+    "blender_bounds_min": [
+      -0.03700001910328865,
+      -0.16372880339622498,
+      -0.04997112974524498
+    ],
+    "blender_bounds_max": [
+      0.05629526078701019,
+      0.021000010892748833,
+      0.03200002759695053
+    ],
+    "uv_complete": true
+  },
+  "HandR": {
+    "sha256": "629120ee320a0d8ca28420c07dcb5c203c19dfde7b3d7289a9d066906fe8bd03",
+    "triangles": 3004,
+    "meshes": 1,
+    "blender_bounds_min": [
+      -0.05629526078701019,
+      -0.16372880339622498,
+      -0.04997112974524498
+    ],
+    "blender_bounds_max": [
+      0.03700000420212746,
+      0.021000010892748833,
+      0.03200002759695053
+    ],
+    "uv_complete": true
+  }
+}
