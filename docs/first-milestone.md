@@ -271,3 +271,34 @@ Runtime stamp: `fa134db/sha256:deea3c7eebcce85776b610d1f3c72da8df907f9f82e6a2614
 Both runs used the Ryzen 9 9950X3D and 32 GB RAM on the same 72-metre Fern Hollow route, with five seconds of warm-up and sixty seconds of measurements. No editor, build, Blender render or second benchmark ran concurrently. These are uncapped engine frame intervals, not GPU-only timings. Memory is a final snapshot, not a peak. The actual two-core, 8 GB minimum PC and a populated 20-player rendered ranch remain untested.
 
 Player inspection rejected overly pale periodic mountain stripes, then excessive procedural fracture detail and obvious granite repetition. The final material uses darker photographed rock, restrained bump and blended texture scales. Both High and Low overlook captures were inspected. The nearby mountain silhouettes remain too rounded, the meadow still exposes earlier vegetation art, and the doe's face and fur need further work.
+
+
+## Wind, fur and river motion, September 13, 2026 UTC
+
+Trees, ferns and grass now share a moving wind field. Nearby deer, cows, foxes and rabbits have coat clumps pinned to their animated skin, with damped spring tips responding to wind and body movement. The cow's tail switch has longer hair. F7 visits the river; G tosses a pebble. [Controls, motion recordings and simulation limits](wind-water.md).
+
+Both desktop builds carry runtime stamp `80141ea/sha256:61f172047ef8cc8db8fca03b60f02ad611b91f3ddd26bda8178767bb8007df32`. The evidence recorders require matching build, capture and benchmark identities before collecting their results.
+
+| Check | Result and evidence |
+| --- | --- |
+| EditMode | [37 passed](validation/wind-water-editmode.xml), including wind continuity, vegetation shader passes, imported fur roots, spring stability, water propagation and advection, buoyancy, and river-grid continuity. |
+| PlayMode | [8 passed](validation/wind-water-playmode.xml), including High/Low fur budgets, matching four-bone coat skinning, river interaction, grove preservation and existing ranch checks. |
+| Desktop builds | [Linux and Windows succeeded](validation/wind-water-builds.json) with the same runtime stamp. Linux ran on both GPUs; native Windows execution remains untested. |
+| Motion captures | [High and Low recordings verified](validation/wind-water-motion-builds.json): correct actual quality, 1,800/600 visible fur clumps, measurable spring displacement, a water impact, and 480 encoded frames at 24 FPS. Posters match the unedited source frames. |
+| Rendered multiplayer | [Passed](validation/wind-water-multiplayer.txt): two rendered Linux clients and the dedicated save agree at revision 25, with 20 pieces, one milk and three eggs. Shared authority and server binaries are unchanged. |
+| Runtime source | [520 file hashes](validation/wind-water-source-files.json) record the runtime, assets, settings and tests. No runtime inputs changed after final validation. |
+
+The river simulates surface waves in a local 48 × 72 metre grid. Depth controls wave propagation; the current carries disturbances downstream. Pebbles and shallow-water footsteps disturb the surface, and floating branches respond to buoyancy and current. Moving the grid now preserves overlapping waves and their momentum. A boundary fix prevents the clamped grid from repeatedly recentering at the valley limits. Newly exposed water starts at rest. Distant water uses animated shading; this implementation does not simulate flooding, erosion or a full fluid volume.
+
+Fur uses crossing ribbon clumps with simulated tips, distance limits and fewer clumps on Low. It does not simulate strand collisions. Water disturbances, driftwood and hair remain local visual effects rather than shared persistent objects.
+
+The first player capture exposed a quality configuration defect: Low excluded the Standalone target, so Unity removed that quality level and remapped the remaining index. Requested graphics presets could therefore disagree with global quality settings in earlier builds. Both presets now remain available in desktop players. Earlier performance results should not be treated as clean comparisons of the intended Low and High settings.
+
+| Route and device | Mean | p95 / p99 | Frames over 50 ms | Final working set |
+| --- | --- | --- | --- | --- |
+| [Fern Hollow, AMD integrated, Vulkan, Low, 1280×720](validation/wind-water-low.json) | 24.182 ms | 32.095 / 32.825 ms | 3 | 711 MB |
+| [Fern Hollow, RTX 5070 Ti, OpenGL, High, 1920×1080](validation/wind-water-high.json) | 7.090 ms | 8.999 / 9.301 ms | 0 | 989 MB |
+| [Riverbend, AMD integrated, Vulkan, Low, 1280×720](validation/wind-water-low-river.json) | 6.712 ms | 6.790 / 6.812 ms | 0 | 705 MB |
+| [Riverbend, RTX 5070 Ti, OpenGL, High, 1920×1080](validation/wind-water-high-river.json) | 1.469 ms | 1.875 / 2.365 ms | 0 | 840 MB |
+
+Each Riverbend run recorded 16 water impacts. All four runs used the same player on the Ryzen 9 9950X3D with 32 GB RAM. These are uncapped engine frame intervals, not GPU-only timings. Memory readings are final snapshots, not peaks. The fixed-rate motion recordings demonstrate movement and must not be used as performance measurements. The actual two-core, 8 GB minimum PC, native Windows execution and a populated 20-player rendered ranch remain unverified.

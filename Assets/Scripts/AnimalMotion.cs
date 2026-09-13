@@ -28,6 +28,7 @@ namespace ExplorersByNature
             string name = path.Substring(path.LastIndexOf('/') + 1);
             if (name != "Deer" && name != "Rabbit" && name != "Fox" && name != "Beaver" && name != "Duck" && name != "Clover" && name != "Hen") return;
             model.AddComponent<AnimalMotion>().species = name;
+            AnimalFur.Attach(model);
         }
         void Start()
         {

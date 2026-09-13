@@ -15,6 +15,7 @@ Shader "Explorers/MeadowGrass"
             #pragma multi_compile _ _MAIN_LIGHT_SHADOWS _MAIN_LIGHT_SHADOWS_CASCADE
             #pragma multi_compile_fragment _ _SHADOWS_SOFT
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
+            #include "NatureWind.hlsl"
             CBUFFER_START(UnityPerMaterial)
                 float _WindStrength;
                 float _SurfaceLighting;
@@ -25,7 +26,7 @@ Shader "Explorers/MeadowGrass"
             {
                 Varyings output;
                 float3 p = TransformObjectToWorld(input.positionOS.xyz);
-                p.x += sin(_Time.y * 1.5 + p.x * .5 + p.z * .35) * _WindStrength * input.uv.y * input.uv.y;
+                p.xz += NatureWindOffset(p, _WindStrength * .22 * input.uv.y * input.uv.y);
                 output.positionCS = TransformWorldToHClip(p);
                 output.color = input.color;
                 output.normal = TransformObjectToWorldNormal(input.normal);

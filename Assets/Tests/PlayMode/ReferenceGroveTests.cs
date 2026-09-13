@@ -48,7 +48,14 @@ public sealed class ReferenceGroveTests
                     Assert.That(sourceMeshes, Does.Contain(renderer.GetComponent<MeshFilter>().sharedMesh), "LOD must use the matching native imported mesh");
                     foreach (var material in renderer.sharedMaterials)
                     {
-                        Assert.That(material.shader.name, Is.EqualTo("Universal Render Pipeline/Lit"));
+                        Assert.That(material.shader.name, Is.EqualTo(tree || kind.StartsWith("Fern") ? "Explorers/VegetationLit" : "Universal Render Pipeline/Lit"));
+                        if (tree || kind.StartsWith("Fern"))
+                        {
+                            Assert.That(material.FindPass("ShadowCaster"), Is.GreaterThanOrEqualTo(0));
+                            Assert.That(material.FindPass("DepthNormals"), Is.GreaterThanOrEqualTo(0));
+                            var originalBounds = renderer.GetComponent<MeshFilter>().sharedMesh.bounds;
+                            Assert.That(renderer.localBounds.size.x, Is.GreaterThan(originalBounds.size.x), "Wind needs expanded culling bounds");
+                        }
                         Assert.That(material.GetTexture("_BaseMap"), Is.Not.Null, material.name + " diffuse map");
                         Assert.That(material.GetTexture("_BumpMap"), Is.Not.Null, material.name + " normal map");
                         Assert.That(material.IsKeywordEnabled("_NORMALMAP"), Is.True);

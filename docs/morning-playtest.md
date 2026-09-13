@@ -2,6 +2,8 @@
 
 Start `ExplorersByNature` on Linux or `ExplorersByNature.exe` on Windows. Your solo ranch opens automatically and saves each completed change. Use **High** graphics to see the new woodland mist, leaf lighting and filmic grading. **Low** keeps the new plants and detailed animals with fewer effects.
 
+**F7** visits the river. **G** tosses a pebble near the water; watch the ripple spread and the driftwood follow the current. You can wade without drowning. In **Escape** settings, switch wind between calm, breeze and gusty. Look closely at the cow’s tail switch or the doe’s coat to see spring-driven hair.
+
 **F8** visits Fern Hollow, the focused woodland scene north of the ranch. Walk along the trail, use **F9** to hide or restore the HUD, and **Home** to return to the meadow. Escape still opens settings in photo mode.
 
 1. Walk west from the trail to Clover and the hens. Aim at Clover and press **E**, then press **Space** three times as the marker crosses the green band. Aim at a hen/nesting box and press **E** to gather eggs.

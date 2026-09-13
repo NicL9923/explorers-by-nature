@@ -143,11 +143,11 @@ namespace ExplorersByNature
 
         void BuildRiver()
         {
-            const int across=8, along=300;
+            const int across=24, along=600;
             var vertices = new List<Vector3>();var triangles = new List<int>();var uv = new List<Vector2>();var colors=new List<Color>();
             for (int i = 0; i <= along; i++)
             {
-                float z = -450 + i * 3;
+                float z = -450 + i * 1.5f;
                 float left=ShoreX(z,-1),right=ShoreX(z,1);
                 for(int j=0;j<=across;j++)
                 {
@@ -161,7 +161,9 @@ namespace ExplorersByNature
             }
             Mesh river = Own(new Mesh { name = "Winding river depth bands" });
             river.SetVertices(vertices);river.SetTriangles(triangles,0);river.SetUVs(0,uv);river.SetColors(colors);river.RecalculateNormals();river.RecalculateBounds();
-            MeshObject("River",river,waterMaterial,transform).shadowCastingMode=ShadowCastingMode.Off;
+            var liveWater = Own(new Material(waterMaterial) { name = "Flowing river with local waves" });
+            MeshObject("River",river,liveWater,transform).shadowCastingMode=ShadowCastingMode.Off;
+            gameObject.AddComponent<RiverDynamics>().Initialize(walker,liveWater);
         }
 
         void BuildForest()

@@ -31,9 +31,13 @@ for source, label in [('test', 'editmode'), ('playtest', 'playmode')]:
     shutil.copyfile(path, out / f'{prefix}-{label}.xml')
 metrics = {}
 for quality in ['low', 'high']:
-    path = max((root / 'Logs/benchmarks').glob(f'*-{quality}.json'), key=lambda p: p.stat().st_mtime)
-    result = json.loads(path.read_text())
-    assert result['revision'] == stamp and result['route'] == 'Fern Hollow', 'Stale benchmark'
+    candidates = []
+    for candidate in (root / 'Logs/benchmarks').glob('*.json'):
+        report = json.loads(candidate.read_text())
+        if report.get('route') == 'Fern Hollow' and report.get('revision') == stamp and report.get('quality', '').lower() == quality:
+            candidates.append((candidate, report))
+    assert candidates, f'No {quality} Fern Hollow benchmark matches the current builds'
+    path, result = max(candidates, key=lambda pair: pair[0].stat().st_mtime_ns)
     metrics[quality] = result
     shutil.copyfile(path, out / f'{prefix}-{quality}.json')
     capture = root / f'Logs/grove-capture/{quality}'

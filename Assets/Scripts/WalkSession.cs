@@ -17,6 +17,9 @@ namespace ExplorersByNature
         bool high;
         bool benchmark;
         bool groveBenchmark;
+        bool riverBenchmark;
+        float nextRiverPebble;
+        int initialRiverImpacts;
         bool quitAfterBenchmark;
         float elapsed;
         float frameTime;
@@ -32,6 +35,7 @@ namespace ExplorersByNature
             AudioListener.volume = PlayerPrefs.GetFloat("MasterVolume", .8f);
             string[] args = Environment.GetCommandLineArgs();
             groveBenchmark=Array.IndexOf(args,"--grove-benchmark")>=0;
+            riverBenchmark=Array.IndexOf(args,"--river-benchmark")>=0;
             bool lowArg = Array.IndexOf(args, "--quality-low") >= 0;
             bool highArg = Array.IndexOf(args, "--quality-high") >= 0;
             ApplyQuality(!lowArg && (highArg || PlayerPrefs.GetInt("HighQuality", 1) == 1));
@@ -52,13 +56,24 @@ namespace ExplorersByNature
                 elapsed += Time.unscaledDeltaTime;
                 // Five seconds warm-up, then a deterministic 60-second camera pass.
                 float t = Mathf.Clamp01((elapsed - 5) / 60);
-                float routeZ=groveBenchmark?Mathf.Lerp(-178,-106,t):Mathf.Lerp(-235,135,t);
+                float routeZ=riverBenchmark?Mathf.Lerp(-175,-135,t):groveBenchmark?Mathf.Lerp(-178,-106,t):Mathf.Lerp(-235,135,t);
                 Vector3 position = ValleyShape.Trail(routeZ, .3f);
+                if(riverBenchmark)
+                {
+                    float bankX=ValleyWorld.ShoreX(routeZ,-1)-1.4f;
+                    position=new Vector3(bankX,ValleyShape.Height(bankX,routeZ)+.15f,routeZ);
+                }
                 walker.Teleport(position);
                 Vector3 look = ValleyShape.Trail(routeZ + (groveBenchmark?12:30), groveBenchmark?2:4);
-                if (!groveBenchmark && t > .8f) look = Vector3.Lerp(look, new Vector3(130, 180, 365), (t - .8f) * 5);
+                if(riverBenchmark)look=new Vector3(ValleyShape.RiverX(routeZ+18),ValleyShape.WaterHeight,routeZ+18);
+                if (!riverBenchmark && !groveBenchmark && t > .8f) look = Vector3.Lerp(look, new Vector3(130, 180, 365), (t - .8f) * 5);
                 walker.transform.rotation = Quaternion.LookRotation(Vector3.ProjectOnPlane(look - position, Vector3.up));
                 walker.view.transform.rotation = Quaternion.LookRotation(look - walker.view.transform.position);
+                if(riverBenchmark && elapsed>=nextRiverPebble)
+                {
+                    RiverDynamics.Current?.ThrowPebble();
+                    nextRiverPebble=elapsed+4;
+                }
                 if (elapsed > 5) samples.Add(Time.unscaledDeltaTime * 1000);
                 if (elapsed >= 65) EndBenchmark();
                 return;
@@ -77,6 +92,7 @@ namespace ExplorersByNature
             high = useHigh;
             walker.view.GetUniversalAdditionalCameraData().renderPostProcessing=high;
             walker.view.GetUniversalAdditionalCameraData().requiresDepthTexture=high;
+            walker.view.GetUniversalAdditionalCameraData().requiresColorTexture=high;
             QualitySettings.SetQualityLevel(high ? 1 : 0, true);
             QualitySettings.renderPipeline = high ? highPipeline : lowPipeline;
             QualitySettings.lodBias = high ? 1.5f : .75f;
@@ -92,6 +108,7 @@ namespace ExplorersByNature
         void BeginBenchmark()
         {
             samples.Clear(); elapsed = 0; benchmark = true; walker.Automated = true;
+            nextRiverPebble=2;initialRiverImpacts=RiverDynamics.Current==null?0:RiverDynamics.Current.ImpactCount;
             walker.SetMenu(false);
             Application.targetFrameRate = -1;
             status = "Walking the benchmark route...";
@@ -105,8 +122,10 @@ namespace ExplorersByNature
             foreach (float sample in samples) { sum += sample; if (sample > 50) hitches++; }
             var result = new BenchmarkResult
             {
-                route=groveBenchmark?"Fern Hollow":"Valley", revision = buildRevision, unity = Application.unityVersion, utc = DateTime.UtcNow.ToString("O"),
+                route=riverBenchmark?"Riverbend":groveBenchmark?"Fern Hollow":"Valley", revision = buildRevision, unity = Application.unityVersion, utc = DateTime.UtcNow.ToString("O"),
                 weather=SkyWeather.RainAmount>.5f?"Drizzle":"Clear", daylight=SkyWeather.Daylight,
+                wind=WindWeather.Current==null?"Wind: breeze":WindWeather.Current.ModeLabel,
+                riverImpacts=riverBenchmark && RiverDynamics.Current!=null?RiverDynamics.Current.ImpactCount-initialRiverImpacts:0,
                 operatingSystem = SystemInfo.operatingSystem, processor = SystemInfo.processorType,
                 processorCount = SystemInfo.processorCount, memoryMB = SystemInfo.systemMemorySize,
                 graphics = SystemInfo.graphicsDeviceName, graphicsAPI = SystemInfo.graphicsDeviceType.ToString(),
@@ -155,9 +174,9 @@ namespace ExplorersByNature
             float scale = Mathf.Clamp(Screen.height / 900f, 1f, 1.6f);
             GUI.matrix = Matrix4x4.Scale(Vector3.one * scale);
             float width = Screen.width / scale, height = Screen.height / scale;
-            GUI.Label(new Rect(24,height-35,720,28),benchmark?"Pinewatch benchmark · "+Mathf.CeilToInt(Mathf.Max(0,65-elapsed))+"s":"WASD walk   E interact   B build   F8 Fern Hollow   F9 photo mode   Esc settings",textStyle);
+            GUI.Label(new Rect(24,height-35,900,28),benchmark?"Pinewatch benchmark · "+Mathf.CeilToInt(Mathf.Max(0,65-elapsed))+"s":"WASD walk   E interact   B build   F7 river   F8 Fern Hollow   F9 photo mode   Esc settings",textStyle);
             if (!walker.MenuOpen || benchmark || RanchSession.PanelOpen) return;
-            GUILayout.BeginArea(new Rect(width / 2 - 190, height / 2 - 280, 380, 560), GUI.skin.box);
+            GUILayout.BeginArea(new Rect(width / 2 - 190, height / 2 - 300, 380, 600), GUI.skin.box);
             GUILayout.Space(14); GUILayout.Label("Take your time", titleStyle); GUILayout.Space(10);
             GUILayout.Label("Mouse sensitivity", textStyle);
             walker.sensitivity = GUILayout.HorizontalSlider(walker.sensitivity, .3f, 4);
@@ -172,6 +191,7 @@ namespace ExplorersByNature
                 if (GUILayout.Button(SkyWeather.Current.TimeLabel, GUILayout.Height(30))) SkyWeather.Current.NextTime();
                 if (GUILayout.Button(SkyWeather.Current.WeatherLabel, GUILayout.Height(30))) SkyWeather.Current.NextWeather();
             }
+            if (WindWeather.Current != null && GUILayout.Button(WindWeather.Current.ModeLabel, GUILayout.Height(30))) WindWeather.Current.NextMode();
             if (GUILayout.Button("Graphics: " + (high ? "High" : "Low"), GUILayout.Height(32))) ApplyQuality(!high);
             if (GUILayout.Button("Walk the benchmark route", GUILayout.Height(32))) BeginBenchmark();
             if (GUILayout.Button("Return to the meadow", GUILayout.Height(32))) { walker.Teleport(ValleyShape.Spawn); walker.SetMenu(false); }
@@ -184,8 +204,9 @@ namespace ExplorersByNature
         sealed class BenchmarkResult
         {
             public string route;
-            public string revision, unity, utc, operatingSystem, processor, graphics, graphicsAPI, graphicsDriver, quality, weather;
+            public string revision, unity, utc, operatingSystem, processor, graphics, graphicsAPI, graphicsDriver, quality, weather, wind;
             public float daylight;
+            public int riverImpacts;
             public int processorCount, memoryMB, graphicsMemoryMB, width, height, frames, framesOver50Ms;
             public float meanMs, p95Ms, p99Ms;
             public long unityAllocatedMB, processWorkingSetMB;

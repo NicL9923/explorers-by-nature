@@ -27,6 +27,12 @@ namespace ExplorersByNature
                     var slots = renderer.sharedMaterials;
                     for (int s = 0; s < slots.Length; s++) slots[s] = Surface(material);
                     renderer.sharedMaterials = slots;
+                    if (material == "Fern")
+                    {
+                        Bounds windBounds = renderer.localBounds;
+                        windBounds.Expand(.6f);
+                        renderer.localBounds = windBounds;
+                    }
                     renderer.shadowCastingMode = material == "Fern" ? ShadowCastingMode.TwoSided : ShadowCastingMode.On;
                 }
                 levels.Add(new LOD(transitions[i], renderers));
@@ -41,7 +47,7 @@ namespace ExplorersByNature
         public static Material Surface(string name)
         {
             if (Materials.TryGetValue(name, out var material) && material != null) return material;
-            material = new Material(Shader.Find("Universal Render Pipeline/Lit")) { name = name, enableInstancing = true };
+            material = new Material(Shader.Find(name == "Fern" ? "Explorers/VegetationLit" : "Universal Render Pipeline/Lit")) { name = name, enableInstancing = true };
             material.SetColor("_BaseColor", Color.white);
             material.SetTexture("_BaseMap", Resources.Load<Texture2D>("ReferenceGround/" + name + "_BaseColor"));
             material.SetTexture("_BumpMap", Resources.Load<Texture2D>("ReferenceGround/" + name + "_Normal"));
@@ -52,6 +58,7 @@ namespace ExplorersByNature
             material.EnableKeyword("_METALLICSPECGLOSSMAP");
             if (name == "Fern")
             {
+                material.EnableKeyword("_NATURE_FERN");
                 material.SetFloat("_Cull", 0);
                 material.SetFloat("_AlphaClip", 1);
                 material.SetFloat("_AlphaToMask", 1f);

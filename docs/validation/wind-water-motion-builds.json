@@ -1,0 +1,129 @@
+{
+  "stamp": "80141ea/sha256:61f172047ef8cc8db8fca03b60f02ad611b91f3ddd26bda8178767bb8007df32",
+  "builds": {
+    "linux": {
+      "runtimeStamp": "80141ea/sha256:61f172047ef8cc8db8fca03b60f02ad611b91f3ddd26bda8178767bb8007df32",
+      "level0SHA256": "801438b49db8ef047a50a2e0603961b6d3b17b7ef120bd239252adf50b74924c"
+    },
+    "windows": {
+      "runtimeStamp": "80141ea/sha256:61f172047ef8cc8db8fca03b60f02ad611b91f3ddd26bda8178767bb8007df32",
+      "level0SHA256": "8ec99c50500ce228c841111e4cf44b150278265aecc90e0bcedb88a1c0ca6574"
+    }
+  },
+  "proofs": {
+    "high": {
+      "revision": "80141ea/sha256:61f172047ef8cc8db8fca03b60f02ad611b91f3ddd26bda8178767bb8007df32",
+      "quality": "high",
+      "actualQualityName": "High",
+      "frames": 480,
+      "fps": 24,
+      "activeFurClumps": 1800,
+      "waterImpacts": 1,
+      "actualQualityIndex": 1,
+      "maximumFurBend": 0.10383006930351257
+    },
+    "low": {
+      "revision": "80141ea/sha256:61f172047ef8cc8db8fca03b60f02ad611b91f3ddd26bda8178767bb8007df32",
+      "quality": "low",
+      "actualQualityName": "Low",
+      "frames": 480,
+      "fps": 24,
+      "activeFurClumps": 600,
+      "waterImpacts": 1,
+      "actualQualityIndex": 0,
+      "maximumFurBend": 0.1023460254073143
+    }
+  },
+  "metrics": {
+    "high": {
+      "route": "Riverbend",
+      "revision": "80141ea/sha256:61f172047ef8cc8db8fca03b60f02ad611b91f3ddd26bda8178767bb8007df32",
+      "unity": "6000.3.24f1",
+      "utc": "2026-09-13T14:35:21.8850430Z",
+      "operatingSystem": "Linux 7.2 Fedora Linux 44 64bit",
+      "processor": "AMD Ryzen 9 9950X3D 16-Core Processor",
+      "graphics": "NVIDIA GeForce RTX 5070 Ti/PCIe/SSE2",
+      "graphicsAPI": "OpenGLCore",
+      "graphicsDriver": "OpenGL 4.5.0 NVIDIA 610.57.04",
+      "quality": "High",
+      "weather": "Clear",
+      "wind": "Wind: breeze",
+      "daylight": 1.0,
+      "riverImpacts": 16,
+      "processorCount": 32,
+      "memoryMB": 31145,
+      "graphicsMemoryMB": 16303,
+      "width": 1920,
+      "height": 1080,
+      "frames": 40855,
+      "framesOver50Ms": 0,
+      "meanMs": 1.468629002571106,
+      "p95Ms": 1.8746243715286255,
+      "p99Ms": 2.3649165630340576,
+      "unityAllocatedMB": 489,
+      "processWorkingSetMB": 840
+    },
+    "low": {
+      "route": "Riverbend",
+      "revision": "80141ea/sha256:61f172047ef8cc8db8fca03b60f02ad611b91f3ddd26bda8178767bb8007df32",
+      "unity": "6000.3.24f1",
+      "utc": "2026-09-13T14:34:13.6710860Z",
+      "operatingSystem": "Linux 7.2 Fedora Linux 44 64bit",
+      "processor": "AMD Ryzen 9 9950X3D 16-Core Processor",
+      "graphics": "AMD Ryzen 9 9950X3D 16-Core Processor (RADV RAPHAEL_MENDOCINO)",
+      "graphicsAPI": "Vulkan",
+      "graphicsDriver": "Vulkan 1.1.0 [26.1.8 (0x06801008)]",
+      "quality": "Low",
+      "weather": "Clear",
+      "wind": "Wind: breeze",
+      "daylight": 1.0,
+      "riverImpacts": 16,
+      "processorCount": 32,
+      "memoryMB": 31145,
+      "graphicsMemoryMB": 10723,
+      "width": 1280,
+      "height": 720,
+      "frames": 8940,
+      "framesOver50Ms": 0,
+      "meanMs": 6.711686611175537,
+      "p95Ms": 6.790093421936035,
+      "p99Ms": 6.812145233154297,
+      "unityAllocatedMB": 459,
+      "processWorkingSetMB": 705
+    }
+  },
+  "videos": {
+    "high": {
+      "width": 1280,
+      "height": 720,
+      "r_frame_rate": "24/1",
+      "duration": "20.000000",
+      "nb_frames": "480"
+    },
+    "low": {
+      "width": 1280,
+      "height": 720,
+      "r_frame_rate": "24/1",
+      "duration": "20.000000",
+      "nb_frames": "480"
+    }
+  },
+  "filesSHA256": {
+    "docs/validation/wind-water-high-motion.json": "63f9cb170cbb30165f515fd414f362b66efeb2de5e9701d3a39f64b5798ea727",
+    "docs/validation/wind-water-high-motion.txt": "bca39fe9bb59843c2889b40db39aaf43ebe2902f02dfa63ab93782daf531db95",
+    "docs/benchmarks/wind-water-high-motion.mp4": "cc417949aa522d251f39745d344859d8105024d2013b8af767baefccb6e8a0c6",
+    "docs/benchmarks/wind-water-high-wind.png": "4b80bc84bff4e662462d21d248efc7800d2434e39482efd3504da64a326c1347",
+    "docs/benchmarks/wind-water-high-fur.png": "f4cc6b6460d64ed4c6585e252eba1b0c58c8784c8bd0c500c4602f17feccb2a9",
+    "docs/benchmarks/wind-water-high-tail.png": "a719ec564cf6a8307ddd5bc8912d9ad7980d0d33fb3a385a45479c2b10d3c3c6",
+    "docs/benchmarks/wind-water-high-river.png": "b9ef525e1f72bd4a52321fc836e9f9506d8764c3315ab65d89f802c4d1169336",
+    "docs/validation/wind-water-high-river.json": "fc3f4abc0fcb5a58eb31c9268da86db4d305c440ec033cb1ea8978271ef66e66",
+    "docs/validation/wind-water-low-motion.json": "679f1da70211bbeea63898115cde4d8b9c080cd4ccd560538dd6f19ca53116a1",
+    "docs/validation/wind-water-low-motion.txt": "4d74155a4612c736dd704775a5e6bc323032f3a593379448c7a0efa9f376c30a",
+    "docs/benchmarks/wind-water-low-motion.mp4": "419a48e8baff4f62ee04a118812dbc562013a2d212e71d5c4510bae816151650",
+    "docs/benchmarks/wind-water-low-wind.png": "8abe08dc2173482e64530d714766ffb9b5b74de5b2e27ec935c738e78f1e805a",
+    "docs/benchmarks/wind-water-low-fur.png": "7590391c50497fd3849fce89c89ed0583a36e78906b902d17c11fb15da89088b",
+    "docs/benchmarks/wind-water-low-tail.png": "1a45e860340de39cc7c5147961442395e12d233119ab5adcfece1d64f225b78f",
+    "docs/benchmarks/wind-water-low-river.png": "c4213de97cce9214348e0e5fb3368a51376a0eff6b10e43cef7e8de0ff937a29",
+    "docs/validation/wind-water-low-river.json": "dda722a398abec4671d4cdc99beb8a1b4e76a09e842b1cb706bd57e4f64a40df"
+  }
+}

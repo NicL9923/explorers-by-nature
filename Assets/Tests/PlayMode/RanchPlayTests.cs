@@ -61,7 +61,8 @@ public sealed class RanchPlayTests
             var cow=UnityEngine.Object.FindObjectsByType<RanchTarget>(FindObjectsSortMode.None).First(p=>p.animal=="milk");
             var renderers=cow.GetComponentsInChildren<Renderer>();
             Assert.That(ValleyWorld.ModelHeight(cow.gameObject),Is.InRange(1.5f,2.5f),"Blender cow imports at life size");
-            Assert.That(renderers.All(r=>r.sharedMaterial.shader.name=="Universal Render Pipeline/Lit"),Is.True,"animal materials use URP");
+            foreach(var renderer in renderers)
+                Assert.That(renderer.sharedMaterial.shader.name,Is.EqualTo(renderer.name=="Simulated coat"?"Explorers/AnimalFur":"Universal Render Pipeline/Lit"),"Body and simulated coat retain their intended URP shaders");
         }
         finally {UnityEngine.Object.DestroyImmediate(session);if(Directory.Exists(dir))Directory.Delete(dir,true);}
     }

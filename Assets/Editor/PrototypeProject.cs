@@ -32,8 +32,10 @@ public static class PrototypeProject
         var high = AssetDatabase.LoadAssetAtPath<UniversalRenderPipelineAsset>("Assets/Settings/PC_RPAsset.asset");
         low.renderScale = 1; low.msaaSampleCount = 1; low.shadowDistance = 45; low.shadowCascadeCount = 1;
         low.mainLightShadowmapResolution = 1024; low.supportsHDR = false;
+        low.supportsCameraOpaqueTexture = false; low.supportsCameraDepthTexture = false;
         high.renderScale = 1; high.msaaSampleCount = 2; high.shadowDistance = 180; high.shadowCascadeCount = 4;
         high.mainLightShadowmapResolution = 4096; high.supportsHDR = true;
+        high.supportsCameraOpaqueTexture = true; high.supportsCameraDepthTexture = true;
         EditorUtility.SetDirty(low); EditorUtility.SetDirty(high);
         GraphicsSettings.defaultRenderPipeline = high;
         QualitySettings.renderPipeline = high;
@@ -82,6 +84,7 @@ public static class PrototypeProject
         world.rockMaterial.SetTexture("_BaseMap", world.rockTexture);
         world.deerMaterial = Material("Deer", "Universal Render Pipeline/Lit", new Color(.48f, .29f, .15f));
         var environment = new GameObject("Weather and sound");
+        environment.AddComponent<WindWeather>();
         environment.AddComponent<SkyWeather>().rainMaterial = Material("GentleRain", "Explorers/GentleRain", Color.white);
         environment.AddComponent<NatureSoundscape>();
         var air=new GameObject("Woodland atmosphere");air.transform.SetParent(environment.transform);

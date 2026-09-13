@@ -3,7 +3,7 @@
 - `unity.sh`: open the pinned editor, generate the prototype scene, run EditMode tests, or build Linux/Windows with a source-state stamp.
 - `check-source.py`: compile source and test code against installed Unity assemblies; a limited check when editor activation is unavailable.
 - `make-rocks.py`: use Blender headlessly to generate editable river-stone models and export Unity-ready FBX files.
-- `benchmark.sh`: run the Linux player's fixed low/high camera benchmark, optionally selecting a Vulkan GPU by index and adding a third `rain` argument for the weather stress route.
+- `benchmark.sh`: run the Linux player's fixed low/high camera benchmark, optionally selecting a Vulkan GPU by index and adding a third `rain`, `grove` or `river` argument for weather, woodland or interactive water.
 
 - `server.sh`: test, publish self-contained Linux/Windows servers, or run the dedicated ranch authority.
 - `make-ranch-art.py`: generate original cow and hen Blender sources and Unity FBX models.
@@ -38,3 +38,6 @@
 - `bake-reference-trunks.py`: Flatten scanned-base and triplanar bark materials into the exported trunk UV0 atlas.
 
 - `record-grove-validation.py --prefix NAME`: collect only matching build, benchmark, capture and multiplayer evidence for the Fern Hollow release.
+
+- `nature-motion.py`: record isolated 20-second player clips and exact frame posters showing wind, spring fur, cow tail hair, and water interaction.
+- `record-nature-validation.py --prefix NAME`: verify matching desktop stamps, both motion clips, actual quality budgets, and Riverbend benchmarks before collecting release evidence.

@@ -10,6 +10,8 @@ public sealed class ArtImportSettings : AssetPostprocessor
         foreach(string referencePath in AssetDatabase.GetAllAssetPaths())
             if(referencePath.StartsWith("Assets/Resources/ReferenceGround/") || referencePath.StartsWith("Assets/Resources/ReferenceDeer/"))
                 if(referencePath.EndsWith(".png") || referencePath.EndsWith(".fbx"))AssetImporter.GetAtPath(referencePath)?.SaveAndReimport();
+        foreach(string animalAsset in new[]{"Wildlife/Deer","Wildlife/Rabbit","Fox/Fox","Clover"})
+            AssetImporter.GetAtPath("Assets/Resources/"+animalAsset+".fbx")?.SaveAndReimport();
         for(int i=1;i<=3;i++)
         {
             var importer=AssetImporter.GetAtPath("Assets/Models/RiverStone"+i+".fbx") as ModelImporter;
@@ -60,7 +62,7 @@ public sealed class ArtImportSettings : AssetPostprocessor
         string path="Assets/Resources/ArtSupport/"+name+".mat";
         var target=AssetDatabase.LoadAssetAtPath<Material>(path);
         if(target==null)AssetDatabase.CreateAsset(new Material(source),path);
-        else {target.CopyPropertiesFromMaterial(source);EditorUtility.SetDirty(target);}
+        else {target.shader=source.shader;target.CopyPropertiesFromMaterial(source);EditorUtility.SetDirty(target);}
     }
 
     void OnPreprocessModel()

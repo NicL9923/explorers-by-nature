@@ -31,6 +31,10 @@ namespace ExplorersByNature
                         slots[j] = MaterialFor(materialName.Replace("_dead_branches", "_bark"));
                     }
                     renderer.sharedMaterials = slots;
+                    // Shader motion must not disappear at a frustum edge. Bounds are in native meters.
+                    Bounds windBounds = renderer.localBounds;
+                    windBounds.Expand(new Vector3(6f, 1f, 6f));
+                    renderer.localBounds = windBounds;
                 }
                 levels.Add(new LOD(transitions[i], renderers));
             }
@@ -45,7 +49,7 @@ namespace ExplorersByNature
         {
             if (Materials.TryGetValue(name, out Material material)) return material;
             bool needles = name.EndsWith("_twig");
-            material = new Material(Shader.Find("Universal Render Pipeline/Lit")) { name = name, enableInstancing = true };
+            material = new Material(Shader.Find("Explorers/VegetationLit")) { name = name, enableInstancing = true };
             material.SetTexture("_BaseMap", Resources.Load<Texture2D>("ReferenceTrees/" + name + "_BaseColor"));
             material.SetTexture("_BumpMap", Resources.Load<Texture2D>("ReferenceTrees/" + name + "_Normal"));
             // Pine source needles are pale under direct Lit shading. Grade only foliage; bark stays neutral.
@@ -55,6 +59,7 @@ namespace ExplorersByNature
             material.SetFloat("_Smoothness", needles ? .16f : .08f);
             if (needles)
             {
+                material.EnableKeyword("_NATURE_NEEDLES");
                 material.SetFloat("_Cull", (float)CullMode.Off);
                 material.SetFloat("_AlphaClip", 1f);
                 material.SetFloat("_AlphaToMask", 1f);

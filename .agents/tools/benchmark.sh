@@ -6,7 +6,7 @@ preset="${1:-high}"
 case "$preset" in
     low) width=1280; height=720 ;;
     high) width=1920; height=1080 ;;
-    *) printf 'Usage: %s {low|high} [Vulkan-device-index] [rain|grove]\n' "$0" >&2; exit 1 ;;
+    *) printf 'Usage: %s {low|high} [Vulkan-device-index] [rain|grove|river]\n' "$0" >&2; exit 1 ;;
 esac
 player="$repo_root/Builds/Linux/ExplorersByNature"
 if [[ ! -x "$player" ]]; then
@@ -16,7 +16,7 @@ fi
 mkdir -p Logs/benchmarks
 graphics_args=()
 weather_args=()
-if [[ "${3:-}" == rain ]]; then weather_args=(--benchmark-rain); elif [[ "${3:-}" == grove ]]; then weather_args=(--grove-benchmark); elif [[ -n "${3:-}" ]]; then printf "Third argument must be rain or grove.\n" >&2; exit 1; fi
+if [[ "${3:-}" == rain ]]; then weather_args=(--benchmark-rain); elif [[ "${3:-}" == grove ]]; then weather_args=(--grove-benchmark); elif [[ "${3:-}" == river ]]; then weather_args=(--river-benchmark); elif [[ -n "${3:-}" ]]; then printf "Third argument must be rain, grove or river.\n" >&2; exit 1; fi
 if [[ -n "${2:-}" ]]; then
     [[ "$2" =~ ^[0-9]+$ ]] || { printf 'Device index must be a nonnegative integer.\n' >&2; exit 1; }
     graphics_args=(-force-vulkan -force-device-index "$2")
