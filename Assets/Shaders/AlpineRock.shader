@@ -4,16 +4,7 @@ Shader "Explorers/AlpineRock"
     SubShader
     {
         Tags { "RenderPipeline"="UniversalPipeline" "RenderType"="Opaque" "Queue"="Geometry+1" }
-        Pass
-        {
-            Tags { "LightMode"="UniversalForward" }
-            Cull Back
-            // Slope bias keeps the full-resolution face above Terrain distance tessellation.
-            Offset -8,-8
-            HLSLPROGRAM
-            #pragma vertex vert
-            #pragma fragment frag
-            #pragma multi_compile_fog
+        HLSLINCLUDE
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
             CBUFFER_START(UnityPerMaterial)
                 float _SnowLine;
@@ -48,6 +39,27 @@ Shader "Explorers/AlpineRock"
                 half3 b=SAMPLE_TEXTURE2D(_RockMap,sampler_RockMap,rotated).rgb;
                 return lerp(a,b,.25+blend*.5);
             }
+            void Coverage(Varyings input)
+            {
+                float2 uv=float2(input.positionWS.x+input.positionWS.z*.43,input.positionWS.y-input.positionWS.z*.19);
+                clip(input.coverage-lerp(.025,.975,noise(uv*.029+float2(13,87))));
+            }
+        ENDHLSL
+        Pass
+        {
+            Tags { "LightMode"="UniversalForward" }
+            Cull Back
+            // Slope bias keeps the full-resolution face above Terrain distance tessellation.
+            Offset -8,-8
+            HLSLPROGRAM
+            #pragma vertex vert
+            #pragma fragment frag
+            #pragma multi_compile_fog
+            #pragma multi_compile _ _MAIN_LIGHT_SHADOWS _MAIN_LIGHT_SHADOWS_CASCADE _MAIN_LIGHT_SHADOWS_SCREEN
+            #pragma multi_compile_fragment _ _SHADOWS_SOFT _SHADOWS_SOFT_LOW _SHADOWS_SOFT_MEDIUM _SHADOWS_SOFT_HIGH
+            #pragma multi_compile_fragment _ _SCREEN_SPACE_OCCLUSION
+            #pragma multi_compile_fragment _ _REFLECTION_PROBE_BLENDING
+            #pragma multi_compile_fragment _ _REFLECTION_PROBE_BOX_PROJECTION
             half4 frag(Varyings input):SV_Target
             {
                 float3 p=input.positionWS;
@@ -69,22 +81,83 @@ Shader "Explorers/AlpineRock"
                 // to retain mineral contrast under direct sun rather than producing beige icing.
                 half3 rock=scan*half3(.31,.335,.365)*crag;
                 float elevation=smoothstep(_SnowLine,_SnowLine+100,p.y+(broad-.5)*32);
-                float shelf=smoothstep(.78,.96,n.y+(fine-.5)*.12);
+                float shelf=smoothstep(.38,.82,n.y+(fine-.5)*.18);
                 float sheltered=smoothstep(.42,.72,fractured);
-                float snow=elevation*shelf*sheltered;
+                float snow=elevation*shelf*lerp(.38,1,sheltered);
                 half3 albedo=lerp(rock,half3(.58,.66,.72),snow);
                 // Derivative bump follows the same irregular fracture field, without bands.
-                float height=(fractured*.8+fine*.2)*1.4;
+                // Relief includes mineral-scale texture luminance, but fades subpixel detail.
+                float micro=dot(scan,half3(.2126,.7152,.0722));
+                float footprint=max(length(ddx(p)),length(ddy(p)));
+                float height=fractured*2.2+fine*.42+micro*.23*saturate(1-footprint*.7);
                 float3 dpdx=ddx(p),dpdy=ddy(p);
                 float3 r1=cross(dpdy,n),r2=cross(n,dpdx);
                 float determinant=dot(dpdx,r1);
                 float3 gradient=(ddx(height)*r1+ddy(height)*r2)*sign(determinant);
-                half3 geologicalNormal=normalize(abs(determinant)*n-gradient*.045*(1-snow)+n*.00001);
-                Light sun=GetMainLight();
-                half diffuse=saturate(dot(geologicalNormal,sun.direction));
-                half3 ambient=SampleSH(geologicalNormal);
-                half3 color=albedo*(ambient*.84+sun.color*diffuse);
-                return half4(MixFog(color,input.fog),1);
+                half3 geologicalNormal=normalize(abs(determinant)*n-gradient*.24*(1-snow*.92)+n*.00001);
+                InputData lighting=(InputData)0;
+                lighting.positionWS=p;lighting.normalWS=geologicalNormal;
+                lighting.viewDirectionWS=GetWorldSpaceNormalizeViewDir(p);
+                lighting.shadowCoord=TransformWorldToShadowCoord(p);
+                lighting.bakedGI=SampleSH(geologicalNormal);
+                lighting.normalizedScreenSpaceUV=GetNormalizedScreenSpaceUV(input.positionCS);
+                lighting.shadowMask=half4(1,1,1,1);
+                SurfaceData surface=(SurfaceData)0;
+                surface.albedo=albedo;surface.alpha=1;surface.normalTS=half3(0,0,1);
+                surface.metallic=0;surface.smoothness=lerp(.13,.42,snow);
+                surface.occlusion=lerp(.74,1,smoothstep(.15,.8,fractured));
+                half4 color=UniversalFragmentPBR(lighting,surface);
+                return half4(MixFog(color.rgb,input.fog),1);
+            }
+            ENDHLSL
+        }
+        Pass
+        {
+            Name "ShadowCaster" Tags { "LightMode"="ShadowCaster" } Cull Back ZWrite On ColorMask 0
+            HLSLPROGRAM
+            #pragma vertex shadowVert
+            #pragma fragment depthFrag
+            #pragma multi_compile_vertex _ _CASTING_PUNCTUAL_LIGHT_SHADOW
+            float3 _LightDirection;float3 _LightPosition;
+            Varyings shadowVert(Attributes i)
+            {
+                Varyings o=vert(i);
+                #if _CASTING_PUNCTUAL_LIGHT_SHADOW
+                float3 direction=normalize(_LightPosition-o.positionWS);
+                #else
+                float3 direction=_LightDirection;
+                #endif
+                o.positionCS=ApplyShadowClamping(TransformWorldToHClip(ApplyShadowBias(o.positionWS,o.normalWS,direction)));return o;
+            }
+            half4 depthFrag(Varyings i):SV_Target { Coverage(i);return 0; }
+            ENDHLSL
+        }
+        Pass
+        {
+            Name "DepthOnly" Tags { "LightMode"="DepthOnly" } Cull Back ZWrite On ColorMask R
+            Offset -8,-8
+            HLSLPROGRAM
+            #pragma vertex vert
+            #pragma fragment depthFrag
+            half depthFrag(Varyings i):SV_Target { Coverage(i);return i.positionCS.z; }
+            ENDHLSL
+        }
+        Pass
+        {
+            Name "DepthNormals" Tags { "LightMode"="DepthNormals" } Cull Back ZWrite On
+            Offset -8,-8
+            HLSLPROGRAM
+            #pragma vertex vert
+            #pragma fragment normalFrag
+            #pragma multi_compile_fragment _ _GBUFFER_NORMALS_OCT
+            half4 normalFrag(Varyings i):SV_Target
+            {
+                Coverage(i);float3 n=normalize(i.normalWS);
+                #if defined(_GBUFFER_NORMALS_OCT)
+                float2 oct=PackNormalOctQuadEncode(n);return half4(PackFloat2To888(saturate(oct*.5+.5)),0);
+                #else
+                return half4(n,0);
+                #endif
             }
             ENDHLSL
         }

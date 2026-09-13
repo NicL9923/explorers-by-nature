@@ -42,6 +42,10 @@ public sealed class EnvironmentPlayTests
         var atmosphere=Object.FindFirstObjectByType<WoodlandAtmosphere>();
         foreach(var renderer in atmosphere.GetComponentsInChildren<Renderer>())Assert.That(renderer.enabled,Is.False);
         session.ApplyQuality(true);yield return null;
+        var reflection=Object.FindFirstObjectByType<OutdoorReflections>();Assert.That(reflection,Is.Not.Null,"Scene reload restores the live sky/scenery reflection capture.");
+        var probe=reflection.GetComponent<ReflectionProbe>();Assert.That(probe.enabled,Is.True);
+        Assert.That(probe.cullingMask & ((1<<4)|(1<<29)|(1<<30)|(1<<31)),Is.Zero,"Depth-dependent water/mist and first-person/preview geometry must not feed the cubemap.");
+        Assert.That(session.walker.view.GetUniversalAdditionalCameraData().antialiasing,Is.EqualTo(AntialiasingMode.SubpixelMorphologicalAntiAliasing));
         Assert.That(session.walker.view.GetUniversalAdditionalCameraData().renderPostProcessing,Is.True);
         foreach(var renderer in atmosphere.GetComponentsInChildren<Renderer>())Assert.That(renderer.enabled,Is.True);
     }

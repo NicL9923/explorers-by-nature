@@ -1,0 +1,180 @@
+{
+  "runtimeStamp": "8ea9007/sha256:b64d2d6c802a155538bb8af883b76a1c79783f9a782493e4d657266913f11974",
+  "builds": {
+    "linux": {
+      "runtimeStamp": "8ea9007/sha256:b64d2d6c802a155538bb8af883b76a1c79783f9a782493e4d657266913f11974",
+      "level0SHA256": "626e435c37530c794acbdb26ad9d4091b3d2646350b948fdfc242bbcb05ae67a",
+      "nativeExecution": true
+    },
+    "windows": {
+      "runtimeStamp": "8ea9007/sha256:b64d2d6c802a155538bb8af883b76a1c79783f9a782493e4d657266913f11974",
+      "level0SHA256": "e865cbee9c8771e385534f73e86b840c3731bba00bb734f2540b716cae6d0341",
+      "nativeExecution": false
+    }
+  },
+  "tests": {
+    "test": 44,
+    "playtest": 25
+  },
+  "grove": {
+    "high": {
+      "width": 1920,
+      "height": 1080,
+      "shots": [
+        "01-entrance",
+        "02-trail-and-doe",
+        "03-fern-trail",
+        "04-stump-and-floor",
+        "05-doe-close",
+        "06-overlook",
+        "07-river",
+        "08-sunset-clouds",
+        "09-rainy-river"
+      ]
+    },
+    "low": {
+      "width": 1280,
+      "height": 720,
+      "shots": [
+        "01-entrance",
+        "02-trail-and-doe",
+        "03-fern-trail",
+        "04-stump-and-floor",
+        "05-doe-close",
+        "06-overlook",
+        "07-river",
+        "08-sunset-clouds",
+        "09-rainy-river"
+      ]
+    }
+  },
+  "natureMotion": {
+    "high": {
+      "proof": {
+        "revision": "8ea9007/sha256:b64d2d6c802a155538bb8af883b76a1c79783f9a782493e4d657266913f11974",
+        "quality": "high",
+        "actualQualityName": "High",
+        "frames": 480,
+        "fps": 24,
+        "activeFurClumps": 5400,
+        "waterImpacts": 1,
+        "actualQualityIndex": 1,
+        "maximumFurBend": 0.12356065213680267
+      },
+      "video": {
+        "width": 1280,
+        "height": 720,
+        "r_frame_rate": "24/1",
+        "duration": "20.000000",
+        "nb_frames": "480"
+      }
+    },
+    "low": {
+      "proof": {
+        "revision": "8ea9007/sha256:b64d2d6c802a155538bb8af883b76a1c79783f9a782493e4d657266913f11974",
+        "quality": "low",
+        "actualQualityName": "Low",
+        "frames": 480,
+        "fps": 24,
+        "activeFurClumps": 600,
+        "waterImpacts": 1,
+        "actualQualityIndex": 0,
+        "maximumFurBend": 0.11199723184108734
+      },
+      "video": {
+        "width": 1280,
+        "height": 720,
+        "r_frame_rate": "24/1",
+        "duration": "20.000000",
+        "nb_frames": "480"
+      }
+    }
+  },
+  "westernHair": {
+    "proof": {
+      "revision": "8ea9007/sha256:b64d2d6c802a155538bb8af883b76a1c79783f9a782493e4d657266913f11974",
+      "quality": "High",
+      "frames": 240,
+      "fps": 24,
+      "width": 1280,
+      "height": 720,
+      "horseGuides": 370,
+      "playerGuides": 110,
+      "horseMaximumBend": 1.151094913482666,
+      "playerMaximumBend": 0.1121489554643631
+    },
+    "video": {
+      "width": 1280,
+      "height": 720,
+      "r_frame_rate": "24/1",
+      "duration": "10.000000",
+      "nb_frames": "240"
+    }
+  },
+  "baseline": {
+    "runtimeStamp": "5deccf8/sha256:8e09a1835f84012620d14cf96ff97f8056893ae19e425e96afb77dc1d5ecfba6",
+    "purpose": "Prior build visual comparison only; not final-state validation"
+  },
+  "sourceFiles": 616,
+  "limitations": [
+    "Recordings use fixed 24 FPS simulation and capped rendering; no performance measurements or minimum hardware claims.",
+    "Windows was cross-built, not run natively.",
+    "The temporary dedicated save was compared during multiplayer smoke; only matching client state and success log are retained.",
+    "Recorded guide counts and movement verify simulation activity, not photographic realism."
+  ],
+  "filesSHA256": {
+    "docs/validation/cinematic-linux-build.txt": "25b3cfe8249f631b406a1bbb2965ff1e9b2dc422e59882cf8f7532c1187752fb",
+    "docs/validation/cinematic-windows-build.txt": "4276a3cf5847dbdefb649344fa72796191a19ebb40485c3c285d77f989014f4f",
+    "docs/validation/cinematic-test.xml": "c82c292a507a0968d471b8dc436776df1a88937a0bd28cec71a33ea12d5453c7",
+    "docs/validation/cinematic-playtest.xml": "c7d3f78f722f90c9d4b1db712df106d5e17035e403f8b36cfe6913e84dd5dbb4",
+    "docs/benchmarks/cinematic-high-01-entrance.png": "cf6a4c48e346638f26466d4127b556da530ee0c94f9aa1ee38b4a89a880e0ece",
+    "docs/benchmarks/cinematic-high-02-trail-and-doe.png": "36cf2543d5fcfc588e7a1d0ad7aec7debadde7d4606bb15036a904d7856fe69c",
+    "docs/benchmarks/cinematic-high-03-fern-trail.png": "ab49bf750a9de4d9ad1dac02cce7f656721ddd4e5d0ef38e36b1dadac2fed938",
+    "docs/benchmarks/cinematic-high-04-stump-and-floor.png": "fdf6e534fc90ad18388aed3d007a0269fb6905a71becfdd032253d3f077685b4",
+    "docs/benchmarks/cinematic-high-05-doe-close.png": "59b7c3bae2f480183412b2070feeb5d36ec7bb91c5cc0df988dc31e945847956",
+    "docs/benchmarks/cinematic-high-06-overlook.png": "341caac2d624e00f20d681dd21d8953fb59c54bd7371a61fa55cfd1d3711e5dd",
+    "docs/benchmarks/cinematic-high-07-river.png": "4b8375c6ae11d25bb978fc8a00396b7c8c5afca6e1a89ef7346c5d68c80e183a",
+    "docs/benchmarks/cinematic-high-08-sunset-clouds.png": "b15ad2d3275e415cb44d4ceed80d930aa2c638341c6da0d057814d6f77d128f0",
+    "docs/benchmarks/cinematic-high-09-rainy-river.png": "16246adcf4100df88399dd69770e487d1ecd1b58676a089c07c32cedb371de18",
+    "docs/validation/cinematic-high-grove.txt": "c9e6b7fca4852653a5c0e3a9ae705e0c1e438b9c0b6393fe26fe32a0bc2f0327",
+    "docs/benchmarks/cinematic-low-01-entrance.png": "3b2c569fde22fd0961eb92d9d9a942cf6eb6e24a6a83b322995e0293fef728fe",
+    "docs/benchmarks/cinematic-low-02-trail-and-doe.png": "c38803f2bcaffe1d2c00791a35650a42f7bcd086c93d18aacabc995adb978d32",
+    "docs/benchmarks/cinematic-low-03-fern-trail.png": "55399d2d517eeacfc725983de67e85e9d34f435981c6a18c908ef0c29735e1e3",
+    "docs/benchmarks/cinematic-low-04-stump-and-floor.png": "3e1e16cf95ecbb93178459097ea28d50d93fc2e4e4ec15802f2b7fa1c2d9391a",
+    "docs/benchmarks/cinematic-low-05-doe-close.png": "71788ad874b340da1d7098eee417f9283a0b65c7349509277330079dbe30b9f8",
+    "docs/benchmarks/cinematic-low-06-overlook.png": "94d261104be181aabe66f8f9ddf7bfc9afea3df7e6a969aeafad8c67ef05c894",
+    "docs/benchmarks/cinematic-low-07-river.png": "7cfb69ec7438d2af613dbeb0c2681d098622ccf5bdb8e327290cdb46a4715038",
+    "docs/benchmarks/cinematic-low-08-sunset-clouds.png": "d94190b3749c434eb11b441a84121d8cd2815231c06fea94535c41ee1715671a",
+    "docs/benchmarks/cinematic-low-09-rainy-river.png": "490c47fbfcec1d88611cac2bafec32689a499f912fbf41b5448aee18665827b5",
+    "docs/validation/cinematic-low-grove.txt": "4fa89373a953250e555500731199a9bbd1de28cc952869407d2a98e36efdb569",
+    "docs/benchmarks/cinematic-high-wind.png": "8212d37471ee88a2b3f81179d4d6133b8e0ce96fefe3fdef87f4af19df2dd627",
+    "docs/benchmarks/cinematic-high-fur.png": "3bdd3ad931bb3f2ca00096a3ae892097e355bcc34b66c7d08183abe46c13556e",
+    "docs/benchmarks/cinematic-high-tail.png": "ac8c85369a9a36ea235d6c59207df0cb3ba1b09301be89111e5819857a49c8b7",
+    "docs/benchmarks/cinematic-high-river.png": "441f7571fc7ea2ce4fd5ceecf6c4cd0ef60ca72656dba7690ab56cc11ab1e35b",
+    "docs/benchmarks/cinematic-high-motion.mp4": "a64879fb53e0a6dc07e43ead19c990089e10cdaf288ace90fc2e0726d48b7a6d",
+    "docs/validation/cinematic-high-motion.json": "b8f88a959fcbfee0bb5124f99d697bed38c85f5128907208bb0b9589915a52ee",
+    "docs/validation/cinematic-high-motion.txt": "3809a0061490298c1000498803f1b34ad3d69bba1f1af65a6f1112d127c25d4c",
+    "docs/benchmarks/cinematic-low-wind.png": "db8b482aee7d9ec33f9a287683c36c7b336f606797b006f6bb9535c0df671ea8",
+    "docs/benchmarks/cinematic-low-fur.png": "47e8d4c61d4286fda5125071d5a1df293b44673425327417d84012e06df51430",
+    "docs/benchmarks/cinematic-low-tail.png": "4fd117a31fef784e25de1fb48d6befa50dc30785a506e5fd2a3c5182d7ba60ba",
+    "docs/benchmarks/cinematic-low-river.png": "59df14abd8bc6def16cf332f95f65ecf9241c9311102f28bd15767398706549b",
+    "docs/benchmarks/cinematic-low-motion.mp4": "1297bdfe495e30cbd3e03b7f5410d7763cbf2e6ef36078299792654eda760373",
+    "docs/validation/cinematic-low-motion.json": "a3cee1e6f9422474d68f39ce5522361d854953ca07e4a17614fcdfcd2febb940",
+    "docs/validation/cinematic-low-motion.txt": "a1b70657a01868e07401307a8795e58b375f254cadd52d83cf1a795e4c53176b",
+    "docs/benchmarks/cinematic-western-hair-horse-mane.png": "5838e71b697aeaab1f94085e1bdf18d22fffcfdf0e74f7379649c2d75d0fb6d5",
+    "docs/benchmarks/cinematic-western-hair-horse-tail.png": "67eac8a30321c71ecdca845dcd49a3ae690b9bf8c633b2c73cc7ca58eec9470d",
+    "docs/benchmarks/cinematic-western-hair-explorer-temple.png": "6edc4ebcdb957197c1f0c6ebb5361a0804cafc9e98919074ab7a180063ff54b6",
+    "docs/benchmarks/cinematic-western-hair-explorer-back.png": "1c41ea5fc2f155acb80ef9412de08f9041361d97f50fd63985ecbd60a70c0ca4",
+    "docs/benchmarks/cinematic-western-hair-hair.mp4": "dfc750b73062c9df6b3fe73db2702d215dcab7187d6180c9abe06c6b5efddcfa",
+    "docs/validation/cinematic-western-hair-motion.json": "f1b24254790af36802f6bf280eea7fcf3dccd09033dfa71c2723ea02442a6a3c",
+    "docs/validation/cinematic-western-hair-motion.txt": "3b8fc9aede8c9f394859b1fcbc9f5a9d39efcd6ea1ada991842d6c141bdb7e85",
+    "docs/validation/cinematic-builder.txt": "544a2b92c7f68681bb13580888010811ae4e1e1b1f8d5f14fa3515fc91a9d2e2",
+    "docs/validation/cinematic-observer.txt": "eb0e592e46e303080b541b1a9998feae855b7c5553785ee11d85840ca515c6e7",
+    "docs/validation/cinematic-multiplayer.txt": "a74050235d590908a5194d0f033b08d931449e1fc6841b883de620554e8690e6",
+    "docs/validation/cinematic-shared-ranch.json": "ecfd654bcb70a27bc4965c1b156af6d22bd324b98bd999a33a4ad0b030ff037d",
+    "docs/benchmarks/cinematic-before-01-entrance.png": "d050bed511a51e856d387fe354723593dc964b77dbac000b920385f8d738f62d",
+    "docs/benchmarks/cinematic-before-06-overlook.png": "5fa4034e0f2c74a932a27789b1eb6fe05dcb971448109d8ece447574bac52e66",
+    "docs/validation/cinematic-before-grove.txt": "1dfeb9b653fea072885f5e33fd646da47a3f0e34dfac68bfc95a7774110847b8",
+    "docs/validation/cinematic-source-files.json": "3e00d861d593137555e7fca4f14ce21c90260264736aea96932abd96bed8698c"
+  }
+}

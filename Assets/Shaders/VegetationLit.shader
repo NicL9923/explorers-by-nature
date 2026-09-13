@@ -21,7 +21,7 @@ AlphaToMask [_AlphaToMask]
 HLSLPROGRAM
 #pragma target 3.0
 #pragma vertex NatureVertex
-#pragma fragment LitPassFragment
+#pragma fragment NatureFragment
 #pragma multi_compile_instancing
 #pragma shader_feature_local _ _NATURE_FERN _NATURE_NEEDLES
 #pragma shader_feature_local _NORMALMAP
@@ -42,6 +42,30 @@ HLSLPROGRAM
 Varyings NatureVertex(Attributes input) { UNITY_SETUP_INSTANCE_ID(input);
 NatureVegetation(input.positionOS.xyz,input.normalOS);
 return LitPassVertex(input); }
+half4 NatureFragment(Varyings input, FRONT_FACE_TYPE face : FRONT_FACE_SEMANTIC) : SV_Target
+{
+    UNITY_SETUP_INSTANCE_ID(input);
+    SurfaceData surface;
+    InitializeStandardLitSurfaceData(input.uv, surface);
+    InputData lighting;
+    InitializeInputData(input, surface.normalTS, lighting);
+    // A leaf is a thin sheet; its back side must not shade like the inside of a solid object.
+    #if defined(_NATURE_FERN) || defined(_NATURE_NEEDLES)
+    lighting.normalWS *= IS_FRONT_VFACE(face, 1, -1);
+    #endif
+    InitializeBakedGIData(input, lighting);
+    half4 color = UniversalFragmentPBR(lighting, surface);
+    #if defined(_NATURE_FERN) || defined(_NATURE_NEEDLES)
+    Light sun = GetMainLight(lighting.shadowCoord);
+    half backlight = pow(saturate(dot(lighting.viewDirectionWS, -sun.direction)), 4);
+    half sheet = saturate(-dot(lighting.normalWS, sun.direction) * .65 + .35);
+    half thinness = saturate(surface.albedo.g * 3.5);
+    color.rgb += surface.albedo * half3(.70, 1, .38) * sun.color
+        * sun.shadowAttenuation * (backlight * .65 + sheet * .12) * thinness;
+    #endif
+    color.rgb = MixFog(color.rgb, lighting.fogCoord);
+    return color;
+}
 ENDHLSL
 }
 Pass {

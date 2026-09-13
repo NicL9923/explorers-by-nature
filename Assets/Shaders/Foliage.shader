@@ -40,16 +40,26 @@ HLSLPROGRAM
 #pragma fragment frag
 #pragma multi_compile_fog
 #pragma multi_compile _ _MAIN_LIGHT_SHADOWS _MAIN_LIGHT_SHADOWS_CASCADE
-#pragma multi_compile_fragment _ _SHADOWS_SOFT
+#pragma multi_compile_fragment _ _SHADOWS_SOFT _SHADOWS_SOFT_LOW _SHADOWS_SOFT_MEDIUM _SHADOWS_SOFT_HIGH
+#pragma multi_compile_fragment _ _SCREEN_SPACE_OCCLUSION
 #pragma multi_compile_instancing
  half4 frag(V i, FRONT_FACE_TYPE face:FRONT_FACE_SEMANTIC):SV_Target {
  half4 leaf=SAMPLE_TEXTURE2D(_BaseMap,sampler_BaseMap,i.uv)*_BaseColor;ClipLeafAlpha(leaf.a);
  half3 n=normalize(i.n)*IS_FRONT_VFACE(face,1,-1);Light sun=GetMainLight(TransformWorldToShadowCoord(i.w));
- half diffuse=saturate(dot(n,sun.direction)*.7+.3);
- half back=pow(saturate(dot(normalize(_WorldSpaceCameraPos-i.w),-sun.direction)),3)*.65;
- half shade=lerp(.10,1,sun.shadowAttenuation);
- half3 ambient=SampleSH(n)*.85+SampleSH(half3(0,1,0))*.13;
- half3 col=leaf.rgb*(ambient+sun.color*shade*(diffuse*.85+back*half3(.75,1,.32)));
+ InputData lighting=(InputData)0;
+ lighting.positionWS=i.w;lighting.normalWS=n;
+ lighting.viewDirectionWS=GetWorldSpaceNormalizeViewDir(i.w);
+ lighting.shadowCoord=TransformWorldToShadowCoord(i.w);
+ lighting.bakedGI=SampleSH(n);lighting.shadowMask=half4(1,1,1,1);
+ lighting.normalizedScreenSpaceUV=GetNormalizedScreenSpaceUV(i.p);
+ SurfaceData surface=(SurfaceData)0;
+ surface.albedo=leaf.rgb;surface.alpha=1;surface.normalTS=half3(0,0,1);
+ surface.smoothness=.24;surface.occlusion=1;
+ half3 col=UniversalFragmentPBR(lighting,surface).rgb;
+ // Transmission only follows direct sunlight, never an unshadowed additive glow.
+ half back=pow(saturate(dot(lighting.viewDirectionWS,-sun.direction)),4);
+ half sheet=saturate(-dot(n,sun.direction)*.65+.35);
+ col+=leaf.rgb*half3(.72,1,.38)*sun.color*sun.shadowAttenuation*(back*.65+sheet*.15);
  return half4(MixFog(col,i.fog),1);
  }
 

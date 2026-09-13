@@ -15,11 +15,11 @@ namespace ExplorersByNature
             var random = new System.Random(63021);
             for (int layer = 0; layer < 2; layer++)
                 for (int z = -266; z < 154; z += 28)
-                    for (int x = -182; x < 42; x += 28)
+                    for (int x = -182; x < (layer==0?42:182); x += 28)
                     {
                         var patch = new Geometry();
                         Vector3 origin = ValleyShape.Ground(x + 14, z + 14);
-                        for (int i = 0; i < (layer == 0 ? 22 : 42); i++)
+                        for (int i = 0; i < (layer == 0 ? 22 : 76); i++)
                         {
                             float wx = x + R(random, 0, 28), wz = z + R(random, 0, 28);
                             // Concentrate half of the extra layer at the walking route's edges.
@@ -30,12 +30,12 @@ namespace ExplorersByNature
                                 if (edge >= x && edge < x + 28) wx = edge;
                             }
                             float trail = Mathf.Abs(wx - ValleyShape.TrailX(wz));
-                            if (trail < 3.8f || Mathf.Abs(wx - ValleyShape.RiverX(wz)) < 24) continue;
+                            if (trail < 3.8f || (layer==0?Mathf.Abs(wx-ValleyShape.RiverX(wz))<24:RiverDynamics.DepthAt(wx,wz)>.01f)) continue;
                             if (ValleyShape.Height(wx, wz) > 108 || Mathf.Abs(ValleyShape.Height(wx + 1, wz) - ValleyShape.Height(wx - 1, wz)) > 2.1f) continue;
                             // Leave the actual homestead and expedition interactions open.
                             if ((new Vector2(wx + 98, wz + 232)).sqrMagnitude < 18 * 18) continue;
                             float patchiness = Mathf.PerlinNoise((wx + 640) * .047f, (wz + 410) * .047f);
-                            if (patchiness < .25f || (trail > 35 && R(random, 0, 1) > .38f)) continue;
+                            if (patchiness < .25f || (trail > 35 && Mathf.Abs(wx-ValleyShape.RiverX(wz))>55 && R(random, 0, 1) > .38f)) continue;
                             Vector3 p = ValleyShape.Ground(wx, wz, .015f) - origin;
                             float angle = R(random, 0, Mathf.PI * 2), scale = R(random, .8f, 1.65f);
                             int kind = random.Next(10);
@@ -56,7 +56,7 @@ namespace ExplorersByNature
                         cell.transform.SetParent(layer == 0 ? transform : highDetail, false); cell.transform.position = origin;
                         cell.GetComponent<MeshFilter>().sharedMesh = mesh;
                         var renderer = cell.GetComponent<MeshRenderer>(); renderer.sharedMaterial = material;
-                        renderer.shadowCastingMode = ShadowCastingMode.Off;
+                        renderer.shadowCastingMode = ShadowCastingMode.On;
                         var lod = cell.GetComponent<LODGroup>();
                         lod.SetLODs(new[] { new LOD(layer == 0 ? .095f : .14f, new Renderer[] { renderer }) }); lod.RecalculateBounds();
                     }

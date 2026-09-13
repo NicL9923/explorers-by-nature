@@ -76,6 +76,24 @@ namespace ExplorersByNature
                 if (!SaveFrame(Path.Combine(output, names[i] + ".png"))) yield break;
                 Debug.Log("GROVE_CAPTURE_FRAME " + names[i] + " position=" + walker.view.transform.position + " quality=" + quality);
             }
+            if(Array.IndexOf(Environment.GetCommandLineArgs(),"--cinematic-extra")>=0)
+            {
+                RiverDynamics.Current.Visit();
+                yield return new WaitForSecondsRealtime(3);yield return new WaitForEndOfFrame();
+                if(!SaveFrame(Path.Combine(output,"07-river.png")))yield break;
+                SkyWeather.Current.SetPreview(.73f,0);
+                var sunlight=RenderSettings.sun;
+                walker.view.transform.rotation=Quaternion.LookRotation(-sunlight.transform.forward);
+                yield return new WaitForSecondsRealtime(3);
+                walker.view.transform.rotation=Quaternion.LookRotation(-sunlight.transform.forward);
+                yield return new WaitForEndOfFrame();
+                if(!SaveFrame(Path.Combine(output,"08-sunset-clouds.png")))yield break;
+                SkyWeather.Current.SetPreview(.42f,1);
+                RiverDynamics.Current.Visit();
+                yield return new WaitForSecondsRealtime(3);yield return new WaitForEndOfFrame();
+                if(!SaveFrame(Path.Combine(output,"09-rainy-river.png")))yield break;
+            }
+            Debug.Log("CINEMATIC_SETTINGS quality="+QualitySettings.names[QualitySettings.GetQualityLevel()]+" samples="+((UnityEngine.Rendering.Universal.UniversalRenderPipelineAsset)QualitySettings.renderPipeline).msaaSampleCount+" clouds="+RenderSettings.skybox.GetFloat("_SkyQuality"));
             Debug.Log("GROVE_CAPTURE_COMPLETE " + output + " quality=" + quality + " resolution=" + Screen.width + "x" + Screen.height);
             Application.Quit(0);
         }

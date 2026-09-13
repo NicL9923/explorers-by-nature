@@ -50,7 +50,10 @@ namespace ExplorersByNature
             float drainage=Mathf.Abs(Mathf.Sin((x+dz*.34f+warp)*.032f));
             float fine=Mathf.PerlinNoise(x*.027f+128,z*.023f+92)-.5f;
             shoulder-=drainage*drainage*flank*42;
-            shoulder+=fine*13*Mathf.Clamp01(shoulder/120);
+            // Nested drainage roughness gives buttresses irregular edges instead of broad triangles.
+            float ridge = 1 - Mathf.Abs(Mathf.PerlinNoise(x*.012f+42,z*.016f+17)*2-1);
+            float scree = Mathf.PerlinNoise(x*.071f+63,z*.066f+39)-.5f;
+            shoulder+=(fine*19 + (ridge-.65f)*24*flank + scree*4)*Mathf.Clamp01(shoulder/120);
             // A low intervening ridge gives the farther crest a second visible horizon.
             float nearCrest=152+Mathf.Abs(Mathf.Sin(x*.0071f+.4f))*112;
             float near=nearCrest-Mathf.Abs(z-(615+Mathf.Sin(x*.0038f)*42))*.95f;
@@ -59,17 +62,21 @@ namespace ExplorersByNature
 
         void BuildRange(Material source, Terrain terrain)
         {
-            const int columns=321, rows=145;
+            const int columns=561, rows=205;
             var vertices=new Vector3[columns*rows];
             var colors=new Color[vertices.Length];
             var indices=new int[(columns-1)*(rows-1)*6];
             int triangle=0;
+            TerrainData data=terrain.terrainData;
+            Vector3 summitHeights=new Vector3(data.GetInterpolatedHeight(245f/900,805f/900),
+                data.GetInterpolatedHeight(605f/900,835f/900),data.GetInterpolatedHeight(805f/900,750f/900));
             for(int row=0;row<rows;row++) for(int col=0;col<columns;col++)
             {
                 float x=Mathf.Lerp(-1400,1400,col/(float)(columns-1));
                 float z=Mathf.Lerp(450,1470,row/(float)(rows-1));
                 float blend=Mathf.SmoothStep(0,1,(z-450)/110);
-                float edge=Mathf.Abs(x)<=450 ? terrain.SampleHeight(new Vector3(x,0,449.9f)) : 0;
+                float edge=Mathf.Abs(x)<=450
+                    ? RockEnvelope(x,449.9f,terrain.SampleHeight(new Vector3(x,0,449.9f)),summitHeights) : 0;
                 int index=row*columns+col;
                 vertices[index]=new Vector3(x,Mathf.Lerp(edge,RangeHeight(x,z),blend),z);
                 colors[index]=new Color(1,1,1,1);
@@ -80,15 +87,68 @@ namespace ExplorersByNature
             Render("Connected alpine escarpments",vertices,colors,indices,source,385);
         }
 
+        // Linked summits and asymmetric rock walls replace the rounded upper envelope.
+        // Heights are relative to each massif's actual summit. These are complete watershed
+        // sections, not separate rocks pasted onto a smooth cone.
+        static readonly Vector3[] SummitProfile = {
+            new Vector3(-1,-76,-.06f), new Vector3(-.77f,-18,.07f),
+            new Vector3(-.57f,27,.03f), new Vector3(-.36f,4,-.09f),
+            new Vector3(-.08f,53,.04f), new Vector3(.12f,24,.11f),
+            new Vector3(.34f,39,.02f), new Vector3(.55f,-4,-.12f),
+            new Vector3(.76f,17,-.04f), new Vector3(1,-88,.10f)
+        };
+
+        static float RockEnvelope(float x,float z,float ground,Vector3 summitHeights)
+        {
+            float envelope=ground;
+            envelope=Mathf.Max(envelope,Escarpment(x,z,-205,355,118,1.13f,1.78f,summitHeights.x));
+            envelope=Mathf.Max(envelope,Escarpment(x,z,155,385,127,1.48f,2.1f,summitHeights.y));
+            envelope=Mathf.Max(envelope,Escarpment(x,z,355,300,103,1.24f,1.9f,summitHeights.z));
+            // Keep all ranch/river/overlook ground exactly where the authority places it.
+            // Upper rock faces remain scenery; no new routes run through this envelope.
+            float north=Mathf.SmoothStep(0,1,Mathf.InverseLerp(245,290,z));
+            float altitude=Mathf.SmoothStep(0,1,Mathf.InverseLerp(112,162,ground));
+            return Mathf.Lerp(ground,envelope,north*altitude);
+        }
+
+        static float Escarpment(float x,float z,float cx,float cz,float width,float frontSlope,float backSlope,float summit)
+        {
+            float u=(x-cx)/width;
+            if(u<=-1 || u>=1)return 0;
+            int section=0;
+            while(section<SummitProfile.Length-2 && u>SummitProfile[section+1].x)section++;
+            Vector3 a=SummitProfile[section],b=SummitProfile[section+1];
+            float t=Mathf.InverseLerp(a.x,b.x,u);
+            float crest=summit+Mathf.Lerp(a.y,b.y,t);
+            float ridgeZ=cz+Mathf.Lerp(a.z,b.z,t)*width;
+            float distance=z-ridgeZ;
+            float slope=distance<0?frontSlope:backSlope;
+            // A steep headwall breaks onto a shallow talus apron. Unequal facets produce
+            // readable planes and saddles at skyline scale, rather than smooth radial peaks.
+            float wall=crest-Mathf.Abs(distance)*slope;
+            float apron=crest-48-Mathf.Abs(distance)*slope*.66f;
+            float face=Mathf.Max(wall,apron);
+            // Continuous weathering breaks up each plane without a repeated sawtooth in
+            // height. Periodic bedding made the silhouette look like stacked terraces.
+            float weathering=(Mathf.PerlinNoise(x*.055f+31,z*.041f+73)-.5f)*2.8f;
+            weathering+=(Mathf.PerlinNoise(x*.117f+17,z*.093f+29)-.5f)*.65f;
+            return (face+weathering*Mathf.Clamp01(Mathf.Abs(distance)/30))
+                *Mathf.SmoothStep(0,1,Mathf.Clamp01((1-Mathf.Abs(u))*6));
+        }
+
         void BuildFaces(Material source, Terrain terrain)
         {
             // Sample the actual rendered heightfield, not a second analytic approximation.
-            // The 5 cm normal lift prevents z fighting and leaves gameplay geometry untouched.
+            // Connected upper escarpments change the skyline; their feet meet the sampled terrain.
+            // The 5 cm normal lift prevents z fighting where the surfaces coincide.
             const int columns=513, rows=153;
             var vertices=new Vector3[columns*rows];
             var colors=new Color[vertices.Length];
+            var raised=new bool[vertices.Length];
             var indices=new List<int>((columns-1)*(rows-1)*6);
             TerrainData data=terrain.terrainData;
+            Vector3 summitHeights=new Vector3(data.GetInterpolatedHeight(245f/900,805f/900),
+                data.GetInterpolatedHeight(605f/900,835f/900),data.GetInterpolatedHeight(805f/900,750f/900));
             for(int row=0;row<rows;row++) for(int col=0;col<columns;col++)
             {
                 float x=Mathf.Lerp(-450,450,col/(float)(columns-1));
@@ -99,8 +159,20 @@ namespace ExplorersByNature
                 float north=Mathf.SmoothStep(0,1,Mathf.InverseLerp(195,235,z));
                 float high=Mathf.SmoothStep(0,1,Mathf.InverseLerp(98,145,h));
                 int index=row*columns+col;
-                vertices[index]=new Vector3(x,h,z)+normal*.05f;
+                float rockHeight=RockEnvelope(x,z,h,summitHeights);
+                raised[index]=rockHeight>h+.001f;
+                vertices[index]=new Vector3(x,rockHeight,z)+normal*.05f;
                 colors[index]=new Color(1,1,1,north*high);
+            }
+            // Dithered coverage is safe only where the rock is a terrain-conforming coat.
+            // Escarpments have empty space below them: clipping their foot exposes that
+            // space as a hollow arch. Make every vertex of a raised cell opaque, including
+            // its ground-contact vertices, so interpolated alpha cannot reopen the seam.
+            for(int row=0;row<rows-1;row++) for(int col=0;col<columns-1;col++)
+            {
+                int i=row*columns+col;
+                if(!raised[i] && !raised[i+1] && !raised[i+columns] && !raised[i+columns+1])continue;
+                colors[i].a=colors[i+1].a=colors[i+columns].a=colors[i+columns+1].a=1;
             }
             for(int row=0;row<rows-1;row++) for(int col=0;col<columns-1;col++)
             {
@@ -123,8 +195,8 @@ namespace ExplorersByNature
             piece.transform.SetParent(transform,false);
             piece.GetComponent<MeshFilter>().sharedMesh=mesh;
             var renderer=piece.GetComponent<MeshRenderer>();renderer.sharedMaterial=material;
-            renderer.shadowCastingMode=ShadowCastingMode.Off;
-            renderer.receiveShadows=false;
+            renderer.shadowCastingMode=ShadowCastingMode.On;
+            renderer.receiveShadows=true;
             renderer.lightProbeUsage=LightProbeUsage.Off;
             renderer.reflectionProbeUsage=ReflectionProbeUsage.Off;
         }

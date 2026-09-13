@@ -22,6 +22,8 @@ Shader "Explorers/River"
             #pragma multi_compile_fog
             #pragma multi_compile _ _MAIN_LIGHT_SHADOWS _MAIN_LIGHT_SHADOWS_CASCADE
             #pragma multi_compile_fragment _ _SHADOWS_SOFT
+            #pragma multi_compile_fragment _ _REFLECTION_PROBE_BLENDING
+            #pragma multi_compile_fragment _ _REFLECTION_PROBE_BOX_PROJECTION
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/DeclareOpaqueTexture.hlsl"
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/DeclareDepthTexture.hlsl"
@@ -81,6 +83,88 @@ Shader "Explorers/River"
                     du.x*lerp(b-a,d-c,u.y),du.y*lerp(c-a,d-b,u.x));
             }
 
+            // Camera-depth ray tracing supplies actual visible banks, trees and mountains.
+            // Missing/offscreen geometry fades to the environment probe, never a clamped edge.
+            bool ProjectRay(float3 world, out float2 uv, out float eye)
+            {
+                float4 clip=TransformWorldToHClip(world);
+                float4 screen=ComputeScreenPos(clip);
+                uv=screen.xy/max(screen.w,.0001);
+                eye=-TransformWorldToView(world).z;
+                return clip.w>.05 && all(uv>.002) && all(uv<.998);
+            }
+            half4 RiverReflection(float3 origin,float3 direction,float roughness)
+            {
+                float previous=.12, distance=.18, previousGap=-1;
+                [loop] for(int i=0;i<40;i++)
+                {
+                    if(distance>100)break;
+                    float2 uv; float eye;
+                    if(!ProjectRay(origin+direction*distance,uv,eye))break;
+                    float sceneEye=LinearEyeDepth(SampleSceneDepth(uv),_ZBufferParams);
+                    float gap=eye-sceneEye;
+                    // Refine every crossing BEFORE testing thickness. Testing the coarse step
+                    // rejected alternating neighboring rays and punched bright holes in banks.
+                    if(previousGap<0 && gap>0 && sceneEye<_ProjectionParams.z*.98)
+                    {
+                        float lo=previous,hi=distance;
+                        [unroll] for(int j=0;j<5;j++)
+                        {
+                            float mid=(lo+hi)*.5;float2 refineUV;float refineEye;
+                            ProjectRay(origin+direction*mid,refineUV,refineEye);
+                            float delta=refineEye-LinearEyeDepth(SampleSceneDepth(refineUV),_ZBufferParams);
+                            if(delta>0)hi=mid;else lo=mid;
+                        }
+                        ProjectRay(origin+direction*hi,uv,eye);
+                        float edge=min(min(uv.x,1-uv.x),min(uv.y,1-uv.y));
+                        float hitDepth=LinearEyeDepth(SampleSceneDepth(uv),_ZBufferParams);
+                        float residual=max(0,eye-hitDepth);
+                        float thickness=.12+hi*.009;
+                        float confidence=smoothstep(.025,.14,edge)*(1-smoothstep(65,100,hi));
+                        confidence*=1-smoothstep(thickness,thickness*3,residual);
+                        confidence*=smoothstep(.15,.65,hi);
+                        // A small deterministic cone footprint approximates rough reflection.
+                        // Bilateral weights prevent the sky bleeding over bank silhouettes.
+                        float2 texel=1/_ScaledScreenParams.xy;
+                        float radius=clamp(roughness*hi*.55,1.25,5);
+                        half3 filtered=SampleSceneColor(uv)*2;
+                        float total=2;
+                        float support=0;
+                        [unroll] for(int tap=0;tap<4;tap++)
+                        {
+                            float2 offset=tap==0?float2(1,0):tap==1?float2(-1,0):tap==2?float2(0,1):float2(0,-1);
+                            float2 tapUV=saturate(uv+offset*texel*radius);
+                            float tapDepth=LinearEyeDepth(SampleSceneDepth(tapUV),_ZBufferParams);
+                            float weight=exp2(-abs(tapDepth-hitDepth)/max(.3,hitDepth*.025));
+                            filtered+=SampleSceneColor(tapUV)*weight;
+                            total+=weight;
+                            support+=weight;
+                        }
+                        // Isolated depth samples are disocclusions rather than trustworthy
+                        // reflected detail. Keep a probe contribution at all confidence levels.
+                        confidence*=lerp(.25,.88,smoothstep(.5,3,support));
+                        return half4(filtered/total,confidence);
+                    }
+                    previousGap=gap;previous=distance;distance+=.15+distance*.16;
+                }
+                return 0;
+            }
+            // Isotropic GGX with Smith visibility and water-air Schlick reflectance.
+            float WaterSun(float3 normal,float3 view,float3 light,float roughness)
+            {
+                float3 h=SafeNormalize(view+light);
+                float nv=max(.015,saturate(dot(normal,view))),nl=saturate(dot(normal,light));
+                float nh=saturate(dot(normal,h)),vh=saturate(dot(view,h));
+                float a2=roughness*roughness*roughness*roughness;
+                float denom=nh*nh*(a2-1)+1;
+                float distribution=a2/max(3.14159265*denom*denom,.0000001);
+                float gv=nl*sqrt(nv*nv*(1-a2)+a2);
+                float gl=nv*sqrt(nl*nl*(1-a2)+a2);
+                float visibility=.5/max(gv+gl,.0001);
+                float fresnel=.02037+.97963*pow(1-vh,5);
+                return min(20,distribution*visibility*fresnel*nl);
+            }
+
             half4 frag(Varyings input):SV_Target
             {
                 float2 p = input.world.xz;
@@ -103,17 +187,23 @@ Shader "Explorers/River"
                 float2 broadSlope=float2(broad.y*.8+broad.z*.6,-broad.y*.6+broad.z*.8);
                 float2 smallSlope=float2(small.y*.6-small.z*.8,small.y*.8+small.z*.6);
                 float middleDetail=1-smoothstep(.12,1.1,footprint);
-                float2 slope=broadSlope*.012+ripple.yz*.045*middleDetail+smallSlope*.019*fine;
+                float2 slope=broadSlope*.018+ripple.yz*.018*middleDetail+smallSlope*.006*fine;
                 float4 physical=LocalWaves(p);
                 float windStrength=saturate(length(_NatureWind.xz)/5);
                 slope *= .75+windStrength*.65;
                 // Both the rendered normal and nearby surface vertices respond to the same field.
                 slope -= physical.rg;
                 float3 normal = normalize(float3(slope.x, 1, slope.y));
+                // Micro-ripples broaden the BRDF instead of flipping an entire bank reflection
+                // between adjacent pixels. Keep the simulated impact/wake field in this normal.
+                float2 reflectionSlope=(broadSlope*.018+ripple.yz*.009*middleDetail)*(.75+windStrength*.65)-physical.rg;
+                float3 reflectionNormal=normalize(float3(reflectionSlope.x,1,reflectionSlope.y));
                 float3 view = GetWorldSpaceNormalizeViewDir(input.world);
                 Light sun = GetMainLight(TransformWorldToShadowCoord(input.world));
                 half3 ambient = max(SampleSH(float3(0,1,0)), half3(.008,.012,.018));
                 float shallow = exp2(-depth * 1.35);
+                float contactDepth=depth;
+                float2 screenUV=GetNormalizedScreenSpaceUV(input.positionCS);
 
                 // An optically attenuated, refracted bed costs no scene-color copy. A filtered
                 // irregular pebble pattern replaces the former regular checkerboard surface.
@@ -134,38 +224,45 @@ Shader "Explorers/River"
 
                 if(_RiverSceneColor>.5)
                 {
-                    float2 screenUV=GetNormalizedScreenSpaceUV(input.positionCS);
+                    contactDepth=max(0,LinearEyeDepth(SampleSceneDepth(screenUV),_ZBufferParams)+TransformWorldToView(input.world).z);
                     float surfaceEye=-TransformWorldToView(input.world).z;
-                    float2 refractedUV=saturate(screenUV+slope*(.012+.006*depth)*smoothstep(0,.4,depth));
+                    float2 distortion=TransformWorldToViewDir(normal).xy;
+                    float2 refractedUV=saturate(screenUV+distortion*(.012+.006*depth)*smoothstep(0,.4,depth));
                     float behind=LinearEyeDepth(SampleSceneDepth(refractedUV),_ZBufferParams)-surfaceEye;
                     // Reject distortion across foreground rocks and the bank silhouette.
                     refractedUV=lerp(screenUV,refractedUV,smoothstep(0,.35,behind));
                     float opticalDepth=max(0,LinearEyeDepth(SampleSceneDepth(refractedUV),_ZBufferParams)-surfaceEye);
                     half3 sceneBed=SampleSceneColor(refractedUV);
+                    // Anchor refracted light to the actual bed, not the moving water surface.
+                    float rawDepth=SampleSceneDepth(refractedUV);
+                    #if !UNITY_REVERSED_Z
+                        rawDepth=lerp(UNITY_NEAR_CLIP_VALUE,1,rawDepth);
+                    #endif
+                    float3 bedWorld=ComputeWorldSpacePosition(refractedUV,rawDepth,UNITY_MATRIX_I_VP);
+                    float submerged=max(0,input.world.y-bedWorld.y);
+                    float causticA=Noise(bedWorld.xz*2.1+float2(t*.27,-t*.21));
+                    float causticB=Noise(float2(bedWorld.x*.8-bedWorld.z*.6,bedWorld.x*.6+bedWorld.z*.8)*2.7+float2(-t*.19,t*.17));
+                    float caustics=pow(saturate(1-abs(causticA-causticB)*5),7);
+                    sceneBed+=caustics*.09*sun.color*sun.shadowAttenuation*exp(-submerged*.6)*fine;
                     half3 attenuation=exp(-min(opticalDepth,12)*half3(.29,.115,.15));
                     half3 waterScatter=_BaseColor.rgb*(ambient*.8+sun.color*sun.shadowAttenuation*.5);
                     transmitted=sceneBed*attenuation+waterScatter*(1-attenuation);
                 }
 
-                // Water's low normal-incidence reflectance preserves the green channel.
-                // Only grazing views become predominantly sky. Ambient and sun keep the
-                // approximation in step with weather without a planar reflection camera.
-                float facing = saturate(dot(normal, view));
-                float fresnel = .02 + .98 * pow(1 - facing, 5);
-                float3 reflected = reflect(-view, normal);
-                float skyHeight = saturate(reflected.y);
-                half3 sky = ambient * lerp(half3(.82,1.04,1.12), half3(.48,.82,1.12), skyHeight);
-                // A broad cloud reflection breaks the featureless silver grazing sheet.
-                float2 skyUV=reflected.xz/max(.22,reflected.y);
-                float cloud=Noise(skyUV*1.7+float2(t*.004,0));
-                sky*=lerp(.84,1.08,smoothstep(.25,.78,cloud));
-                sky += sun.color * pow(saturate(dot(reflected, sun.direction)), 24) * .12;
-                half3 color = lerp(transmitted, sky, fresnel);
-
-                float3 halfDirection = SafeNormalize(sun.direction + view);
-                float specularPower = lerp(70, 260, fine);
-                float specular = pow(saturate(dot(normal, halfDirection)), specularPower);
-                color += specular * sun.color * sun.shadowAttenuation * .38;
+                float facing=saturate(dot(normal,view));
+                float fresnel=.02037+.97963*pow(1-facing,5);
+                float3 reflected=reflect(-view,reflectionNormal);
+                // Increase roughness with the pixel footprint to filter distant sun glitter.
+                float normalVariance=dot(ddx(normal),ddx(normal))+dot(ddy(normal),ddy(normal));
+                float roughness=sqrt(lerp(.24*.24,.18*.18,fine)+windStrength*.012+min(.12,normalVariance*.6));
+                half3 reflection=GlossyEnvironmentReflection(reflected,input.world,roughness,1,screenUV);
+                if(_RiverSceneColor>.5 && reflected.y>-.05)
+                {
+                    half4 traced=RiverReflection(input.world+float3(0,.035,0),reflected,roughness);
+                    reflection=lerp(reflection,traced.rgb,traced.a);
+                }
+                half3 color=lerp(transmitted,reflection,fresnel);
+                color+=WaterSun(normal,view,sun.direction,roughness)*sun.color*sun.shadowAttenuation;
 
                 // Sparse cellular flecks gather in shallow riffles and on simulated
                 // impact/wake slopes. No global sine crests or continuous white bank.
@@ -175,7 +272,9 @@ Shader "Explorers/River"
                 float shelf=(1-smoothstep(.3,1.3,depth))*smoothstep(.035,.22,depth);
                 float riffle=smoothstep(.66,.86,patch)*shelf;
                 float impact=smoothstep(.008,.095,physical.a)*smoothstep(.3,.66,patch);
-                float foam=saturate((riffle*.5+impact*.7)*filaments)*fine;
+                // Real scene depth adds broken foam around protruding stones and timber.
+                float contact=(1-smoothstep(.04,.42,contactDepth))*smoothstep(.002,.06,contactDepth);
+                float foam=saturate((riffle*.5+impact*.7+contact*.8)*filaments)*fine;
                 half3 foamLight = ambient * .65 + sun.color * sun.shadowAttenuation * .7;
                 color = lerp(color, foamLight * half3(.65,.72,.67), foam * .65);
                 return half4(MixFog(color, input.fog), 1);

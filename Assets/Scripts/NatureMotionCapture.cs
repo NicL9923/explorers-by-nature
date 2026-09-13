@@ -88,7 +88,7 @@ namespace ExplorersByNature
             }
             Time.captureFramerate=0;
             File.WriteAllText(Path.Combine(output,"proof.json"),JsonUtility.ToJson(proof,true));
-            if(proof.activeFurClumps!=(proof.quality=="high"?1800:600) || proof.maximumFurBend<.001f || proof.waterImpacts<1){Fail("motion proof missing fur response or water impact");yield break;}
+            if(proof.activeFurClumps!=(proof.quality=="high"?5400:600) || proof.maximumFurBend<.001f || proof.waterImpacts<1){Fail("motion proof missing fur response or water impact");yield break;}
             Debug.Log("NATURE_MOTION_COMPLETE "+proof.revision);Application.Quit(0);
         }
         static void Position(FirstPersonWalker walker,Vector3 stand,Vector3 target)

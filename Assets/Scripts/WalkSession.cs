@@ -95,11 +95,16 @@ namespace ExplorersByNature
             walker.view.GetUniversalAdditionalCameraData().requiresColorTexture=high;
             QualitySettings.SetQualityLevel(high ? 1 : 0, true);
             QualitySettings.renderPipeline = high ? highPipeline : lowPipeline;
-            QualitySettings.lodBias = high ? 1.5f : .75f;
+            QualitySettings.lodBias = high ? 3f : .75f;
+            var cameraData=walker.view.GetUniversalAdditionalCameraData();
+            // Deformed foliage/hair and transparent water do not yet have complete
+            // velocity buffers. Spatial AA keeps their silhouettes stable in motion.
+            cameraData.antialiasing=high?AntialiasingMode.SubpixelMorphologicalAntiAliasing:AntialiasingMode.None;
+            cameraData.antialiasingQuality=AntialiasingQuality.High;
             QualitySettings.globalTextureMipmapLimit = high ? 0 : 1;
             QualitySettings.vSyncCount = 0;
             Application.targetFrameRate = ValidationFrameLimit;
-            if (world.Ground != null) world.Ground.heightmapPixelError = high ? 5 : 12;
+            if (world.Ground != null) world.Ground.heightmapPixelError = high ? 1 : 12;
             if (world.DenseGrass != null) world.DenseGrass.SetActive(high);
             FindFirstObjectByType<WoodlandAtmosphere>()?.SetQuality(high);
             PlayerPrefs.SetInt("HighQuality", high ? 1 : 0);

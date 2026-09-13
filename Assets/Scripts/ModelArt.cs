@@ -20,6 +20,7 @@ namespace ExplorersByNature
             Remap(instance, Folder(path),path+"Detail");
             ConfigureLods(instance, cull);
             AnimalMotion.Attach(instance, path);
+            WesternHair.Attach(instance, path);
             return instance;
         }
 

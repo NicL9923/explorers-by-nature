@@ -10,6 +10,7 @@ import tempfile
 def main():
     root = pathlib.Path(__file__).resolve().parents[2]
     parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--cinematic-extra', action='store_true')
     parser.add_argument('--quality', choices=['low', 'high'], default='high')
     parser.add_argument('--output', type=pathlib.Path)
     parser.add_argument('--player', type=pathlib.Path, default=root / 'Builds/Linux/ExplorersByNature')
@@ -28,6 +29,8 @@ def main():
     if not player.is_file():
         parser.error(f'build the Linux player first: {player}')
     names = ['01-entrance.png', '02-trail-and-doe.png', '03-fern-trail.png', '04-stump-and-floor.png', '05-doe-close.png', '06-overlook.png']
+    if options.cinematic_extra:
+        names += ['07-river.png', '08-sunset-clouds.png', '09-rainy-river.png']
     for name in names:
         (output / name).unlink(missing_ok=True)
     log = output / 'player.log'
@@ -40,9 +43,10 @@ def main():
         env['XDG_DATA_HOME'] = str(pathlib.Path(temporary) / 'data')
         env['TMPDIR'] = temporary
         command = [str(player), '--grove-capture', '--grove-capture-dir', str(output),
-                   '--grove-quality', options.quality, '--quality-' + options.quality,
+                   '--grove-quality', options.quality, '--quality-' + options.quality, '--validation-fps', '30',
                    '-screen-fullscreen', '0', '-screen-width', str(options.width),
                    '-screen-height', str(options.height), '-logFile', str(log)]
+        if options.cinematic_extra:command.append('--cinematic-extra')
         if options.vulkan_device_index is not None:
             command.extend(['-force-vulkan', '-force-device-index', str(options.vulkan_device_index)])
         try:

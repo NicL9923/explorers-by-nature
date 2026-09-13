@@ -33,6 +33,7 @@ namespace ExplorersByNature
             BuildOutcrops();
             BuildShoreDetails();
             BuildGrass();
+            BuildRiverCanopy();
             BuildFlowerDrifts();
             gameObject.AddComponent<ForestUnderstory>().Grow(DenseGrass.transform, grassMaterial);
             gameObject.AddComponent<WildlifeHabitats>();
@@ -162,7 +163,8 @@ namespace ExplorersByNature
             Mesh river = Own(new Mesh { name = "Winding river depth bands" });
             river.SetVertices(vertices);river.SetTriangles(triangles,0);river.SetUVs(0,uv);river.SetColors(colors);river.RecalculateNormals();river.RecalculateBounds();
             var liveWater = Own(new Material(waterMaterial) { name = "Flowing river with local waves" });
-            MeshObject("River",river,liveWater,transform).shadowCastingMode=ShadowCastingMode.Off;
+            var riverRenderer=MeshObject("River",river,liveWater,transform);riverRenderer.shadowCastingMode=ShadowCastingMode.Off;
+            riverRenderer.gameObject.layer=4; // Exclude screen-space water from reflection-probe captures.
             gameObject.AddComponent<RiverDynamics>().Initialize(walker,liveWater);
         }
 
@@ -335,14 +337,15 @@ namespace ExplorersByNature
             var meadowGrass=new GameObject("Meadow ground cover");meadowGrass.transform.SetParent(transform);
             var rng = new System.Random(371);
             for(int layer=0;layer<2;layer++)
-            for (int z = -260; z < 165; z += 24)
-                for (int x = -160; x < 10; x += 24)
+            for (int z = -260; z < (layer==0?165:220); z += 24)
+                for (int x = -160; x < (layer==0?10:178); x += 24)
                 {
                     var verts = new List<Vector3>(); var colors = new List<Color>(); var indices = new List<int>(); var bladeUV = new List<Vector2>();
                     for (int b = 0; b < (layer==0?1250:2500); b++)
                     {
                         float wx = x + Range(rng, 0, 24), wz = z + Range(rng, 0, 24);
-                        if (Mathf.Abs(wx - ValleyShape.TrailX(wz)) < 3 || Mathf.Abs(wx - ValleyShape.RiverX(wz)) < 23) continue;
+                        if (Mathf.Abs(wx - ValleyShape.TrailX(wz)) < 3 || (layer==0?Mathf.Abs(wx-ValleyShape.RiverX(wz))<23:RiverDynamics.DepthAt(wx,wz)>.01f)) continue;
+                        if(layer==1 && (ValleyShape.Height(wx,wz)>120 || Mathf.Abs(ValleyShape.Height(wx+1,wz)-ValleyShape.Height(wx-1,wz))>1.5f))continue;
                         Vector3 p = ValleyShape.Ground(wx, wz);
                         float patch = Mathf.PerlinNoise((wx+800)*.12f,(wz+750)*.12f);
                         if (patch < .31f || Range(rng,0,1) > Mathf.Lerp(.32f,1,patch)) continue;
@@ -351,24 +354,48 @@ namespace ExplorersByNature
                         Color color = Color.Lerp(new Color(.32f, .45f, .15f), new Color(.60f, .62f, .32f), Mathf.PerlinNoise(wx*.038f+50,wz*.038f+50)*.8f+Range(rng,0,.2f));
                         int n = verts.Count;
                         Vector3 bend = new Vector3(-side.z, 0, side.x) * Range(rng,4,15);
-                        verts.Add(p - side); verts.Add(p + side);
-                        verts.Add(p + Vector3.up * h * .55f + bend * .25f - side * .55f);
-                        verts.Add(p + Vector3.up * h * .55f + bend * .25f + side * .55f);
-                        verts.Add(p + Vector3.up * h + bend);
-                        colors.Add((color * .6f).linear); colors.Add((color * .6f).linear);
-                        colors.Add(color.linear); colors.Add(color.linear); colors.Add((color * 1.04f).linear);
-                        bladeUV.Add(Vector2.zero); bladeUV.Add(Vector2.right);
-                        bladeUV.Add(new Vector2(0, .55f)); bladeUV.Add(new Vector2(1, .55f)); bladeUV.Add(new Vector2(.5f, 1));
-                        indices.AddRange(new[] { n, n + 2, n + 1, n + 1, n + 2, n + 3, n + 2, n + 4, n + 3 });
+                        // Six curved sections keep the blade silhouette smooth at eye level.
+                        // Cross-section twist catches a moving highlight as coherent wind passes.
+                        const int sections = 6;
+                        for (int segment = 0; segment <= sections; segment++)
+                        {
+                            float t = segment / (float)sections;
+                            Vector3 center = p + Vector3.up * (h * (t - .12f*t*t)) + bend*t*t;
+                            Vector3 width = Quaternion.AngleAxis(t*28, Vector3.up) * side * Mathf.Pow(1-t,.72f);
+                            verts.Add(center-width); verts.Add(center+width);
+                            Color bladeColor = (color * Mathf.Lerp(.48f,1.08f,Mathf.Sqrt(t))).linear;
+                            colors.Add(bladeColor); colors.Add(bladeColor);
+                            bladeUV.Add(new Vector2(0,t)); bladeUV.Add(new Vector2(1,t));
+                            if (segment == sections) continue;
+                            int row = n + segment*2;
+                            indices.Add(row); indices.Add(row+2); indices.Add(row+1);
+                            if (segment < sections-1) { indices.Add(row+1); indices.Add(row+2); indices.Add(row+3); }
+                        }
                     }
                     if (verts.Count == 0) continue;
-                    Mesh mesh = Own(new Mesh { name = "Grass patch" });
+                    Mesh mesh = Own(new Mesh { name = "Grass patch", indexFormat = UnityEngine.Rendering.IndexFormat.UInt32 });
                     mesh.SetVertices(verts); mesh.SetTriangles(indices, 0); mesh.SetColors(colors); mesh.SetUVs(0, bladeUV); mesh.RecalculateNormals(); mesh.RecalculateBounds();
                     MeshRenderer renderer = MeshObject("Grass", mesh, grassMaterial, layer==0?meadowGrass.transform:DenseGrass.transform);
-                    renderer.shadowCastingMode = ShadowCastingMode.Off;
+                    renderer.shadowCastingMode = ShadowCastingMode.On;
                     LODGroup lod = renderer.gameObject.AddComponent<LODGroup>();
                     lod.SetLODs(new[] { new LOD(.07f, new Renderer[] { renderer }) }); lod.RecalculateBounds();
                 }
+        }
+
+        void BuildRiverCanopy()
+        {
+            var canopy=new GameObject("Riverbank pine groves");canopy.transform.SetParent(DenseGrass.transform,false);
+            var random=new System.Random(8824);
+            for(int i=0;i<32;i++)
+            {
+                float z=-180+i*10.5f,side=i%3==0?-1:1;
+                float x=ValleyShape.RiverX(z)+side*Range(random,25,52);
+                if(RiverDynamics.DepthAt(x,z)>0 || ValleyShape.Height(x,z)>100)continue;
+                var tree=ReferenceTreeArt.Tree(i%3!=0,canopy.transform);
+                tree.transform.position=ValleyShape.Ground(x,z);
+                tree.transform.localScale=Vector3.one*Range(random,.5f,.95f);
+                tree.transform.Rotate(0,Range(random,0,360),0);
+            }
         }
 
         void BuildFlowerDrifts()

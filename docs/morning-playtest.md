@@ -1,3 +1,7 @@
+# Lighting and nature
+
+Choose **High** in Escape for the new clouds, richer riverbanks, reflected scenery in the water, mountain faces and denser moving hair. **F7** visits the river and **F8** enters Fern Hollow. Evening in Escape lowers the sun for warm light over the river. Low remains available as a fallback.
+
 # Frontier playtest
 
 **F4** opens the explorer selector. Browse four outfits, inspect the rotating model, then choose **Use this explorer**. Your choice is remembered on this PC and shown to other players.

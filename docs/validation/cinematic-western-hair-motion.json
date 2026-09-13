@@ -1,0 +1,12 @@
+{
+    "revision": "8ea9007/sha256:b64d2d6c802a155538bb8af883b76a1c79783f9a782493e4d657266913f11974",
+    "quality": "High",
+    "frames": 240,
+    "fps": 24,
+    "width": 1280,
+    "height": 720,
+    "horseGuides": 370,
+    "playerGuides": 110,
+    "horseMaximumBend": 1.151094913482666,
+    "playerMaximumBend": 0.1121489554643631
+}

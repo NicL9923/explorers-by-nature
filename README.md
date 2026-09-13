@@ -14,11 +14,13 @@ Read the [morning playtest guide](docs/morning-playtest.md) for controls, multip
 
 The project targets Unity **6000.3.24f1** with Universal Render Pipeline **17.3.0**. Minimum hardware remains unverified; see the [validation ledger](docs/first-milestone.md).
 
-[Download the Linux or Windows prototype](https://github.com/NicL9923/explorers-by-nature/releases/tag/v0.11.0-frontier.1). This release was exercised on AMD integrated graphics. Earlier releases also ran on NVIDIA; the Windows build has not been run on Windows yet.
+[Download the Linux or Windows prototype](https://github.com/NicL9923/explorers-by-nature/releases/tag/v0.12.0-cinematic.1). The Windows build has not been run on Windows yet. See the validation ledger for tested Linux devices.
 
 [Wind, animal fur and interactive river water](docs/wind-water.md) now bring motion to the valley. **F7** visits the river; **G** tosses a pebble. Escape opens the wind settings.
 
 [See the woodland and alpine refinement](docs/woodland-refinement.md). Press **F8** to enter it and **F9** to hide the HUD.
+
+[The lighting and landscape pass](docs/cinematic-pass.md) adds volumetric clouds, reflected scenery in the river, connected mountain faces, richer riverbank vegetation and simulated horse/explorer hair. High now favors visual detail; optimization follows measured results.
 
 ## Run and build
 

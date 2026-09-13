@@ -322,3 +322,23 @@ Both desktop players carry runtime stamp `5deccf8/sha256:8e09a1835f84012620d14cf
 After the desktop lockup, editor/build/capture work uses one project-wide lock, a three-core CPU quota, 8 GiB memory pressure threshold, 10 GiB hard limit, no additional swap, lower scheduling priority and a 25-minute timeout. Rendered checks use the AMD integrated GPU and a 30 FPS cap. No recorded OOM kill or explicit GPU fault established the original cause; these limits reduce validation load rather than prove the freeze fixed.
 
 Reload recordings contain 240 frames at 24 simulation frames per second and are animation evidence, not performance benchmarks. Models use articulated rigid parts and have no authored distance LODs yet. The personal horse position resets on scene load; mounted visitors show their horse remotely. Native Windows execution, the proposed two-core/8 GB minimum PC and a populated 20-player rendered ranch remain unverified. Earlier NVIDIA evidence belongs to earlier releases; this release's rendered checks used AMD integrated graphics.
+
+## Lighting and nature detail, September 13
+
+High adds layered volumetric clouds, a lower evening sun, shadowed woodland air, live HDR environment reflections, physically lit mountain and vegetation materials, more curved grass and riverbank pines, filtered screen-space water reflections, and six-segment moving hair guides. The [feature notes and gallery](cinematic-pass.md) link the research and explain the approximations.
+
+The [single evidence manifest](validation/cinematic-builds.json) records the exact shared Linux/Windows runtime stamp, file hashes and capture metrics. Its source manifest covers 616 runtime, asset, settings and test files. Generated documentation and evidence are collected after the runtime is frozen.
+
+| Check | Evidence |
+| --- | --- |
+| Editor | [44 EditMode checks](validation/cinematic-test.xml), including guide length, root pinning, teleport reset, frame-rate consistency and mountain/vegetation shader passes. |
+| Gameplay | [25 PlayMode checks](validation/cinematic-playtest.xml), including updated coat budgets and reflection-probe restoration after scene reload. |
+| Desktop | [Linux and Windows build results](validation/cinematic-builds.json). Windows is cross-built and remains untested natively. |
+| Scenic captures | Nine views each on High, NVIDIA Vulkan at 1920×1080, and Low, AMD integrated Vulkan at 1280×720. Includes woodland, mountains, river, evening and rain. |
+| Motion | [High](benchmarks/cinematic-high-motion.mp4) and [Low](benchmarks/cinematic-low-motion.mp4) recordings each contain 480 frames at 24 simulation FPS, measured coat movement and a water impact. High/Low coat counts are 5,400/600 for the captured animal. |
+| Western hair | [240-frame recording](benchmarks/cinematic-western-hair-hair.mp4) includes horse mane/tail and explorer close-ups, with 370 horse and 110 explorer guides and measured movement. |
+| Multiplayer | [Two rendered clients](validation/cinematic-multiplayer.txt) check live outfit changes and agreement with the dedicated save at revision 25, 20 pieces, one milk and three eggs. Shared authority and server binaries are unchanged from the frontier release. |
+
+Visual inspection rejected temporal foliage stippling, holes beneath raised mountain faces, and alternating dark bank reflections before the final captures. Hair close-ups also exposed intersecting mane cards and prompted a groom correction. The original characters and horse still have stylized anatomy; these shading and simulation changes do not replace a full model rebuild.
+
+All heavy validation remains serialized with the existing CPU/memory limits and a 30 FPS rendering cap. The recordings demonstrate appearance and motion, not frame-time performance. This pass deliberately increases High detail. The proposed two-core/8 GB minimum and a populated 20-player rendered ranch remain unverified.

@@ -19,7 +19,7 @@ public sealed class AnimalFurPlayTests
         {
             var fur=model.GetComponent<AnimalFur>();Assert.That(fur,Is.Not.Null);
             QualitySettings.SetQualityLevel(high,true);yield return null;yield return null;
-            Assert.That(fur.ConfiguredClumps,Is.EqualTo(1800));
+            Assert.That(fur.ConfiguredClumps,Is.EqualTo(5400));
             QualitySettings.SetQualityLevel(low,true);yield return null;yield return null;
             Assert.That(fur.ConfiguredClumps,Is.EqualTo(600));
             Assert.That(model.GetComponent<AnimalFurGroom>().skin.quality,Is.EqualTo(SkinQuality.Bone4),"The coat and its pinned roots must use the same skin weights on Low.");

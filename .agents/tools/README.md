@@ -50,3 +50,7 @@
 - `frontier-capture.py`: exercise gathering, riding and hunting in the player, and record the full reload with matching gameplay proof.
 - `bounded-run.sh COMMAND...`: serialize heavy validation and cap it at 3 CPU equivalents, 8 GiB memory pressure / 10 GiB hard limit, no swap, and 25 minutes; use for editor, builds, captures and rendering on the shared desktop.
 - `record-frontier-validation.py --source-manifest PATH [--require-small-ui]`: verify frozen sources, matching desktop builds, tests, wardrobe/gameplay captures, encoded reloads, and multiplayer appearance/save evidence before collecting the frontier gallery and ledger artifacts.
+
+- `western-hair-capture.py`: record isolated High horse mane/tail and explorer hair close-ups with measured guide motion, four posters and a verified ten-second video.
+- `record-cinematic-validation.py`: collect only matching desktop builds, frozen sources, High/Low scenic and motion captures, western hair close-ups, and multiplayer evidence for the lighting release.
+- `cinematic-checks.sh`: run the serial, resource-bounded cinematic tests, desktop builds and captures, then collect matching evidence; uses NVIDIA Vulkan device 0 for High and AMD device 1 for Low on NicolasDESKTOP.

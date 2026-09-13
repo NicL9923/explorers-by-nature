@@ -50,7 +50,7 @@ Ownership, editing permissions, and individual versus shared resources remain op
 
 Windows and Linux PCs. The provisional weakest machine has a two-core CPU, 8 GB system RAM, and integrated graphics. Exact CPU and GPU models are unknown, so this is not a supported minimum specification.
 
-High settings should offer substantially richer scenery on stronger hardware. Careful optimization is required from the landscape prototype onward.
+Visual quality is the priority for the current pass. Push lighting, materials, vegetation, water and hair on High, then optimize from measured results. Preserve Low as a fallback without using the provisional minimum PC to cap the High preset. Keep agent validation workloads resource-bounded after the desktop lockup.
 
 ## Working proposals to test
 

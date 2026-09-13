@@ -13,7 +13,7 @@ for name in ['proof.json','player.log','motion.mp4']:(out/name).unlink(missing_o
 env=os.environ.copy();env.pop('LD_LIBRARY_PATH',None)
 with tempfile.TemporaryDirectory(prefix='explorers-motion-') as temporary:
  env.update(XDG_CONFIG_HOME=temporary+'/config',XDG_DATA_HOME=temporary+'/data',TMPDIR=temporary)
- cmd=[str(root/'Builds/Linux/ExplorersByNature'),'--nature-motion-capture','--motion-output',str(out),'--motion-quality',a.quality,'--quality-'+a.quality,'-screen-fullscreen','0','-screen-width','1280','-screen-height','720','-logFile',str(out/'player.log')]
+ cmd=[str(root/'Builds/Linux/ExplorersByNature'),'--nature-motion-capture','--validation-fps','30','--motion-output',str(out),'--motion-quality',a.quality,'--quality-'+a.quality,'-screen-fullscreen','0','-screen-width','1280','-screen-height','720','-logFile',str(out/'player.log')]
  if a.vulkan_device_index is not None:cmd+=['-force-vulkan','-force-device-index',str(a.vulkan_device_index)]
  result=subprocess.run(cmd,env=env,timeout=240,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
  log=(out/'player.log').read_text(errors='replace')

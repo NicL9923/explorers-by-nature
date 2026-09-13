@@ -57,7 +57,7 @@ namespace ExplorersByNature
             RenderSettings.ambientGroundColor=Color.Lerp(new Color(.20f,.24f,.30f),new Color(.42f,.46f,.32f),Daylight);
             // Runtime sky changes need an explicit diffuse probe; the generated scene has no baked GI.
             var probe=new SphericalHarmonicsL2();
-            probe.AddAmbientLight(Color.Lerp(new Color(.15f,.19f,.28f),new Color(.43f,.47f,.51f),Daylight));
+            probe.AddAmbientLight(Color.Lerp(new Color(.10f,.13f,.20f),new Color(.29f,.34f,.40f),Daylight));
             probe.AddDirectionalLight(Vector3.up,new Color(.22f,.30f,.42f),.35f);
             RenderSettings.ambientProbe=probe;
             RenderSettings.fogColor=Color.Lerp(new Color(.24f,.33f,.45f),new Color(.65f,.76f,.8f),Daylight);
@@ -65,13 +65,15 @@ namespace ExplorersByNature
             var sun=RenderSettings.sun;
             if(sun!=null)
             {
-                float elevation=12+Daylight*24;
+                float solarHeight=Mathf.Sin((phase-.25f)*Mathf.PI*2);
+                float elevation=solarHeight>0?Mathf.Max(2,solarHeight*42):14;
                 sun.transform.rotation=Quaternion.Euler(elevation,-32,0);
-                sun.intensity=Mathf.Lerp(.28f,1.9f,Daylight)*(1-RainAmount*.3f);
-                sun.shadowStrength=.82f;
-                sun.color=Color.Lerp(new Color(.72f,.80f,1),Color.Lerp(new Color(1,.75f,.48f),new Color(1,.89f,.70f),Daylight),Mathf.Clamp01(Daylight*3));
+                sun.intensity=Mathf.Lerp(.28f,2.8f,Daylight)*(1-RainAmount*.3f);
+                sun.shadowStrength=1;
+                sun.color=Color.Lerp(new Color(.72f,.80f,1),Color.Lerp(new Color(1,.39f,.13f),new Color(1,.89f,.70f),Daylight),Mathf.Clamp01(Daylight*3));
                 sky.SetVector("_SunDirection",-sun.transform.forward);
             }
+            sky.SetFloat("_SkyQuality",QualitySettings.GetQualityLevel()==1?1:0);
             sky.SetFloat("_Daylight",Daylight);sky.SetFloat("_CloudCover",RainAmount);
             Shader.SetGlobalFloat("_WeatherWetness",RainAmount);
             if(walker!=null)
