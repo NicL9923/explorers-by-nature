@@ -1,6 +1,6 @@
 # First milestone: the walk
 
-Latest implementation and verification: [complete picnic and nature polish](#complete-picnic-and-nature-polish-september-12-2026-utc). Earlier sections preserve the original milestone and historical measurements.
+Latest implementation and verification: [lush woodland and lighting](#lush-woodland-and-lighting-september-13-2026-utc). Earlier sections preserve the original milestone and historical measurements.
 
 ## Question
 
@@ -194,3 +194,31 @@ Performance measurements below use the final player on the fixed 60-second route
 | [AMD integrated / Vulkan / Low / 1280×720 / rainy evening](benchmarks/polish-amd-integrated-rain.json) | 8.78 ms | 14.13 / 15.35 ms | 0 | 447 MB |
 
 The high run contains one frame over 50 ms; the raw report preserves that hitch. No repeat run was used to replace it. These measurements support continued testing on the available GPUs, not a minimum-spec certification.
+
+
+## Lush woodland and lighting (September 13, 2026 UTC)
+
+Three Astra agents worked on original animal models, understory and mountain/water detail. Root integrated foliage transmission, sky and ambient lighting, high-quality grading and shadow-sampled woodland mist. The [player gallery](lush-lighting.md) shows the result.
+
+Final Linux and Windows runtime stamp: `24a2538/sha256:2669aa7522191705bf3611cd5cf15622933d7eca12d776d9fb1664220dcef5ac`. This includes the then-uncommitted implementation. The [298-file source manifest](validation/lush-source-files.json) records the final runtime, assets, packages, settings, server and test files. It was verified unchanged after both builds and final rendered checks. Later docs and packaging edits do not change those inputs.
+
+| Check | Result and evidence |
+| --- | --- |
+| Animal authoring | Seven original 2048px color and 1024px normal atlases; revised cow/fox/deer anatomy; preserved skinned LODs. [Mesh/atlas budgets](../ArtSource/Animation/detail-stats.json), [normalized weights](../ArtSource/Animation/verification.json). Blender previews and actual player models inspected. |
+| EditMode | [15 passed](validation/lush-editmode.xml), including all seven atlas/normal-material bindings, skinning and mesh budgets, terrain/trail/shore/habitat checks. |
+| PlayMode | [4 passed](validation/lush-playmode.xml), including valid double-sided bird normals, immediate low/high effect switching, base understory retention, weather and the existing ranch, save, bench and movement coverage. |
+| Rendered multiplayer | [Passed](validation/lush-multiplayer.txt): two rendered Linux players and the dedicated save agree at revision 25, 20 pieces, one milk, three eggs and completed picnic reward. [Snapshot](validation/lush-shared-ranch.json). |
+| Desktop builds | Linux and Windows x64 built through Unity CLI with the same source stamp. Linux ran; native Windows execution is still untested. |
+| Dedicated servers | [Both targets published](validation/lush-server-publish.txt) with the final northern terrain export. Shared authority source is unchanged; prior authority and 20-client synthetic results remain applicable. |
+
+Visual iteration caught undersampled distant mountains and shadows that were too dark. A shader review traced enormous evening glow artifacts to bird wings whose reversed triangles shared vertices and canceled their normals. Separate back-face vertices fixed the invalid lighting; a regression assertion checks unit normals. The final evening capture retains bloom and no longer shows those artifacts. No diagnostic no-bloom capture is presented as the finished game.
+
+Low quality keeps the new animal art and base plant layer. High adds plants, post-processing, 4096px directional shadows and three depth-clipped local scattering volumes. Understory geometry uses at most 240 spatial batches. Animal near meshes stay under 30,000 triangles each; distant meshes use 1,600–4,400. The distant range has about 92,000 triangles. Those are design budgets; measured frame intervals follow below.
+
+| Run | Mean | p95 / p99 | Frames over 50 ms | Unity allocated / final working set |
+| --- | --- | --- | --- | --- |
+| [AMD integrated / Vulkan / Low / 1280×720 / clear](benchmarks/lush-amd-integrated-low.json) | 6.90 ms | 9.35 / 9.89 ms | 0 | 436 / 690 MB |
+| [RTX 5070 Ti / OpenGL / High / 1920×1080 / clear](benchmarks/lush-nvidia-high.json) | 2.01 ms | 3.13 / 3.37 ms | 0 | 456 / 994 MB |
+| [AMD integrated / Vulkan / Low / 1280×720 / rainy evening](benchmarks/lush-amd-integrated-rain.json) | 7.04 ms | 9.62 / 10.11 ms | 0 | 436 / 676 MB |
+
+Measurements use the final player on the fixed 60-second route after warm-up, without simultaneous Unity editor, builds or Blender renders. They are uncapped engine intervals on the Ryzen 9/32 GB desktop, not GPU-only timings or proof of the two-core/8 GB minimum. Memory readings are final snapshots, not peaks. New geometry and maps raise memory use compared with v0.6.0. Native Windows, the actual minimum PC and a populated 20-player rendered ranch remain unverified.

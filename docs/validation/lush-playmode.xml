@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<test-run id="2" testcasecount="4" result="Passed" total="4" passed="4" failed="0" inconclusive="0" skipped="0" asserts="0" engine-version="3.5.0.0" clr-version="4.0.30319.42000" start-time="2026-09-13 01:29:40Z" end-time="2026-09-13 01:29:51Z" duration="11.4154096">
+  <test-suite type="TestSuite" id="1011" name="Explorers by Nature" fullname="Explorers by Nature" runstate="Runnable" testcasecount="4" result="Passed" start-time="2026-09-13 01:29:40Z" end-time="2026-09-13 01:29:51Z" duration="11.415410" total="4" passed="4" failed="0" inconclusive="0" skipped="0" asserts="0">
+    <properties>
+      <property name="platform" value="PlayMode" />
+    </properties>
+    <test-suite type="Assembly" id="1008" name="Explorers.PlayTests.dll" fullname="/home/nicolas/dev/explorers-by-nature/Library/ScriptAssemblies/Explorers.PlayTests.dll" runstate="Runnable" testcasecount="4" result="Passed" start-time="2026-09-13 01:29:40Z" end-time="2026-09-13 01:29:51Z" duration="11.411667" total="4" passed="4" failed="0" inconclusive="0" skipped="0" asserts="0">
+      <properties>
+        <property name="_PID" value="2027252" />
+        <property name="_APPDOMAIN" value="Unity Child Domain" />
+        <property name="platform" value="PlayMode" />
+        <property name="EditorOnly" value="False" />
+      </properties>
+      <test-suite type="TestFixture" id="1001" name="EnvironmentPlayTests" fullname="EnvironmentPlayTests" classname="EnvironmentPlayTests" runstate="Runnable" testcasecount="1" result="Passed" start-time="2026-09-13 01:29:40Z" end-time="2026-09-13 01:29:41Z" duration="1.143032" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <test-case id="1002" name="DrizzleAndEveningKeepWorldLitAndSoundLocalized" fullname="EnvironmentPlayTests.DrizzleAndEveningKeepWorldLitAndSoundLocalized" methodname="DrizzleAndEveningKeepWorldLitAndSoundLocalized" classname="EnvironmentPlayTests" runstate="Runnable" seed="1360088884" result="Passed" start-time="2026-09-13 01:29:40Z" end-time="2026-09-13 01:29:41Z" duration="1.138191" asserts="0">
+          <properties>
+            <property name="_JOINTYPE" value="UnityCombinatorial" />
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+        </test-case>
+      </test-suite>
+      <test-suite type="TestFixture" id="1003" name="RanchPlayTests" fullname="RanchPlayTests" classname="RanchPlayTests" runstate="Runnable" testcasecount="2" result="Passed" start-time="2026-09-13 01:29:41Z" end-time="2026-09-13 01:29:48Z" duration="7.220901" total="2" passed="2" failed="0" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <test-case id="1005" name="FurnishingsSitAboveDeckAndBenchReleasesPlayer" fullname="RanchPlayTests.FurnishingsSitAboveDeckAndBenchReleasesPlayer" methodname="FurnishingsSitAboveDeckAndBenchReleasesPlayer" classname="RanchPlayTests" runstate="Runnable" seed="1794741409" result="Passed" start-time="2026-09-13 01:29:41Z" end-time="2026-09-13 01:29:43Z" duration="1.741135" asserts="0">
+          <properties>
+            <property name="_JOINTYPE" value="UnityCombinatorial" />
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+        </test-case>
+        <test-case id="1004" name="RanchBuildsMovesCollectsAndReloads" fullname="RanchPlayTests.RanchBuildsMovesCollectsAndReloads" methodname="RanchBuildsMovesCollectsAndReloads" classname="RanchPlayTests" runstate="Runnable" seed="370688656" result="Passed" start-time="2026-09-13 01:29:43Z" end-time="2026-09-13 01:29:48Z" duration="5.466393" asserts="0">
+          <properties>
+            <property name="_JOINTYPE" value="UnityCombinatorial" />
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+        </test-case>
+      </test-suite>
+      <test-suite type="TestFixture" id="1006" name="ValleyPlayTests" fullname="ValleyPlayTests" classname="ValleyPlayTests" runstate="Runnable" testcasecount="1" result="Passed" start-time="2026-09-13 01:29:48Z" end-time="2026-09-13 01:29:51Z" duration="3.047085" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <test-case id="1007" name="ExplorerStandsOnTerrainAndQualityKeepsWildlife" fullname="ValleyPlayTests.ExplorerStandsOnTerrainAndQualityKeepsWildlife" methodname="ExplorerStandsOnTerrainAndQualityKeepsWildlife" classname="ValleyPlayTests" runstate="Runnable" seed="656552192" result="Passed" start-time="2026-09-13 01:29:48Z" end-time="2026-09-13 01:29:51Z" duration="3.030293" asserts="0">
+          <properties>
+            <property name="_JOINTYPE" value="UnityCombinatorial" />
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+          <output><![CDATA[Saving results to: /home/nicolas/.config/unity3d/Explorers by Nature/Explorers by Nature/TestResults.xml
+]]></output>
+        </test-case>
+      </test-suite>
+    </test-suite>
+  </test-suite>
+</test-run>

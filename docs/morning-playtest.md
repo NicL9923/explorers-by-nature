@@ -1,6 +1,6 @@
 # A morning in Pinewatch
 
-Start `ExplorersByNature` on Linux or `ExplorersByNature.exe` on Windows. Your solo ranch opens automatically and saves each completed change.
+Start `ExplorersByNature` on Linux or `ExplorersByNature.exe` on Windows. Your solo ranch opens automatically and saves each completed change. Use **High** graphics to see the new woodland mist, leaf lighting and filmic grading. **Low** keeps the new plants and detailed animals with fewer effects.
 
 1. Walk west from the trail to Clover and the hens. Aim at Clover and press **E**, then press **Space** three times as the marker crosses the green band. Aim at a hen/nesting box and press **E** to gather eggs.
 2. Press **B** and look at nearby ground. **1** floor, **2** wall, **3** doorway, **4** roof, **5** fence, **6** flowers. **[ / ]** browse all pieces, including benches, lanterns, troughs, flower boxes and campfires. **R** rotates; left click places. Green previews are valid; red previews explain what needs changing. Walls and roofs attach to a foundation's three-metre cell.

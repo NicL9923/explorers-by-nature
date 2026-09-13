@@ -19,7 +19,8 @@ def smooth(a,b,x):
  t=max(0,min(1,(x-a)/(b-a)));return t*t*(3-2*t)
 def rig(name,spec):
  src,path,neck,head,ear,tail,legs,legtop=spec
- bpy.ops.wm.open_mainfile(filepath=str(ROOT/'ArtSource'/src))
+ detail=ROOT/'ArtSource/Detail'/f'{name}.blend'
+ bpy.ops.wm.open_mainfile(filepath=str(detail if detail.exists() else ROOT/'ArtSource'/src))
  meshes=[o for o in bpy.context.scene.objects if o.type=='MESH' and o.name in [name+'_LOD0',name+'_LOD1']]
  assert len(meshes)==2,(name,[o.name for o in meshes])
  for o in meshes:o.hide_set(False);o.hide_render=False

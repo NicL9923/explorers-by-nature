@@ -94,3 +94,11 @@ The [complete pass](picnic-polish.md) documents the current player. The art tour
 After regenerating original animal sculpts, run the [rigging tools](animal-animation.md#regeneration) to restore both skinned LODs. Run `unity.sh art` to prepare foliage, flame materials and readable stones for pebble batching, then `unity.sh setup` to export matching northern terrain for the server. Republish both servers after terrain changes.
 
 `NatureSoundscape` synthesizes original ambience, animal calls, surface footsteps and accepted-action feedback. `SkyWeather` controls readable day/evening lighting, sky, local rain and saved weather preferences. The rain benchmark fixes evening and full precipitation; normal automated runs fix clear daylight. Nearby prop lighting has a shared four-light cap.
+
+## Woodland light and detailed animals
+
+[The current art pass](lush-lighting.md) adds batched understory geometry and a custom cutout foliage shader. `WoodlandAtmosphere` owns three depth-clipped scattering volumes on a separate scene child. `WalkSession.ApplyQuality` switches their renderers and camera post-processing immediately. `PrototypeProject.CreateAtmosphere` creates the serialized high-quality volume profile. The generated scene retains both shaders in builds.
+
+`ArtImportSettings` imports the animal normal maps with linear sampling and prepares a serialized normal-mapped material variant. `ModelArt` keys animal material instances by the full resource identity because deer/rabbit and cow/hen share some material names but use different atlases.
+
+Use `python3 .agents/tools/source-manifest.py Logs/current-source.json` after final asset import, then add `--verify` to check that validation inputs remain unchanged. It checks asset metadata and records runtime, asset, package, project, server and test files. Documentation and release archives are outside that manifest.

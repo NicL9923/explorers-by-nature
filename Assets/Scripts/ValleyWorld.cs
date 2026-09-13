@@ -34,6 +34,7 @@ namespace ExplorersByNature
             BuildShoreDetails();
             BuildGrass();
             BuildFlowerDrifts();
+            gameObject.AddComponent<ForestUnderstory>().Grow(DenseGrass.transform, grassMaterial);
             gameObject.AddComponent<WildlifeHabitats>();
             BuildWildlife();
             Physics.SyncTransforms();
@@ -125,7 +126,7 @@ namespace ExplorersByNature
         void BuildBackdrop()
         {
             // Sharp, asymmetric watersheds beyond the traversable heightfield. No shared ground changes.
-            const int columns=185, rows=89;
+            const int columns=321, rows=145;
             var vertices=new List<Vector3>();var colors=new List<Color>();var indices=new List<int>();
             var summits=new[]{new Vector3(-760,335,790),new Vector3(-435,430,870),new Vector3(-125,475,970),new Vector3(160,390,780),new Vector3(425,505,1030),new Vector3(760,410,870)};
             for(int row=0;row<rows;row++) for(int col=0;col<columns;col++)
@@ -134,12 +135,7 @@ namespace ExplorersByNature
                 float distance=z-450, peak=0;
                 foreach(Vector3 summit in summits)
                 {
-                    float dx=(x-summit.x)/310, dz=(z-summit.z)/350;
-                    float angle=Mathf.Atan2(dz,dx);
-                    float radius=Mathf.Sqrt(dx*dx+dz*dz);
-                    float spurs=1+.16f*Mathf.Cos(angle*5+summit.x)+.08f*Mathf.Sin(angle*9);
-                    float cone=Mathf.Max(0,1-radius/spurs);
-                    peak=Mathf.Max(peak,summit.y*Mathf.Pow(cone,1.22f));
+                    peak=Mathf.Max(peak,ValleyShape.MountainMass(x-summit.x,z-summit.z,225,265,summit.y,summit.x*.013f));
                 }
                 float erosion=(1-Mathf.Abs(Mathf.PerlinNoise((x+1900)*.021f,z*.026f)*2-1));
                 float detail=(erosion-.6f)*Mathf.Min(26,peak*.09f);
@@ -152,7 +148,7 @@ namespace ExplorersByNature
                 if(row==rows-1||col==columns-1)continue;
                 int n=row*columns+col;indices.AddRange(new[]{n,n+columns,n+1,n+1,n+columns,n+columns+1});
             }
-            var mesh=Own(new Mesh{name="Eroded alpine watersheds"});mesh.SetVertices(vertices);mesh.SetColors(colors);mesh.SetTriangles(indices,0);mesh.RecalculateNormals();mesh.RecalculateBounds();
+            var mesh=Own(new Mesh{name="Eroded alpine watersheds",indexFormat=IndexFormat.UInt32});mesh.SetVertices(vertices);mesh.SetColors(colors);mesh.SetTriangles(indices,0);mesh.RecalculateNormals();mesh.RecalculateBounds();
             var material=Own(new Material(grassMaterial));material.SetFloat("_WindStrength",0);material.SetFloat("_SurfaceLighting",1);
             MeshObject("Distant alpine range",mesh,material,transform).shadowCastingMode=ShadowCastingMode.Off;
         }
@@ -364,15 +360,15 @@ namespace ExplorersByNature
                 for (int x = -160; x < 10; x += 24)
                 {
                     var verts = new List<Vector3>(); var colors = new List<Color>(); var indices = new List<int>(); var bladeUV = new List<Vector2>();
-                    for (int b = 0; b < (layer==0?950:2200); b++)
+                    for (int b = 0; b < (layer==0?1250:2500); b++)
                     {
                         float wx = x + Range(rng, 0, 24), wz = z + Range(rng, 0, 24);
                         if (Mathf.Abs(wx - ValleyShape.TrailX(wz)) < 3 || Mathf.Abs(wx - ValleyShape.RiverX(wz)) < 23) continue;
                         Vector3 p = ValleyShape.Ground(wx, wz);
                         float patch = Mathf.PerlinNoise((wx+800)*.12f,(wz+750)*.12f);
                         if (patch < .31f || Range(rng,0,1) > Mathf.Lerp(.32f,1,patch)) continue;
-                        float h = Range(rng, .09f, .31f)*Mathf.Lerp(.6f,1.4f,patch), angle = Range(rng, 0, Mathf.PI * 2);
-                        Vector3 side = new Vector3(Mathf.Cos(angle), 0, Mathf.Sin(angle)) * Range(rng,.007f,.016f);
+                        float h = Range(rng, .13f, .40f)*Mathf.Lerp(.6f,1.4f,patch), angle = Range(rng, 0, Mathf.PI * 2);
+                        Vector3 side = new Vector3(Mathf.Cos(angle), 0, Mathf.Sin(angle)) * Range(rng,.010f,.021f);
                         Color color = Color.Lerp(new Color(.32f, .45f, .15f), new Color(.60f, .62f, .32f), Mathf.PerlinNoise(wx*.038f+50,wz*.038f+50)*.8f+Range(rng,0,.2f));
                         int n = verts.Count;
                         Vector3 bend = new Vector3(-side.z, 0, side.x) * Range(rng,4,15);

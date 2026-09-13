@@ -17,7 +17,7 @@ namespace ExplorersByNature
             if (asset == null) return null;
             GameObject instance = UnityEngine.Object.Instantiate(asset, parent, false);
             instance.name = asset.name;
-            Remap(instance, Folder(path));
+            Remap(instance, Folder(path),path+"Detail");
             ConfigureLods(instance, cull);
             AnimalMotion.Attach(instance, path);
             return instance;
@@ -80,32 +80,37 @@ namespace ExplorersByNature
             return slash < 0 ? "" : path.Substring(0, slash + 1);
         }
 
-        public static void Remap(GameObject root, string folder)
+        public static void Remap(GameObject root, string folder, string detail = null)
         {
             foreach (Renderer renderer in root.GetComponentsInChildren<Renderer>(true))
             {
                 Material[] slots = renderer.sharedMaterials;
-                for (int i = 0; i < slots.Length; i++) slots[i] = Convert(slots[i], folder);
+                for (int i = 0; i < slots.Length; i++) slots[i] = Convert(slots[i], folder,detail);
                 renderer.sharedMaterials = slots;
             }
         }
 
-        static Material Convert(Material source, string folder)
+        static Material Convert(Material source, string folder,string detail)
         {
             string name = source == null ? "Unpainted" : source.name.Replace(" (Instance)", "");
-            string key = folder + name;
+            string key = (detail ?? folder) + ":" + name;
             if (Materials.TryGetValue(key, out Material result) && result != null) return result;
             Color color = source != null && source.HasProperty("_BaseColor") ? source.GetColor("_BaseColor") : source != null && source.HasProperty("_Color") ? source.GetColor("_Color") : Color.white;
             Texture texture = source != null ? source.mainTexture : null;
             texture = texture ?? Resources.Load<Texture2D>(folder + name + "_BaseColor") ?? Resources.Load<Texture2D>(folder + name) ?? Resources.Load<Texture2D>("Animals/" + name + "_BaseColor");
+            Texture2D detailColor=detail==null?null:Resources.Load<Texture2D>(detail+"_BaseColor");
+            Texture2D detailNormal=detail==null?null:Resources.Load<Texture2D>(detail+"_Normal");
+            if(detailColor!=null)texture=detailColor;
             result = new Material(Shader.Find("Universal Render Pipeline/Lit")) { name = name, enableInstancing = true };
             result.SetColor("_BaseColor", color);
-            result.SetFloat("_Smoothness", name.IndexOf("Eye", StringComparison.OrdinalIgnoreCase) >= 0 ? .55f : .18f);
+            result.SetFloat("_Smoothness", name.IndexOf("Eye", StringComparison.OrdinalIgnoreCase) >= 0 ? .65f : detailColor!=null ? .09f : .18f);
             if (texture != null) { result.SetTexture("_BaseMap", texture); result.SetColor("_BaseColor", Color.white); }
+            if(detailNormal!=null){result.SetTexture("_BumpMap",detailNormal);result.SetFloat("_BumpScale",.55f);result.EnableKeyword("_NORMALMAP");}
             bool foliage = name.IndexOf("Leaves", StringComparison.OrdinalIgnoreCase) >= 0 || name.IndexOf("Needles", StringComparison.OrdinalIgnoreCase) >= 0;
             if (name.StartsWith("Wildflower", StringComparison.OrdinalIgnoreCase) || name.StartsWith("Hen", StringComparison.OrdinalIgnoreCase)) result.SetFloat("_Cull", 0);
             if (foliage)
             {
+                result.shader = Shader.Find("Explorers/Foliage");
                 result.SetFloat("_Cull", 0);
                 result.SetFloat("_AlphaClip", 1);
                 result.SetFloat("_Cutoff", .35f);

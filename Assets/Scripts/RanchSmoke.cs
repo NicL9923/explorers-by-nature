@@ -119,6 +119,10 @@ namespace ExplorersByNature
                 walker.Teleport(ValleyShape.Ground(-83,-247,.3f));walker.view.transform.localPosition=Vector3.up*1.65f;
                 walker.view.transform.LookAt(ValleyShape.Ground(-90,-236,1));
                 yield return new WaitForSeconds(2);ScreenCapture.CaptureScreenshot(Path.Combine(output,"evening-ranch.png"));yield return new WaitForSeconds(.4f);
+                SkyWeather.Current.SetPreview(.69f,0);
+                walker.Teleport(ValleyShape.Trail(-105,.1f));walker.view.fieldOfView=65;walker.view.transform.localPosition=Vector3.up*1.65f;
+                walker.view.transform.LookAt(ValleyShape.Ground(ValleyShape.TrailX(-75)-18,-75,6));
+                yield return new WaitForSeconds(1);ScreenCapture.CaptureScreenshot(Path.Combine(output,"golden-woodland.png"));yield return new WaitForSeconds(.4f);
             }
             Application.Quit();
         }

@@ -22,8 +22,8 @@ namespace ExplorersByNature
             if(z>210)
             {
                 float alpine = Mathf.SmoothStep(0,1,Mathf.InverseLerp(210,290,z));
-                float carved = Mathf.Max(AlpinePeak(x+205,z-355,130,160,222,.3f),
-                    Mathf.Max(AlpinePeak(x-155,z-385,145,155,272,1.4f),AlpinePeak(x-355,z-255,125,175,180,2.1f)));
+                float carved = Mathf.Max(MountainMass(x+205,z-355,130,160,222,.3f),
+                    Mathf.Max(MountainMass(x-155,z-385,145,155,272,1.4f),MountainMass(x-355,z-255,125,175,180,2.1f)));
                 float foothills=peaks*.24f;
                 peaks=Mathf.Lerp(peaks,Mathf.Max(carved,foothills),alpine);
             }
@@ -33,16 +33,41 @@ namespace ExplorersByNature
             return Mathf.Lerp(8f, terrain, valley);
         }
 
-        static float AlpinePeak(float x,float z,float width,float depth,float height,float phase)
+        // A bent watershed with a broken crest and tributary gullies, rather than a
+        // radial cone. Also used by the decorative range beyond the playable terrain.
+        public static float MountainMass(float x, float z, float width, float depth, float height, float phase)
         {
-            float dx=x/width,dz=z/depth,angle=Mathf.Atan2(dz,dx);
-            float radius=Mathf.Sqrt(dx*dx+dz*dz);
-            float spur=1+.18f*Mathf.Cos(angle*5+phase)+.07f*Mathf.Sin(angle*8-phase);
-            float mass=Mathf.Max(0,1-radius/(spur*1.45f));
-            float warp=Mathf.PerlinNoise((x+phase*175)*.013f,(z+phase*237)*.011f)*32;
-            float erosion=(1-Mathf.Abs(Mathf.PerlinNoise((x+713+warp+phase*130)*.025f,(z+415+phase*215)*.029f)*2-1))-.6f;
-            float broad=Mathf.PerlinNoise((x+phase*143)*.01f,(z+phase*191)*.014f)-.5f;
-            return Mathf.Max(0,height*Mathf.Pow(mass,1.4f)+(erosion*12+broad*24)*mass);
+            float dx = x / width, dz = z / depth;
+            float seed = phase * 173f;
+            float bend = .16f * Mathf.Sin(dz * 3.1f + phase) + .07f * Mathf.Sin(dz * 7.3f - phase);
+            float cross = dx - bend;
+            float along = dz + .16f * dx;
+            float radius = Mathf.Sqrt(cross * cross + along * along * .72f);
+            float envelope = Mathf.Clamp01(1 - radius / 1.55f);
+            if (envelope <= 0) return 0;
+
+            // The narrow spine carries several unequal summits. Wide shoulders read as
+            // connected foothills while the crest exposes alternating light/shadow faces.
+            float crest = Mathf.Clamp01(1 - (Mathf.Sqrt(cross * cross + .012f) - .1095f) / 1.12f);
+            float length = Mathf.Clamp01(1 - Mathf.Abs(along) / 1.65f);
+            float saddles = .86f + .10f * Mathf.Sin(along * 4.8f + phase)
+                + .04f * Mathf.Sin(along * 9.1f - phase * 2);
+            float spine = Mathf.Pow(crest, 1.65f) * Mathf.Pow(length, .85f) * saddles;
+            float shoulder = Mathf.Pow(envelope, 1.7f) * .70f;
+            // Smooth the shoulder/crest intersection so it does not form a hard seam.
+            float difference = spine - shoulder;
+            float mass = (spine + shoulder + Mathf.Sqrt(difference * difference + .0016f)) * .5f;
+
+            float warp = (Mathf.PerlinNoise((dx + seed) * 1.7f, (dz + 311) * 1.7f) - .5f) * .45f;
+            float tributary = Mathf.Abs(Mathf.Sin((along + warp) * 9f + Mathf.Abs(cross) * 3f));
+            float gullies = tributary * tributary * Mathf.Clamp01(Mathf.Abs(cross) * 3);
+            // Broad folds belong in geometry; fine rock belongs in the material. Keeping
+            // this below the backdrop sample frequency avoids needle-like aliasing.
+            float folds = (Mathf.PerlinNoise(dx * 2.8f + seed, dz * 3.4f + 137) - .5f) * 2
+                + .25f * (Mathf.PerlinNoise(dx * 6.2f + 71, dz * 7.1f + seed) - .5f) * 2;
+            float flank = Mathf.Sin(envelope * Mathf.PI);
+            return Mathf.Max(0, height * (mass + (folds * .035f - gullies * .065f) * flank))
+                * Mathf.SmoothStep(0, 1, Mathf.Clamp01(envelope * 12));
         }
 
         static float Gaussian(float x, float z, float sx, float sz) => Mathf.Exp(-.5f * (x * x / (sx * sx) + z * z / (sz * sz)));

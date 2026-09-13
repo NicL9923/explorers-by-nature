@@ -67,8 +67,14 @@ namespace ExplorersByNature
         }
         void MakeWing(Transform parent,Vector3[] points,Material material)
         {
-            var mesh=new Mesh{name="Swept swallow feather silhouette"};mesh.vertices=points;
-            mesh.triangles=points.Length==4?new[]{0,1,2,0,2,3,2,1,0,3,2,0}:new[]{0,1,2,2,1,0};
+            // Back faces need their own vertices: sharing them cancels the normals,
+            // producing invalid HDR lighting that bloom spreads across the sky.
+            var mesh=new Mesh{name="Swept swallow feather silhouette"};
+            var vertices=new Vector3[points.Length*2];Array.Copy(points,vertices,points.Length);Array.Copy(points,0,vertices,points.Length,points.Length);mesh.vertices=vertices;
+            int[] front=points.Length==4?new[]{0,1,2,0,2,3}:new[]{0,1,2};
+            var triangles=new int[front.Length*2];Array.Copy(front,triangles,front.Length);
+            for(int i=0;i<front.Length;i+=3){triangles[front.Length+i]=points.Length+front[i+2];triangles[front.Length+i+1]=points.Length+front[i+1];triangles[front.Length+i+2]=points.Length+front[i];}
+            mesh.triangles=triangles;
             mesh.RecalculateNormals();mesh.RecalculateBounds();wingMeshes.Add(mesh);
             parent.gameObject.AddComponent<MeshFilter>().sharedMesh=mesh;parent.gameObject.AddComponent<MeshRenderer>().sharedMaterial=material;
         }

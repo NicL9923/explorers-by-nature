@@ -72,6 +72,8 @@ namespace ExplorersByNature
         public void ApplyQuality(bool useHigh)
         {
             high = useHigh;
+            walker.view.GetUniversalAdditionalCameraData().renderPostProcessing=high;
+            walker.view.GetUniversalAdditionalCameraData().requiresDepthTexture=high;
             QualitySettings.SetQualityLevel(high ? 1 : 0, true);
             QualitySettings.renderPipeline = high ? highPipeline : lowPipeline;
             QualitySettings.lodBias = high ? 1.5f : .75f;
@@ -80,6 +82,7 @@ namespace ExplorersByNature
             Application.targetFrameRate = 60;
             if (world.Ground != null) world.Ground.heightmapPixelError = high ? 5 : 12;
             if (world.DenseGrass != null) world.DenseGrass.SetActive(high);
+            FindFirstObjectByType<WoodlandAtmosphere>()?.SetQuality(high);
             PlayerPrefs.SetInt("HighQuality", high ? 1 : 0);
         }
 

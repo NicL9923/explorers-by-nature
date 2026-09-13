@@ -13,6 +13,7 @@ Shader "Explorers/MeadowGrass"
             #pragma fragment frag
             #pragma multi_compile_fog
             #pragma multi_compile _ _MAIN_LIGHT_SHADOWS _MAIN_LIGHT_SHADOWS_CASCADE
+            #pragma multi_compile_fragment _ _SHADOWS_SOFT
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
             CBUFFER_START(UnityPerMaterial)
                 float _WindStrength;
@@ -35,7 +36,10 @@ Shader "Explorers/MeadowGrass"
             half4 frag(Varyings input):SV_Target
             {
                 Light sun = GetMainLight(TransformWorldToShadowCoord(input.positionWS));
-                half3 color = input.color.rgb * (SampleSH(half3(0,1,0)) * .7 + sun.color * sun.shadowAttenuation * lerp(.55, saturate(dot(normalize(input.normal),sun.direction)), _SurfaceLighting));
+                half3 n=normalize(input.normal);
+                half diffuse=lerp(.55,saturate(abs(dot(n,sun.direction))*.7+.15),_SurfaceLighting);
+                half transmission=pow(saturate(dot(normalize(_WorldSpaceCameraPos-input.positionWS),-sun.direction)),4)*.32;
+                half3 color = input.color.rgb * (SampleSH(half3(0,1,0)) * .7 + sun.color * lerp(.06,1,sun.shadowAttenuation) * (diffuse+transmission));
                 return half4(MixFog(color, input.fog), 1);
             }
             ENDHLSL

@@ -2,8 +2,8 @@
   "Deer": {
     "bones": 18,
     "meshes": {
-      "Deer_LOD0": 7096,
-      "Deer_LOD1": 1342
+      "Deer_LOD0": 7320,
+      "Deer_LOD1": 1370
     }
   },
   "Rabbit": {
@@ -16,29 +16,29 @@
   "Fox": {
     "bones": 18,
     "meshes": {
-      "Fox_LOD0": 8988,
-      "Fox_LOD1": 1463
+      "Fox_LOD0": 9020,
+      "Fox_LOD1": 1495
     }
   },
   "Beaver": {
     "bones": 18,
     "meshes": {
       "Beaver_LOD0": 7012,
-      "Beaver_LOD1": 1287
+      "Beaver_LOD1": 1412
     }
   },
   "Duck": {
     "bones": 10,
     "meshes": {
       "Duck_LOD0": 5804,
-      "Duck_LOD1": 1258
+      "Duck_LOD1": 1283
     }
   },
   "Clover": {
     "bones": 18,
     "meshes": {
-      "Clover_LOD0": 11858,
-      "Clover_LOD1": 2308
+      "Clover_LOD0": 11874,
+      "Clover_LOD1": 2324
     }
   },
   "Hen": {

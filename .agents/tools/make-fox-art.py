@@ -54,7 +54,7 @@ def join(obs,name):
 def apply(o,m):bpy.context.view_layer.objects.active=o;bpy.ops.object.modifier_apply(modifier=m.name)
 
 def sculpt(obs,name,voxel,target):
-    o=join(obs,name);m=o.modifiers.new('Unify anatomical volumes','REMESH');m.mode='VOXEL';m.voxel_size=voxel;apply(o,m);m=o.modifiers.new('Relax muscle transitions','SMOOTH');m.factor=1.0;m.iterations=45;apply(o,m)
+    o=join(obs,name);m=o.modifiers.new('Unify anatomical volumes','REMESH');m.mode='VOXEL';m.voxel_size=voxel;apply(o,m);m=o.modifiers.new('Relax muscle transitions','SMOOTH');m.factor=1.0;m.iterations=18;apply(o,m)
     count=sum(len(p.vertices)-2 for p in o.data.polygons);m=o.modifiers.new('Sculpt retopology','DECIMATE');m.ratio=min(1,target/count);apply(o,m)
     for p in o.data.polygons:p.use_smooth=True
     return o
@@ -71,7 +71,7 @@ def ear(name,base,tip,width,m=COAT,depth=.025):
 
 RED=mat('FoxRust',(.48,.15,.032));CREAM=mat('FoxIvory',(.88,.81,.64));DARK=mat('FoxCharcoal',(.015,.012,.009),.32);INNER=mat('FoxEarVelvet',(.18,.085,.060));IRIS=mat('FoxAmber',(.36,.16,.028),.27)
 # Slight asymmetry in the tail and feet gives a quiet alert pose.
-vol=[ell('Long ribcage',(0,.01,.43),(.115,.30,.137),RED),ell('Shoulders',(0,-.20,.445),(.109,.125,.154),RED),ell('Haunch',(0,.23,.405),(.13,.135,.16),RED),tube('Neck',[(0,-.19,.45),(0,-.28,.56),(0,-.32,.62)],[.113,.091,.075],RED,20),ell('Cranium',(0,-.35,.624),(.085,.099,.085),RED),ell('Cheek ruff',(0,-.337,.584),(.108,.075,.063),RED),tube('Fine tapered muzzle',[(0,-.39,.61),(0,-.46,.583),(0,-.525,.568)],[.062,.039,.020],RED,18)]
+vol=[ell('Long ribcage',(0,.01,.43),(.115,.30,.137),RED),ell('Shoulders',(0,-.20,.445),(.109,.125,.154),RED),ell('Haunch',(0,.23,.405),(.125,.15,.137),RED),tube('Neck',[(0,-.19,.45),(0,-.28,.56),(0,-.32,.62)],[.113,.091,.075],RED,20),ell('Cranium',(0,-.35,.624),(.085,.099,.085),RED),ell('Cheek ruff',(0,-.337,.584),(.108,.075,.063),RED),tube('Fine tapered muzzle',[(0,-.39,.61),(0,-.46,.583),(0,-.525,.568)],[.062,.039,.020],RED,18)]
 for s in [-1,1]:
     x=s*.073
     vol += [tube('Foreleg',[(x,-.20,.43),(x,-.222,.26),(x,-.218,.035)],[.045,.025,.017],RED,14),ell('Front paw',(x,-.231,.027),(.026,.049,.027),RED),tube('Hindleg',[(s*.085,.22,.40),(s*.09,.137,.265),(s*.085,.26,.136),(s*.08,.231,.05)],[.076,.041,.023,.017],RED,14),ell('Hind paw',(s*.08,.21,.025),(.027,.049,.025),RED)]
@@ -112,7 +112,7 @@ nodes.remove(em);nodes.remove(vc);bs=nodes.new('ShaderNodeBsdfPrincipled');bs.in
 parts=[body]
 for s in [-1,1]:
     # Outer dark backs, inset velvet, and a smaller pale inner rim.
-    parts += [ear('Pointed dark ear',(s*.05,-.323,.661),(s*.083,-.303,.831),.115,DARK,.029),ear('Rust ear face',(s*.05,-.332,.673),(s*.080,-.315,.819),.096,RED,.019),ear('Recessed inner ear',(s*.052,-.338,.687),(s*.079,-.323,.794),.058,INNER,.013)]
+    parts += [ear('Pointed dark ear',(s*.05,-.323,.661),(s*.083,-.303,.806),.115,DARK,.029),ear('Rust ear face',(s*.05,-.332,.673),(s*.080,-.315,.794),.096,RED,.019),ear('Recessed inner ear',(s*.052,-.338,.687),(s*.079,-.323,.774),.058,INNER,.013)]
     # Small almond sockets embedded into cranium, warm irises and light catch.
     from mathutils.bvhtree import BVHTree
     tree=BVHTree.FromPolygons([body.matrix_world@v.co for v in body.data.vertices],[list(p.vertices) for p in body.data.polygons])
@@ -120,6 +120,12 @@ for s in [-1,1]:
     ex=hit.x
     parts += [ell('Eye socket',(ex-s*.003,-.400,.642),(.005,.019,.012),DARK),ell('Amber iris',(ex+s*.001,-.403,.642),(.002,.009,.008),IRIS),ell('Vertical pupil',(ex+s*.0025,-.403,.642),(.001,.003,.007),DARK),ell('Eye glint',(ex+s*.003,-.406,.646),(.0015,.0015,.0015),CREAM)]
 
+    parts.append(tube('Upper almond lid',[(ex,-.419,.644),(ex+s*.003,-.403,.653),(ex,-.383,.645)],[.002,.003,.001],DARK,6))
+    for j in range(4):
+        parts.append(tube('Muzzle whisker',[(s*.025,-.488,.570),(s*.078,-.48,.566+(j-1)*.009),(s*.12,-.46,.565+(j-1)*.015)],[.0008,.0005,.0001],CREAM,4))
+    # Tapered cheek locks break the toy-smooth facial silhouette.
+    for j in range(3):
+        parts.append(ear('Cheek fur lock',(s*(.073+j*.007),-.346+j*.012,.602-j*.009),(s*(.111+j*.003),-.315+j*.011,.583-j*.015),.016,CREAM,.003))
     parts.append(tube('Mouth crease',[(s*.008,-.525,.558),(s*.024,-.487,.553),(s*.048,-.441,.566)],[.0018,.002,.0006],DARK,5))
 parts += [ell('Velvet nose',(0,-.526,.569),(.022,.016,.014),DARK),tube('Nose philtrum',[(0,-.529,.562),(0,-.525,.555)],[.0015,.001],DARK,5)]
 high=join(parts,'Fox_LOD0');bpy.context.scene.cursor.location=(0,0,0);bpy.ops.object.origin_set(type='ORIGIN_CURSOR')

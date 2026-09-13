@@ -36,6 +36,21 @@ public sealed class AnimalMotionTests
     {
         var model = Resources.Load<GameObject>(resource);
         Assert.That(model, Is.Not.Null);
+        var instance=ModelArt.Instantiate(resource,null);
+        try
+        {
+            var color=Resources.Load<Texture2D>(resource+"Detail_BaseColor");
+            var normal=Resources.Load<Texture2D>(resource+"Detail_Normal");
+            Assert.That(color,Is.Not.Null,resource+" color atlas");Assert.That(normal,Is.Not.Null,resource+" normal atlas");
+            foreach(var renderer in instance.GetComponentsInChildren<Renderer>())
+                foreach(var material in renderer.sharedMaterials)
+                {
+                    Assert.That(material.GetTexture("_BaseMap"),Is.SameAs(color));
+                    Assert.That(material.GetTexture("_BumpMap"),Is.SameAs(normal));
+                    Assert.That(material.IsKeywordEnabled("_NORMALMAP"),Is.True);
+                }
+        }
+        finally{Object.DestroyImmediate(instance);}
         var skins = model.GetComponentsInChildren<SkinnedMeshRenderer>(true);
         Assert.That(skins.Length, Is.EqualTo(2));
         foreach (var skin in skins)

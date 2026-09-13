@@ -52,18 +52,23 @@ namespace ExplorersByNature
             float weather=preview?previewRain:repeatable||WeatherMode==1?0:WeatherMode==2?1:Mathf.SmoothStep(0,1,Mathf.InverseLerp(.45f,.8f,Mathf.Sin((float)(seconds%960)/960*Mathf.PI*2)));
             RainAmount=Mathf.MoveTowards(RainAmount,weather,Time.deltaTime*.08f);
             RenderSettings.ambientMode=AmbientMode.Trilight;
-            RenderSettings.ambientSkyColor=Color.Lerp(new Color(.38f,.45f,.58f),new Color(.75f,.81f,.86f),Daylight);
-            RenderSettings.ambientEquatorColor=Color.Lerp(new Color(.28f,.34f,.40f),new Color(.57f,.62f,.46f),Daylight);
-            RenderSettings.ambientGroundColor=Color.Lerp(new Color(.20f,.24f,.30f),new Color(.32f,.36f,.23f),Daylight);
+            RenderSettings.ambientSkyColor=Color.Lerp(new Color(.38f,.45f,.58f),new Color(.82f,.87f,.94f),Daylight);
+            RenderSettings.ambientEquatorColor=Color.Lerp(new Color(.28f,.34f,.40f),new Color(.65f,.69f,.57f),Daylight);
+            RenderSettings.ambientGroundColor=Color.Lerp(new Color(.20f,.24f,.30f),new Color(.42f,.46f,.32f),Daylight);
+            // Runtime sky changes need an explicit diffuse probe; the generated scene has no baked GI.
+            var probe=new SphericalHarmonicsL2();
+            probe.AddAmbientLight(Color.Lerp(new Color(.15f,.19f,.28f),new Color(.32f,.39f,.47f),Daylight));
+            probe.AddDirectionalLight(Vector3.up,new Color(.22f,.30f,.42f),.35f);
+            RenderSettings.ambientProbe=probe;
             RenderSettings.fogColor=Color.Lerp(new Color(.24f,.33f,.45f),new Color(.65f,.76f,.8f),Daylight);
             RenderSettings.fogDensity=Mathf.Lerp(.0011f,.0018f,RainAmount);
             var sun=RenderSettings.sun;
             if(sun!=null)
             {
-                float elevation=15+Mathf.Sin(phase*Mathf.PI)*45;
+                float elevation=12+Daylight*24;
                 sun.transform.rotation=Quaternion.Euler(elevation,-32,0);
-                sun.intensity=Mathf.Lerp(.28f,1.45f,Daylight)*(1-RainAmount*.3f);
-                sun.color=Color.Lerp(new Color(.72f,.80f,1),Color.Lerp(new Color(1,.75f,.48f),new Color(1,.96f,.86f),Daylight),Mathf.Clamp01(Daylight*3));
+                sun.intensity=Mathf.Lerp(.28f,2.15f,Daylight)*(1-RainAmount*.3f);
+                sun.color=Color.Lerp(new Color(.72f,.80f,1),Color.Lerp(new Color(1,.75f,.48f),new Color(1,.89f,.70f),Daylight),Mathf.Clamp01(Daylight*3));
                 sky.SetVector("_SunDirection",-sun.transform.forward);
             }
             sky.SetFloat("_Daylight",Daylight);sky.SetFloat("_CloudCover",RainAmount);

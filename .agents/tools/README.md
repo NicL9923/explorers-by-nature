@@ -18,3 +18,7 @@
 
 - `rig-animals.py`: skin all seven original animal LOD pairs from their Blender sources and re-export FBX armatures; run after regenerating animal art.
 - `check-animal-rigs.py`: verify normalized skin weights and render articulated poses from the seven rigged Blender studios.
+
+- `detail-animal-art.py`: bake original directional coat and feather color/normal atlases, preserve material slots, and save detailed animal studios before rigging.
+
+- `source-manifest.py OUTPUT [--verify]`: record exact runtime/assets/tests for the validation ledger or check they remain unchanged.

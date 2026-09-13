@@ -21,7 +21,10 @@ for name in ['Deer','Clover','Fox','Beaver','Rabbit','Duck','Hen']:
  for o in bpy.context.scene.objects:
   if o.type=='MESH' and o.name.endswith(('_LOD0','_LOD1')):o.hide_render=o.name!=name+'_LOD0'
  for o in meshes:
-  for v in o.data.vertices:assert abs(sum(g.weight for g in v.groups)-1)<1e-5
+  assert len(o.data.uv_layers)==1,(name,o.name,'Expected one exported atlas UV')
+  for v in o.data.vertices:
+   assert 1<=len(v.groups)<=4,(name,o.name,v.index,'Skin influence count')
+   assert abs(sum(g.weight for g in v.groups)-1)<1e-5,(name,o.name,v.index,'Weight normalization')
  p=arm.pose.bones['Neck'];p.rotation_mode='XYZ';p.rotation_euler.x=math.radians(75 if name=='Deer' else 60 if name=='Clover' else 12)
  arm.pose.bones['Head'].rotation_mode='XYZ';arm.pose.bones['Head'].rotation_euler.x=math.radians(18)
  if 'EarL' in arm.pose.bones:arm.pose.bones['EarL'].rotation_mode='XYZ';arm.pose.bones['EarL'].rotation_euler.y=.2
@@ -37,5 +40,8 @@ for name in ['Deer','Clover','Fox','Beaver','Rabbit','Duck','Hen']:
  high=bpy.data.objects[name+'_LOD0'];bounds=[high.matrix_world@Vector(v) for v in high.bound_box];center=sum(bounds,Vector())/8;size=max(high.dimensions)
  cam=sc.camera;cam.location=center+Vector((size*1.8,-size*2,size*.9));cam.rotation_euler=(center-cam.location).to_track_quat('-Z','Y').to_euler();cam.data.type='ORTHO';cam.data.ortho_scale=size*1.25
  sc.render.filepath=str(root/'ArtSource/Animation'/f'{name}-pose.png');bpy.ops.render.render(write_still=True)
- report[name]={'normalized_skin_weights':True,'bones':len(arm.data.bones)}
+ if name=='Hen':
+  high.hide_render=True;bpy.data.objects['Hen_LOD1'].hide_render=False
+  sc.render.filepath=str(root/'ArtSource/Animation/Hen-distance-pose.png');bpy.ops.render.render(write_still=True)
+ report[name]={'normalized_skin_weights':True,'max_four_influences':True,'atlas_uv_channels':1,'bones':len(arm.data.bones),'vertices':{o.name:len(o.data.vertices) for o in meshes}}
 (root/'ArtSource/Animation/verification.json').write_text(json.dumps(report,indent=2)+'\n')

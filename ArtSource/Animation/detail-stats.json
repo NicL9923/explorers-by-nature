@@ -1,0 +1,116 @@
+{
+  "Clover": {
+    "LOD0_triangles": 23500,
+    "LOD1_triangles": 4400,
+    "materials": [
+      "JerseyCoat",
+      "MuzzleVelvet",
+      "JerseyCream",
+      "Nostril",
+      "JerseySable",
+      "EyeAmber",
+      "EyeBlack",
+      "EyeGlint",
+      "JerseyFawn",
+      "EarRose",
+      "HornIvory",
+      "Hoof",
+      "UdderRose",
+      "JerseyGolden"
+    ],
+    "base_color": "CloverDetail_BaseColor.png",
+    "normal": "CloverDetail_Normal.png"
+  },
+  "Hen": {
+    "LOD0_triangles": 11500,
+    "LOD1_triangles": 2496,
+    "materials": [
+      "HenBuff",
+      "HenGold",
+      "HenUmber",
+      "CombRed",
+      "EyeAmber",
+      "EyeBlack",
+      "EyeGlint",
+      "BeakGold",
+      "ClawIvory",
+      "HenCream",
+      "HenTail"
+    ],
+    "base_color": "HenDetail_BaseColor.png",
+    "normal": "HenDetail_Normal.png"
+  },
+  "Fox": {
+    "LOD0_triangles": 17900,
+    "LOD1_triangles": 2850,
+    "materials": [
+      "FoxCoat",
+      "FoxCharcoal",
+      "FoxRust",
+      "FoxEarVelvet",
+      "FoxAmber",
+      "FoxIvory"
+    ],
+    "base_color": "Fox/FoxDetail_BaseColor.png",
+    "normal": "Fox/FoxDetail_Normal.png"
+  },
+  "Deer": {
+    "LOD0_triangles": 14500,
+    "LOD1_triangles": 2600,
+    "materials": [
+      "DeerCoat",
+      "WildlifeCream",
+      "WildlifeEar",
+      "WildlifeDark",
+      "DeerAntler",
+      "SculptCoat",
+      "DeerHoof"
+    ],
+    "base_color": "Wildlife/DeerDetail_BaseColor.png",
+    "normal": "Wildlife/DeerDetail_Normal.png"
+  },
+  "Rabbit": {
+    "LOD0_triangles": 7500,
+    "LOD1_triangles": 1600,
+    "materials": [
+      "RabbitCoat",
+      "WildlifeCream",
+      "WildlifeEar",
+      "WildlifeDark"
+    ],
+    "base_color": "Wildlife/RabbitDetail_BaseColor.png",
+    "normal": "Wildlife/RabbitDetail_Normal.png"
+  },
+  "Duck": {
+    "LOD0_triangles": 11442,
+    "LOD1_triangles": 2400,
+    "materials": [
+      "MallardPlumage",
+      "MallardOchre",
+      "MallardChestnut",
+      "RiverEyes",
+      "RiverEyeGlint",
+      "MallardWing",
+      "MallardFeatherEdge",
+      "RiverIvory",
+      "MallardSpeculum"
+    ],
+    "base_color": "RiverWildlife/DuckDetail_BaseColor.png",
+    "normal": "RiverWildlife/DuckDetail_Normal.png"
+  },
+  "Beaver": {
+    "LOD0_triangles": 13800,
+    "LOD1_triangles": 2600,
+    "materials": [
+      "BeaverUmber",
+      "BeaverTail",
+      "BeaverInnerEar",
+      "BeaverMuzzle",
+      "RiverEyes",
+      "RiverEyeGlint",
+      "BeaverIncisors"
+    ],
+    "base_color": "RiverWildlife/BeaverDetail_BaseColor.png",
+    "normal": "RiverWildlife/BeaverDetail_Normal.png"
+  }
+}

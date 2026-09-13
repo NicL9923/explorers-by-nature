@@ -108,7 +108,7 @@ def hoof(name,x,y):
 
 def deer():
     # A light-bodied young buck; narrow chest and delicate planted legs.
-    vol=[ell('Ribcage',(0,.03,.99),(.235,.55,.30)),ell('Shoulder',(0,-.34,1.02),(.22,.27,.33)),ell('Haunch',(0,.40,1.01),(.25,.26,.32)),tube('Upright neck',[(0,-.38,1.04),(0,-.52,1.38),(0,-.65,1.60)],[.18,.12,.10]),ell('Skull',(0,-.69,1.59),(.105,.19,.14)),ell('Tapered muzzle',(0,-.86,1.52),(.073,.15,.072))]
+    vol=[ell('Ribcage',(0,.03,.99),(.235,.55,.30)),ell('Shoulder',(0,-.34,1.02),(.22,.27,.33)),ell('Haunch',(0,.40,1.01),(.245,.29,.26)),tube('Upright neck',[(0,-.38,1.04),(0,-.52,1.38),(0,-.65,1.60)],[.18,.12,.10]),ell('Skull',(0,-.69,1.59),(.105,.19,.14)),ell('Tapered muzzle',(0,-.86,1.52),(.073,.15,.072))]
     for s in [-1,1]:
         x=s*.15
         vol += [tube('Foreleg',[(x,-.33,.98),(x,-.38,.58),(x,-.35,.10)],[.074,.037,.025]),tube('Hindleg',[(x,.42,1.0),(x,.27,.70),(x,.48,.39),(x,.40,.10)],[.11,.065,.040,.025])]
@@ -116,11 +116,18 @@ def deer():
     for s in [-1,1]:
         parts.append(ear('Pointed ear',(s*.06,-.62,1.69),(s*.28,-.52,1.93),.15,CREAM))
         parts.append(ear('Inner ear',(s*.073,-.632,1.705),(s*.25,-.54,1.90),.10,PINK,.012))
-        parts.append(ell('Dark eye',(s*.092,-.76,1.63),(.017,.025,.020),DARK))
+        parts.append(ell('Dark almond eye',(s*.092,-.76,1.63),(.012,.029,.017),DARK))
+        parts.append(ell('Warm iris',(s*.103,-.765,1.631),(.003,.014,.012),HORN))
+        parts.append(ell('Horizontal pupil',(s*.106,-.767,1.632),(.002,.010,.006),DARK))
+        parts.append(ell('Small catchlight',(s*.108,-.774,1.637),(.002,.003,.003),CREAM))
+        parts.append(tube('Upper eyelid',[(s*.095,-.789,1.636),(s*.106,-.762,1.65),(s*.09,-.736,1.637)],[.003,.005,.002],COAT,6))
+        parts.append(tube('Lower jaw line',[(s*.027,-.99,1.503),(s*.064,-.895,1.471),(s*.085,-.80,1.49)],[.0015,.002,.0008],DARK,5))
         for yy in [-.35,.40]:
             for split in [-1,1]:parts.append(hoof('Cloven hoof',s*.15+split*.016,yy))
         parts.append(tube('Antler beam',[(s*.065,-.60,1.72),(s*.10,-.51,1.92),(s*.17,-.37,2.10),(s*.20,-.25,2.13)],[.023,.019,.012,.001],HORN,8))
         parts.append(tube('Antler tine',[(s*.13,-.45,2.0),(s*.10,-.57,2.12)],[.012,.001],HORN,7))
+        parts.append(tube('Antler brow tine',[(s*.09,-.54,1.86),(s*.13,-.68,1.98),(s*.145,-.70,2.035)],[.016,.008,.001],HORN,9))
+        parts.append(tube('Antler outer fork',[(s*.16,-.39,2.08),(s*.25,-.38,2.15),(s*.30,-.39,2.20)],[.012,.007,.001],HORN,9))
     parts.append(ell('Nose',(0,-.983,1.53),(.057,.031,.041),DARK))
     parts.append(ear('White tail',(0,.60,1.12),(0,.76,.95),.11,CREAM))
     return join(parts,'Deer_LOD0')

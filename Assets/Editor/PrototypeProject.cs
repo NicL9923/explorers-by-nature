@@ -33,7 +33,7 @@ public static class PrototypeProject
         low.renderScale = 1; low.msaaSampleCount = 1; low.shadowDistance = 45; low.shadowCascadeCount = 1;
         low.mainLightShadowmapResolution = 1024; low.supportsHDR = false;
         high.renderScale = 1; high.msaaSampleCount = 2; high.shadowDistance = 180; high.shadowCascadeCount = 4;
-        high.mainLightShadowmapResolution = 2048; high.supportsHDR = true;
+        high.mainLightShadowmapResolution = 4096; high.supportsHDR = true;
         EditorUtility.SetDirty(low); EditorUtility.SetDirty(high);
         GraphicsSettings.defaultRenderPipeline = high;
         QualitySettings.renderPipeline = high;
@@ -49,7 +49,7 @@ public static class PrototypeProject
         RenderSettings.skybox = sky;
         var sun = new GameObject("Late afternoon sun", typeof(Light)).GetComponent<Light>();
         sun.type = LightType.Directional; sun.intensity = 1.7f; sun.color = new Color(1, .91f, .76f);
-        sun.shadows = LightShadows.Soft; sun.transform.rotation = Quaternion.Euler(34, -35, 0); RenderSettings.sun = sun;
+        sun.shadowBias=.08f;sun.shadowNormalBias=.35f;sun.shadows = LightShadows.Soft; sun.transform.rotation = Quaternion.Euler(34, -35, 0); RenderSettings.sun = sun;
 
         var player = new GameObject("Explorer", typeof(CharacterController));
         player.transform.position = ValleyShape.Spawn;
@@ -58,7 +58,8 @@ public static class PrototypeProject
         var camera = new GameObject("Main Camera", typeof(Camera), typeof(AudioListener)).GetComponent<Camera>();
         camera.tag = "MainCamera"; camera.transform.SetParent(player.transform, false); camera.transform.localPosition = Vector3.up * 1.65f;
         camera.nearClipPlane = .1f; camera.farClipPlane = 1800; camera.fieldOfView = 75;
-        camera.gameObject.AddComponent<UniversalAdditionalCameraData>();
+        camera.gameObject.AddComponent<UniversalAdditionalCameraData>().renderPostProcessing=true;
+        CreateAtmosphere();
         FirstPersonWalker walker = player.AddComponent<FirstPersonWalker>(); walker.view = camera;
 
         ValleyWorld world = new GameObject("Pinewatch Valley").AddComponent<ValleyWorld>();
@@ -83,6 +84,8 @@ public static class PrototypeProject
         var environment = new GameObject("Weather and sound");
         environment.AddComponent<SkyWeather>().rainMaterial = Material("GentleRain", "Explorers/GentleRain", Color.white);
         environment.AddComponent<NatureSoundscape>();
+        var air=new GameObject("Woodland atmosphere");air.transform.SetParent(environment.transform);
+        air.AddComponent<WoodlandAtmosphere>().material=Material("WoodlandAir","Explorers/WoodlandAir",Color.white);
         WalkSession session = new GameObject("Walk session").AddComponent<WalkSession>();
         session.world = world; session.walker = walker; session.lowPipeline = low; session.highPipeline = high;
         if (UnityEngine.Object.FindFirstObjectByType<RanchSession>() == null) new GameObject("Ranch session").AddComponent<RanchSession>();
@@ -95,6 +98,25 @@ public static class PrototypeProject
         EditorBuildSettings.scenes = new[] { new EditorBuildSettingsScene(ScenePath, true) };
         AssetDatabase.SaveAssets();
         Debug.Log("PROTOTYPE_SCENE_READY " + ScenePath);
+    }
+
+    static void CreateAtmosphere()
+    {
+        const string path="Assets/Settings/Atmosphere.asset";
+        var profile=AssetDatabase.LoadAssetAtPath<VolumeProfile>(path);
+        if(profile==null){profile=ScriptableObject.CreateInstance<VolumeProfile>();AssetDatabase.CreateAsset(profile,path);}
+        if(!profile.TryGet<Tonemapping>(out var tone)){tone=profile.Add<Tonemapping>();AssetDatabase.AddObjectToAsset(tone,profile);}
+        tone.mode.Override(TonemappingMode.ACES);
+        if(!profile.TryGet<Bloom>(out var bloom)){bloom=profile.Add<Bloom>();AssetDatabase.AddObjectToAsset(bloom,profile);}
+        bloom.intensity.Override(.16f);bloom.threshold.Override(1.15f);bloom.scatter.Override(.65f);
+        if(!profile.TryGet<ColorAdjustments>(out var color)){color=profile.Add<ColorAdjustments>();AssetDatabase.AddObjectToAsset(color,profile);}
+        color.postExposure.Override(.25f);color.contrast.Override(3);color.saturation.Override(-3);
+        if(!profile.TryGet<Vignette>(out var vignette)){vignette=profile.Add<Vignette>();AssetDatabase.AddObjectToAsset(vignette,profile);}
+        vignette.intensity.Override(0);
+        if(!profile.TryGet<ScreenSpaceLensFlare>(out var flare)){flare=profile.Add<ScreenSpaceLensFlare>();AssetDatabase.AddObjectToAsset(flare,profile);}
+        flare.intensity.Override(0);
+        var volume=new GameObject("Outdoor light grading").AddComponent<Volume>();volume.isGlobal=true;volume.sharedProfile=profile;
+        EditorUtility.SetDirty(profile);
     }
 
     static Texture2D Texture(string name)

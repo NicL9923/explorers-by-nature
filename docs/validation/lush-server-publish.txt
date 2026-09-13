@@ -1,0 +1,8 @@
+  Determining projects to restore...
+  Restored /home/nicolas/dev/explorers-by-nature/Server/Explorers.Server.csproj (in 109 ms).
+  Explorers.Server -> /home/nicolas/dev/explorers-by-nature/Server/bin/Release/net10.0/linux-x64/Explorers.Server.dll
+  Explorers.Server -> /home/nicolas/dev/explorers-by-nature/Builds/Server/linux-x64/
+  Determining projects to restore...
+  Restored /home/nicolas/dev/explorers-by-nature/Server/Explorers.Server.csproj (in 116 ms).
+  Explorers.Server -> /home/nicolas/dev/explorers-by-nature/Server/bin/Release/net10.0/win-x64/Explorers.Server.dll
+  Explorers.Server -> /home/nicolas/dev/explorers-by-nature/Builds/Server/win-x64/

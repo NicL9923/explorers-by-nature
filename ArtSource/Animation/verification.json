@@ -1,30 +1,72 @@
 {
   "Deer": {
     "normalized_skin_weights": true,
-    "bones": 18
+    "max_four_influences": true,
+    "atlas_uv_channels": 1,
+    "bones": 18,
+    "vertices": {
+      "Deer_LOD0": 7320,
+      "Deer_LOD1": 1370
+    }
   },
   "Clover": {
     "normalized_skin_weights": true,
-    "bones": 18
+    "max_four_influences": true,
+    "atlas_uv_channels": 1,
+    "bones": 18,
+    "vertices": {
+      "Clover_LOD0": 11874,
+      "Clover_LOD1": 2324
+    }
   },
   "Fox": {
     "normalized_skin_weights": true,
-    "bones": 18
+    "max_four_influences": true,
+    "atlas_uv_channels": 1,
+    "bones": 18,
+    "vertices": {
+      "Fox_LOD0": 9020,
+      "Fox_LOD1": 1495
+    }
   },
   "Beaver": {
     "normalized_skin_weights": true,
-    "bones": 18
+    "max_four_influences": true,
+    "atlas_uv_channels": 1,
+    "bones": 18,
+    "vertices": {
+      "Beaver_LOD0": 7012,
+      "Beaver_LOD1": 1412
+    }
   },
   "Rabbit": {
     "normalized_skin_weights": true,
-    "bones": 18
+    "max_four_influences": true,
+    "atlas_uv_channels": 1,
+    "bones": 18,
+    "vertices": {
+      "Rabbit_LOD0": 3778,
+      "Rabbit_LOD1": 828
+    }
   },
   "Duck": {
     "normalized_skin_weights": true,
-    "bones": 10
+    "max_four_influences": true,
+    "atlas_uv_channels": 1,
+    "bones": 10,
+    "vertices": {
+      "Duck_LOD0": 5804,
+      "Duck_LOD1": 1283
+    }
   },
   "Hen": {
     "normalized_skin_weights": true,
-    "bones": 10
+    "max_four_influences": true,
+    "atlas_uv_channels": 1,
+    "bones": 10,
+    "vertices": {
+      "Hen_LOD0": 6120,
+      "Hen_LOD1": 1336
+    }
   }
 }

@@ -25,8 +25,8 @@ public sealed class ArtImportTests
                     foreach (Material material in renderer.sharedMaterials)
                     {
                         Assert.That(material, Is.Not.Null, name);
-                        Assert.That(material.shader.name, Is.EqualTo("Universal Render Pipeline/Lit"));
-                        if (material.name == "EyeBlack") Assert.That(material.GetColor("_BaseColor").maxColorComponent, Is.LessThan(.2f), "Imported eyes retain their dark pigment");
+                        Assert.That(material.shader.name, Is.EqualTo("Universal Render Pipeline/Lit").Or.EqualTo("Explorers/Foliage"));
+                        if (material.name == "EyeBlack") Assert.That(material.GetTexture("_BaseMap")!=null || material.GetColor("_BaseColor").maxColorComponent<.2f, Is.True, "Eyes retain baked or material pigment");
                         if (material.name.Contains("Needles") || material.name.Contains("Leaves"))
                         {
                             Assert.That(material.GetTexture("_BaseMap"), Is.Not.Null, material.name);
