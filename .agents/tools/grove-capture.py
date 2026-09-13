@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Capture four real first-person grove views using an already built Linux player."""
+"""Capture six real first-person grove views using an already built Linux player."""
 import argparse
 import os
 import pathlib
@@ -27,7 +27,7 @@ def main():
     player = options.player.resolve()
     if not player.is_file():
         parser.error(f'build the Linux player first: {player}')
-    names = ['01-entrance.png', '02-trail-and-doe.png', '03-fern-trail.png', '04-stump-and-floor.png']
+    names = ['01-entrance.png', '02-trail-and-doe.png', '03-fern-trail.png', '04-stump-and-floor.png', '05-doe-close.png', '06-overlook.png']
     for name in names:
         (output / name).unlink(missing_ok=True)
     log = output / 'player.log'

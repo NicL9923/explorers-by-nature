@@ -21,7 +21,8 @@ Visual limitations: the long-legged adult silhouette is a study, not finished re
 
 To generate a candidate without touching imported Unity assets, set `REFERENCE_DEER_OUTPUT` to an absolute directory under `ArtSource/ReferenceDeer/Candidate`. The 2026-09-12 second study was inspected in this isolated output and then copied into Assets/Resources/ReferenceDeer. It includes smaller hoof geometry, broad muscle-junction smoothing and stronger baked directional coat grain. Deer.blend matches this shipped mesh. The isolated Candidate directory is ignored to avoid duplicate binaries.
 
-Final inspected export hashes:
+The 2026-09-13 refinement shortens and narrows the ears, replaces their stacked inserts with a single curved textured surface, narrows the upper neck and rear skull, reduces coarse coat grain, and adds restrained dorsal color variation. The nose has cut nostril cavities and a thinner pale lip. Smaller UV projection islands remove a pale bake artifact on the foreleg. Close and distant budgets remain 30,000 and 6,000 triangles.
 
-- `Deer.fbx`: `eb09602e3c7a81fb843d37b2338152bb42dc40d481d1ec5262a0ec28ed6c4502`
-- `DeerCoat.png`: `4a47e54a836c0e1f12cbf44a5e51502bb4e837c265de034cd5835be0021af88c`
+Profile, three-quarter and face PNGs show the final Blender export under neutral studio lighting. These are asset inspections, not Unity gameplay captures. The face still needs more sculpted bone landmarks, the tail remains simple, and the coat has no groomed fur silhouette. Large animation poses remain unvalidated.
+
+`export-check.json` records a fresh FBX reimport check of the 18 named bones, both LOD meshes, one UV layer per mesh and normalized skin weights with at most four influences, together with final asset hashes.

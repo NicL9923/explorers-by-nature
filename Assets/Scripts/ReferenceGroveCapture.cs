@@ -58,14 +58,14 @@ namespace ExplorersByNature
             AudioListener.volume = 0;
             foreach(var layer in session.world.Ground.terrainData.terrainLayers)
                 Debug.Log("GROVE_TERRAIN_SURFACE "+layer.diffuseTexture.name+" format="+layer.diffuseTexture.graphicsFormat+" smoothness="+layer.smoothness);
-            var names = new[] { "01-entrance", "02-trail-and-doe", "03-fern-trail", "04-stump-and-floor" };
-            float[] positions = { -178, -158, -132, -124 };
-            float[] targetZ = { -149, -143, -108, -120 };
-            float[] targetOffset = { 0, -4.5f, 0, 5.2f };
-            float[] targetHeight = { 1.8f, 1.5f, 1.8f, .4f };
+            var names = new[] { "01-entrance", "02-trail-and-doe", "03-fern-trail", "04-stump-and-floor", "05-doe-close", "06-overlook" };
+            float[] positions = { -178, -158, -132, -124, -147, 135 };
+            float[] targetZ = { -149, -143, -108, -120, -144, 420 };
+            float[] targetOffset = { 0, -4.5f, 0, 5.2f, -6.2f, 200 };
+            float[] targetHeight = { 1.8f, 1.5f, 1.8f, .4f, 1.2f, 40 };
             for (int i = 0; i < names.Length; i++)
             {
-                walker.Teleport(ValleyShape.Ground(ValleyShape.TrailX(positions[i])+(i==3?2:0),positions[i],.15f));
+                walker.Teleport(ValleyShape.Ground(ValleyShape.TrailX(positions[i])+(i==3?2:i==4?-7.8f:0),positions[i],.15f));
                 Vector3 target = ValleyShape.Ground(ValleyShape.TrailX(targetZ[i]) + targetOffset[i], targetZ[i], targetHeight[i]);
                 walker.transform.rotation = Quaternion.LookRotation(Vector3.ProjectOnPlane(target - walker.transform.position, Vector3.up));
                 walker.view.transform.LookAt(target);

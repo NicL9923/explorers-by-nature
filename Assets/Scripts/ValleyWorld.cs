@@ -125,32 +125,9 @@ namespace ExplorersByNature
 
         void BuildBackdrop()
         {
-            // Sharp, asymmetric watersheds beyond the traversable heightfield. No shared ground changes.
-            const int columns=321, rows=145;
-            var vertices=new List<Vector3>();var colors=new List<Color>();var indices=new List<int>();
-            var summits=new[]{new Vector3(-760,335,790),new Vector3(-435,430,870),new Vector3(-125,475,970),new Vector3(160,390,780),new Vector3(425,505,1030),new Vector3(760,410,870)};
-            for(int row=0;row<rows;row++) for(int col=0;col<columns;col++)
-            {
-                float x=-1200+col*2400f/(columns-1), z=450+row*1000f/(rows-1);
-                float distance=z-450, peak=0;
-                foreach(Vector3 summit in summits)
-                {
-                    peak=Mathf.Max(peak,ValleyShape.MountainMass(x-summit.x,z-summit.z,225,265,summit.y,summit.x*.013f));
-                }
-                float erosion=(1-Mathf.Abs(Mathf.PerlinNoise((x+1900)*.021f,z*.026f)*2-1));
-                float detail=(erosion-.6f)*Mathf.Min(26,peak*.09f);
-                float height=(peak+detail+35)*SmoothRange(0,115,distance);
-                if(distance<115 && Mathf.Abs(x)<450) height+=ValleyShape.Height(x,450)*(1-SmoothRange(0,115,distance));
-                vertices.Add(new Vector3(x,height,z));
-                float snow=SmoothRange(260,335,height+erosion*42+Mathf.Sin(x*.03f+z*.016f)*18);
-                Color rock=Color.Lerp(new Color(.36f,.39f,.38f),new Color(.59f,.58f,.52f),erosion);
-                colors.Add(Color.Lerp(rock,new Color(.91f,.94f,.94f),snow).linear);
-                if(row==rows-1||col==columns-1)continue;
-                int n=row*columns+col;indices.AddRange(new[]{n,n+columns,n+1,n+1,n+columns,n+columns+1});
-            }
-            var mesh=Own(new Mesh{name="Eroded alpine watersheds",indexFormat=IndexFormat.UInt32});mesh.SetVertices(vertices);mesh.SetColors(colors);mesh.SetTriangles(indices,0);mesh.RecalculateNormals();mesh.RecalculateBounds();
-            var material=Own(new Material(grassMaterial));material.SetFloat("_WindStrength",0);material.SetFloat("_SurfaceLighting",1);
-            MeshObject("Distant alpine range",mesh,material,transform).shadowCastingMode=ShadowCastingMode.Off;
+            var range = new GameObject("Alpine geology");
+            range.transform.SetParent(transform, false);
+            range.AddComponent<AlpineRange>().Build(Ground);
         }
 
         public static float ShoreX(float z, int side)

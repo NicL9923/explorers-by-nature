@@ -245,3 +245,29 @@ Both measurements used the same Linux player stamp, `1e60ded/sha256:6cf8e7120591
 The visual inspection caught incorrect FBX units from incomplete importer metadata, ground images imported as cubemaps, invalid white pixels in the pine atlas, and terrain alpha being interpreted as mirror smoothness. The final import settings and texture packing address those defects. The tree trunk bake also preserves the source material’s blend between scanned roots and upper bark, removing stretched atlas artifacts. The grove still needs better close-range animal art and more varied large-scale ground detail. Passing the technical checks does not establish that the original visual ambition has been met.
 
 An intermittent multiplayer smoke failure exposed timing races in the automation: it could move before a queued action captured its pose. The harness now waits for each accepted revision before moving on and preserves failure snapshots. The original failure’s exact trigger was not proven. Shared authority and connection code were not changed; the corrected harness passed against the final player.
+
+
+## Woodland and alpine refinement, September 13, 2026 UTC
+
+The grove now replaces up to 56 nearby prototype canopies at their existing planting positions while retaining their trunk collisions. Trail shoulders gain small rock groups, daylight shadows are softer, and the separate doe has revised ears, neck, muzzle and coat. A connected distant range and granite surface treatment improve the northern view without changing the shared heightfield. [Unedited player gallery](woodland-refinement.md).
+
+The alpine geometry uses two renderers: 92,160 triangles in the distant range and 61,356 triangles on the northern terrain surface. Its granite photograph is the existing CC0 asset recorded in [asset provenance](assets.json). The doe stays at 30,000/6,000 triangles; a fresh Blender FBX import verified its rig, UVs and skin weights in [export evidence](../ArtSource/ReferenceDeer/export-check.json).
+
+| Check | Result and evidence |
+| --- | --- |
+| EditMode | [18 passed](validation/woodland-editmode.xml), rerun after the final granite sampling change, including the serialized mountain material, shader compilation and texture linkage. |
+| PlayMode | [6 passed](validation/woodland-playmode.xml), including retained transition-tree collisions, all grove LODs and materials, quality changes, terrain preservation and existing gameplay checks. This result is reused from before the final shader-only texture-blending change; its tested C# and model inputs did not change. |
+| Desktop builds | [Linux and Windows succeeded](validation/woodland-builds.json) with the same embedded stamp. Linux ran on both GPUs; native Windows execution remains untested. |
+| Rendered multiplayer | [Passed](validation/woodland-multiplayer.txt): two Linux clients and the dedicated save agree at revision 25, with 20 pieces, one milk and three eggs. [Snapshot](validation/woodland-shared-ranch.json). Authority, terrain export and server binaries are unchanged. |
+| Runtime source | [486 file hashes](validation/woodland-source-files.json) record the runtime, assets, configuration and tests. Final builds, captures and performance runs share the stamp below. |
+
+Runtime stamp: `fa134db/sha256:deea3c7eebcce85776b610d1f3c72da8df907f9f82e6a2614394f907963b92db`.
+
+| Run | Mean | p95 / p99 | Frames over 50 ms | Final working set |
+| --- | --- | --- | --- | --- |
+| [AMD integrated / Vulkan / Low / 1280×720](validation/woodland-low.json) | 21.87 ms | 29.13 / 29.63 ms | 2 | 703 MB |
+| [RTX 5070 Ti / OpenGL / High / 1920×1080](validation/woodland-high.json) | 6.20 ms | 8.06 / 8.23 ms | 0 | 1011 MB |
+
+Both runs used the Ryzen 9 9950X3D and 32 GB RAM on the same 72-metre Fern Hollow route, with five seconds of warm-up and sixty seconds of measurements. No editor, build, Blender render or second benchmark ran concurrently. These are uncapped engine frame intervals, not GPU-only timings. Memory is a final snapshot, not a peak. The actual two-core, 8 GB minimum PC and a populated 20-player rendered ranch remain untested.
+
+Player inspection rejected overly pale periodic mountain stripes, then excessive procedural fracture detail and obvious granite repetition. The final material uses darker photographed rock, restrained bump and blended texture scales. Both High and Low overlook captures were inspected. The nearby mountain silhouettes remain too rounded, the meadow still exposes earlier vegetation art, and the doe's face and fur need further work.

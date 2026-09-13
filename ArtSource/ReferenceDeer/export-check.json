@@ -1,0 +1,52 @@
+{
+  "bones": [
+    "MotionRoot",
+    "Neck",
+    "Head",
+    "EarL",
+    "EarR",
+    "Tail",
+    "FrontLUpper",
+    "FrontLLower",
+    "FrontLFoot",
+    "FrontRUpper",
+    "FrontRLower",
+    "FrontRFoot",
+    "HindLUpper",
+    "HindLLower",
+    "HindLFoot",
+    "HindRUpper",
+    "HindRLower",
+    "HindRFoot"
+  ],
+  "meshes": {
+    "Deer_LOD0": {
+      "triangles": 30000,
+      "vertices": 15058,
+      "materials": [
+        "DeerCoat",
+        "WildlifeDark",
+        "Doe eyelid",
+        "WildlifeCream",
+        "DeerHoof",
+        "SculptCoat"
+      ]
+    },
+    "Deer_LOD1": {
+      "triangles": 6000,
+      "vertices": 3058,
+      "materials": [
+        "DeerCoat",
+        "WildlifeDark",
+        "Doe eyelid",
+        "WildlifeCream",
+        "DeerHoof",
+        "SculptCoat"
+      ]
+    }
+  },
+  "sha256": {
+    "Deer.fbx": "c2b821790871b5bdf3abac50865a449a9168135c6520d68ca5ffe90ea5eb31a4",
+    "DeerCoat.png": "13333c89000559004ea92ca6a755e11010f98880164f04950df6606f3d817102"
+  }
+}

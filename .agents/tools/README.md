@@ -32,9 +32,9 @@
 - `make-reference-deer.py`: rebuild the separate photo-referenced adult doe, 30k/6k LODs, compatible rig, 2k coat and inspection views.
 - `preview-reference-trees.py`: Rebuild compact editable tree source and render an isolated silhouette/UV preview.
 
-- `grove-capture.py`: capture four fixed first-person Fern Hollow views with isolated saves and preferences.
+- `grove-capture.py`: capture six fixed first-person grove, doe and overlook views with isolated saves and preferences.
 
 - `rebuild-reference-trees.py`: Rebake and export both authored trees with a valid temporary Blender color configuration.
 - `bake-reference-trunks.py`: Flatten scanned-base and triplanar bark materials into the exported trunk UV0 atlas.
 
-- `record-grove-validation.py`: collect only matching build, benchmark, capture and multiplayer evidence for the Fern Hollow release.
+- `record-grove-validation.py --prefix NAME`: collect only matching build, benchmark, capture and multiplayer evidence for the Fern Hollow release.

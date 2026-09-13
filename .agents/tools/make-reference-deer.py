@@ -85,6 +85,19 @@ def coat_bake(o,name,kind):
             if kind=='deer':
                 c=Vector((.29,.145,.062));belly=max(0,min(1,(.83-z)*14))*max(0,min(1,(.60-abs(y))*9))*max(0,min(1,(.15-abs(x))*24));throat=max(0,min(1,(-y-.78)*12))*max(0,min(1,(z-1.23)*12))*max(0,min(1,(1.48-z)*15))
                 pale=max(belly,throat*.85);c=c.lerp(Vector((.66,.59,.46)),pale)
+                dorsal=max(0,min(1,(z-1.02)*5)) * max(0,min(1,(y+.6)*5))
+                c=c.lerp(Vector((.20,.112,.058)),dorsal*.35)
+                # Pinna color follows ear coordinates, including a narrow dark rim.
+                if z>1.67 and abs(x)>.075:
+                    tip=Vector((.207,-.774 if x>0 else -.81,1.834 if x>0 else 1.821))
+                    base=Vector((.044,-.842,1.619));point=Vector((abs(x),y,z))
+                    axis=tip-base;t=max(0,min(1,(point-base).dot(axis)/axis.length_squared))
+                    side=axis.cross(Vector((0,-1,0))).normalized()
+                    w=max(.002,math.sin(t*math.pi)**.7*.054)
+                    u=abs((point-base-axis*t).dot(side))/w
+                    interior=max(0,min(1,(.87-u)*5))*max(0,min(1,(t-.12)*6))
+                    c=c.lerp(Vector((.49,.425,.33)),interior*.85)
+                    c*=1-.16*max(0,min(1,(u-.8)*5))
                 if y<-.82 and z>1.40:
                     bridge=math.exp(-((x/.052)**2+((y+1.04)/.14)**2+((z-1.56)/.105)**2))* .58
                     c=c.lerp(Vector((.10,.075,.056)),bridge)
@@ -97,15 +110,15 @@ def coat_bake(o,name,kind):
     m=mat(name+'Coat',(1,1,1));o.data.materials.clear();o.data.materials.append(m);nodes=m.node_tree.nodes;links=m.node_tree.links
     nodes.clear();out=nodes.new('ShaderNodeOutputMaterial');em=nodes.new('ShaderNodeEmission');vc=nodes.new('ShaderNodeVertexColor');vc.layer_name='Coat';links.new(vc.outputs['Color'],em.inputs[0]);links.new(em.outputs[0],out.inputs[0])
     im=bpy.data.images.new(name+'Coat',width=2048,height=2048);im.filepath_raw=str(OUT/(name+'Coat.png'));im.file_format='PNG';tex=nodes.new('ShaderNodeTexImage');tex.image=im;nodes.active=tex
-    bpy.ops.object.mode_set(mode='EDIT');bpy.ops.mesh.select_all(action='SELECT');bpy.ops.uv.smart_project(angle_limit=1.0,island_margin=.018);bpy.ops.object.mode_set(mode='OBJECT')
+    bpy.ops.object.mode_set(mode='EDIT');bpy.ops.mesh.select_all(action='SELECT');bpy.ops.uv.smart_project(angle_limit=.55,island_margin=.012);bpy.ops.object.mode_set(mode='OBJECT')
     sc=bpy.context.scene;sc.render.engine='CYCLES';sc.cycles.samples=1;sc.render.bake.margin=12;bpy.ops.object.bake(type='EMIT')
     # Fine original coat grain lives in the texture, avoiding vertex-scale mottling.
     pixels=np.empty(2048*2048*4,dtype=np.float32);im.pixels.foreach_get(pixels);pixels=pixels.reshape((2048,2048,4))
-    noise=np.random.default_rng(721).normal(0,.10,(2048,2048))
+    noise=np.random.default_rng(721).normal(0,.026,(2048,2048))
     noise=(noise+np.roll(noise,1,axis=0)+np.roll(noise,2,axis=0))/3
     # Dense directional hair flecks plus restrained larger coat variation, baked into albedo.
     rng=np.random.default_rng(529)
-    grain=rng.normal(0,.17,(2048,2048))
+    grain=rng.normal(0,.045,(2048,2048))
     for shift in range(1,6):grain+=np.roll(grain,shift,axis=0)*.15
     pixels[:,:,:3]=np.clip(pixels[:,:,:3]*(1+noise[:,:,None]+grain[:,:,None]),0,1);im.pixels.foreach_set(pixels.ravel());im.save()
     nodes.remove(em);nodes.remove(vc);bs=nodes.new('ShaderNodeBsdfPrincipled');bs.inputs['Roughness'].default_value=.87;links.new(tex.outputs['Color'],bs.inputs['Base Color']);links.new(bs.outputs[0],out.inputs[0]);return o
@@ -139,8 +152,8 @@ def rings(name,sections,sides=40):
 
 vol=[rings('Ribcage with tuck and withers',[
  (-.51,.06,.91,1.07),(-.44,.145,.80,1.17),(-.32,.185,.73,1.23),(-.18,.219,.71,1.215),(.03,.232,.73,1.20),(.24,.208,.80,1.215),(.43,.199,.85,1.245),(.57,.15,.87,1.22),(.63,.055,.98,1.13)]),
- rings('S-neck', [(-.91,.049,1.41,1.62),(-.84,.07,1.25,1.65),(-.76,.081,1.19,1.56),(-.65,.095,1.07,1.41),(-.52,.12,.94,1.25),(-.40,.135,.90,1.17),(-.28,.12,.94,1.15)]),
- rings('Long wedge skull',[(-1.18,.042,1.42,1.49),(-1.125,.053,1.412,1.525),(-1.04,.061,1.425,1.59),(-.97,.08,1.46,1.65),(-.895,.091,1.47,1.68),(-.82,.061,1.50,1.655),(-.79,.025,1.54,1.61)])]
+ rings('S-neck', [(-.91,.049,1.41,1.62),(-.84,.062,1.31,1.65),(-.76,.072,1.25,1.56),(-.65,.086,1.12,1.41),(-.52,.12,.94,1.25),(-.40,.135,.90,1.17),(-.28,.12,.94,1.15)]),
+ rings('Long wedge skull',[(-1.18,.042,1.42,1.49),(-1.125,.053,1.412,1.525),(-1.04,.061,1.425,1.59),(-.97,.08,1.46,1.65),(-.895,.080,1.49,1.665),(-.82,.061,1.50,1.655),(-.79,.025,1.54,1.61)])]
 # Thin forearm and cannon; rear stifle is forward of hock. Slight stance asymmetry.
 feet=[]
 for s in [-1,1]:
@@ -149,29 +162,35 @@ for s in [-1,1]:
             tube('Forearm',[(x*.66,-.32,1.15),(x,-.335,.99),(x,-.32,.79),(x,-.375,.55),(x,-.377,.48),(x,-.355,.14),(x,-.37,.075)],[.062,.058,.048,.029,.024,.018,.023],sides=18),
             ell('Hindquarter',(s*.086,.43,1.015),(.082,.158,.195),rot=(-.24,0,0)),
             tube('Rear leg',[(x*.65,.43,1.16),(x,.40,.95),(x,.29,.76),(x,.44,.55),(x,.50+shift,.43),(x,.453+shift,.15),(x,.425+shift,.075)],[.075,.080,.060,.035,.027,.018,.024],sides=18)]
-    vol += [tube('Ear root',[(s*.039,-.84,1.615),(s*.065,-.832,1.665),(s*.092,-.817,1.707)],[.027,.022,.007],sides=16)]
+    vol += [tube('Ear root',[(s*.039,-.84,1.615),(s*.065,-.832,1.665),(s*.075,-.827,1.678)],[.027,.022,.007],sides=16)]
     feet.extend([(x,-.37),(x,.425+shift)])
-body=coat_bake(sculpt(vol,'Doe continuous skin',.0055,22500),'Deer','deer');parts=[body]
+body=sculpt(vol,'Doe continuous skin',.0055,22500)
+# One curved pinna per ear, with a baked pale bowl. Avoid stacked inset plates.
+for s in [-1,1]:
+    tip=(s*.207,-.774 if s==1 else -.81,1.834 if s==1 else 1.821)
+    pinna=ear('Furred pinna',(s*.044,-.842,1.619),tip,.108,COAT,.019)
+    body=join([body,pinna],'Doe continuous skin')
+body=coat_bake(body,'Deer','deer');parts=[body]
 # Soft facial masks follow skull, without white spherical eye decorations.
 CREAM.diffuse_color=(.48,.43,.34,1);CREAM.node_tree.nodes['Principled BSDF'].inputs['Base Color'].default_value=(.48,.43,.34,1)
 PINK.diffuse_color=(.30,.235,.19,1);PINK.node_tree.nodes['Principled BSDF'].inputs['Base Color'].default_value=(.30,.235,.19,1)
 LID=mat('Doe eyelid',(.09,.053,.027),.77)
 for s in [-1,1]:
-    # Ears have a deep concave bowl and individual off-axis orientations.
-    tip=(s*.247,-.765 if s==1 else -.80,1.882 if s==1 else 1.865)
-    parts.append(ear('Outer ear',(s*.044,-.842,1.619),tip,.116,COAT,.035))
-    parts.append(ear('Inner ear',(s*.048,-.850,1.636),(tip[0]*.96,tip[1]-.008,tip[2]-.018),.085,PINK,.021))
     # Almond eye viewed laterally; the bony orbit and dark upper lid carry expression.
-    parts.append(ell('Eye',(s*.067,-.964,1.595),(.010,.022,.013),DARK,rot=(0,0,s*.15)))
+    parts.append(ell('Eye',(s*.067,-.964,1.595),(.009,.024,.014),DARK,rot=(0,0,s*.15)))
     parts.append(tube('Upper eyelid',[(s*.061,-.986,1.597),(s*.075,-.970,1.606),(s*.075,-.95,1.604),(s*.067,-.942,1.595)],[.001,.002,.002,.001],LID,8))
     parts.append(tube('Lower eyelid',[(s*.061,-.986,1.596),(s*.077,-.965,1.583),(s*.067,-.942,1.595)],[.001,.0025,.001],LID,8))
     #parts.append(tube('Tear duct',[(s*.075,-.984,1.589),(s*.068,-1.006,1.574)],[.0025,.0008],LID,7))
-    #parts.append(tube('Mouth crease',[(s*.021,-1.182,1.427),(s*.047,-1.145,1.423),(s*.054,-1.081,1.427),(s*.056,-1.032,1.443)],[.0009,.0015,.001,.0004],DARK,6))
-    parts.append(ell('Nostril',(s*.034,-1.188,1.471),(.011,.005,.007),DARK))
-parts.append(ell('Chin pale lip',(0,-1.128,1.424),(.036,.043,.012),CREAM))
+parts.append(ell('Chin pale lip',(0,-1.128,1.424),(.032,.037,.006),CREAM))
 # Nose flattened dorsally, broad at nostrils and tapering into upper lip.
-parts.append(rings('Nose leather',[(-1.198,.026,1.435,1.473),(-1.193,.042,1.430,1.486),(-1.175,.044,1.433,1.492),(-1.16,.035,1.442,1.492)],24))
+parts.append(rings('Nose leather',[(-1.194,.019,1.439,1.473),(-1.191,.035,1.435,1.484),(-1.177,.040,1.435,1.488),(-1.16,.031,1.445,1.488)],24))
 parts[-1].data.materials.clear();parts[-1].data.materials.append(DARK)
+# Cut nostril hollows into the leather instead of attaching dark beads.
+nose=parts[-1]
+for s in [-1,1]:
+    cutter=ell('Nostril cutter',(s*.034,-1.184,1.474),(.009,.012,.006),DARK,rot=(0,0,s*.35))
+    mod=nose.modifiers.new('Inset nostril','BOOLEAN');mod.operation='DIFFERENCE';mod.object=cutter;apply(nose,mod)
+    bpy.data.objects.remove(cutter,do_unlink=True)
 for x,y in feet:
     for split in [-1,1]:parts.append(hoof('Cloven hoof',x+split*.0105,y))
     for dx in [-.015,.015]:parts.append(ell('Dewclaw',(x+dx,y+.018,.11),(.005,.007,.010),HOOF))
@@ -196,7 +215,7 @@ sc=bpy.context.scene;sc.world.use_nodes=True;sc.world.node_tree.nodes['Backgroun
 for pos,energy,size in [((3,-4,5),500,4),((-3,1,4),500,3)]:
     bpy.ops.object.light_add(type='AREA',location=pos);bpy.context.object.data.energy=energy;bpy.context.object.data.size=size
 bpy.ops.object.camera_add();cam=bpy.context.object;sc.camera=cam;cam.data.type='ORTHO';cam.data.ortho_scale=2.35
-sc.render.engine='CYCLES';sc.cycles.samples=32;sc.render.resolution_x=1200;sc.render.resolution_y=1100;sc.render.resolution_percentage=100;sc.view_settings.view_transform='AgX'
+sc.render.engine='CYCLES';sc.cycles.samples=16;sc.render.resolution_x=1200;sc.render.resolution_y=1100;sc.render.resolution_percentage=100;sc.view_settings.view_transform='AgX'
 for view,pos,target,zoom in [('profile',(4,.1,1.6),(0,-.1,.96),2.3),('three-quarter',(3,-3,1.9),(0,-.18,1),2.35),('face',(1,-2,1.8),(0,-.94,1.60),.72)]:
     cam.location=pos;cam.rotation_euler=(Vector(target)-cam.location).to_track_quat('-Z','Y').to_euler();cam.data.ortho_scale=zoom;sc.render.filepath=str(SRC/(view+'.png'));bpy.ops.render.render(write_still=True)
 bpy.ops.wm.save_as_mainfile(filepath=str(SRC/'Deer.blend'),compress=True)

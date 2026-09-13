@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<test-run id="2" testcasecount="6" result="Passed" total="6" passed="6" failed="0" inconclusive="0" skipped="0" asserts="0" engine-version="3.5.0.0" clr-version="4.0.30319.42000" start-time="2026-09-13 11:15:21Z" end-time="2026-09-13 11:15:36Z" duration="15.6741534">
+  <test-suite type="TestSuite" id="1014" name="Explorers by Nature" fullname="Explorers by Nature" runstate="Runnable" testcasecount="6" result="Passed" start-time="2026-09-13 11:15:21Z" end-time="2026-09-13 11:15:36Z" duration="15.674153" total="6" passed="6" failed="0" inconclusive="0" skipped="0" asserts="0">
+    <properties>
+      <property name="platform" value="PlayMode" />
+    </properties>
+    <test-suite type="Assembly" id="1011" name="Explorers.PlayTests.dll" fullname="/home/nicolas/dev/explorers-by-nature/Library/ScriptAssemblies/Explorers.PlayTests.dll" runstate="Runnable" testcasecount="6" result="Passed" start-time="2026-09-13 11:15:21Z" end-time="2026-09-13 11:15:36Z" duration="15.670461" total="6" passed="6" failed="0" inconclusive="0" skipped="0" asserts="0">
+      <properties>
+        <property name="_PID" value="3254148" />
+        <property name="_APPDOMAIN" value="Unity Child Domain" />
+        <property name="platform" value="PlayMode" />
+        <property name="EditorOnly" value="False" />
+      </properties>
+      <test-suite type="TestFixture" id="1001" name="EnvironmentPlayTests" fullname="EnvironmentPlayTests" classname="EnvironmentPlayTests" runstate="Runnable" testcasecount="1" result="Passed" start-time="2026-09-13 11:15:21Z" end-time="2026-09-13 11:15:22Z" duration="1.194843" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <test-case id="1002" name="DrizzleAndEveningKeepWorldLitAndSoundLocalized" fullname="EnvironmentPlayTests.DrizzleAndEveningKeepWorldLitAndSoundLocalized" methodname="DrizzleAndEveningKeepWorldLitAndSoundLocalized" classname="EnvironmentPlayTests" runstate="Runnable" seed="1184245484" result="Passed" start-time="2026-09-13 11:15:21Z" end-time="2026-09-13 11:15:22Z" duration="1.189952" asserts="0">
+          <properties>
+            <property name="_JOINTYPE" value="UnityCombinatorial" />
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+          <output><![CDATA[ALPINE_MESH Connected alpine escarpments vertices=46545 triangles=92160
+ALPINE_MESH Northern granite faces vertices=78489 triangles=61356
+]]></output>
+        </test-case>
+      </test-suite>
+      <test-suite type="TestFixture" id="1003" name="RanchPlayTests" fullname="RanchPlayTests" classname="RanchPlayTests" runstate="Runnable" testcasecount="2" result="Passed" start-time="2026-09-13 11:15:22Z" end-time="2026-09-13 11:15:29Z" duration="7.242369" total="2" passed="2" failed="0" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <test-case id="1005" name="FurnishingsSitAboveDeckAndBenchReleasesPlayer" fullname="RanchPlayTests.FurnishingsSitAboveDeckAndBenchReleasesPlayer" methodname="FurnishingsSitAboveDeckAndBenchReleasesPlayer" classname="RanchPlayTests" runstate="Runnable" seed="16186795" result="Passed" start-time="2026-09-13 11:15:22Z" end-time="2026-09-13 11:15:24Z" duration="1.741569" asserts="0">
+          <properties>
+            <property name="_JOINTYPE" value="UnityCombinatorial" />
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+          <output><![CDATA[ALPINE_MESH Connected alpine escarpments vertices=46545 triangles=92160
+ALPINE_MESH Northern granite faces vertices=78489 triangles=61356
+]]></output>
+        </test-case>
+        <test-case id="1004" name="RanchBuildsMovesCollectsAndReloads" fullname="RanchPlayTests.RanchBuildsMovesCollectsAndReloads" methodname="RanchBuildsMovesCollectsAndReloads" classname="RanchPlayTests" runstate="Runnable" seed="454350825" result="Passed" start-time="2026-09-13 11:15:24Z" end-time="2026-09-13 11:15:29Z" duration="5.487564" asserts="0">
+          <properties>
+            <property name="_JOINTYPE" value="UnityCombinatorial" />
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+          <output><![CDATA[ALPINE_MESH Connected alpine escarpments vertices=46545 triangles=92160
+ALPINE_MESH Northern granite faces vertices=78489 triangles=61356
+]]></output>
+        </test-case>
+      </test-suite>
+      <test-suite type="TestFixture" id="1006" name="ReferenceGroveTests" fullname="ReferenceGroveTests" classname="ReferenceGroveTests" runstate="Runnable" testcasecount="2" result="Passed" start-time="2026-09-13 11:15:29Z" end-time="2026-09-13 11:15:33Z" duration="4.079564" total="2" passed="2" failed="0" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <test-case id="1007" name="ImportedGroveKeepsCompleteLodsAndMaterialsAcrossQualityChanges" fullname="ReferenceGroveTests.ImportedGroveKeepsCompleteLodsAndMaterialsAcrossQualityChanges" methodname="ImportedGroveKeepsCompleteLodsAndMaterialsAcrossQualityChanges" classname="ReferenceGroveTests" runstate="Runnable" seed="843552317" result="Passed" start-time="2026-09-13 11:15:29Z" end-time="2026-09-13 11:15:30Z" duration="1.051711" asserts="0">
+          <properties>
+            <property name="_JOINTYPE" value="UnityCombinatorial" />
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+          <output><![CDATA[ALPINE_MESH Connected alpine escarpments vertices=46545 triangles=92160
+ALPINE_MESH Northern granite faces vertices=78489 triangles=61356
+]]></output>
+        </test-case>
+        <test-case id="1008" name="PaintedTerrainStaysNormalizedAndVisitReturnsAnUnobstructedGroundedWalker" fullname="ReferenceGroveTests.PaintedTerrainStaysNormalizedAndVisitReturnsAnUnobstructedGroundedWalker" methodname="PaintedTerrainStaysNormalizedAndVisitReturnsAnUnobstructedGroundedWalker" classname="ReferenceGroveTests" runstate="Runnable" seed="540742755" result="Passed" start-time="2026-09-13 11:15:30Z" end-time="2026-09-13 11:15:33Z" duration="3.011139" asserts="0">
+          <properties>
+            <property name="_JOINTYPE" value="UnityCombinatorial" />
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+          <output><![CDATA[ALPINE_MESH Connected alpine escarpments vertices=46545 triangles=92160
+ALPINE_MESH Northern granite faces vertices=78489 triangles=61356
+]]></output>
+        </test-case>
+      </test-suite>
+      <test-suite type="TestFixture" id="1009" name="ValleyPlayTests" fullname="ValleyPlayTests" classname="ValleyPlayTests" runstate="Runnable" testcasecount="1" result="Passed" start-time="2026-09-13 11:15:33Z" end-time="2026-09-13 11:15:36Z" duration="3.152976" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <test-case id="1010" name="ExplorerStandsOnTerrainAndQualityKeepsWildlife" fullname="ValleyPlayTests.ExplorerStandsOnTerrainAndQualityKeepsWildlife" methodname="ExplorerStandsOnTerrainAndQualityKeepsWildlife" classname="ValleyPlayTests" runstate="Runnable" seed="1156439284" result="Passed" start-time="2026-09-13 11:15:33Z" end-time="2026-09-13 11:15:36Z" duration="3.136467" asserts="0">
+          <properties>
+            <property name="_JOINTYPE" value="UnityCombinatorial" />
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+          <output><![CDATA[ALPINE_MESH Connected alpine escarpments vertices=46545 triangles=92160
+ALPINE_MESH Northern granite faces vertices=78489 triangles=61356
+Saving results to: /home/nicolas/.config/unity3d/Explorers by Nature/Explorers by Nature/TestResults.xml
+]]></output>
+        </test-case>
+      </test-suite>
+    </test-suite>
+  </test-suite>
+</test-run>

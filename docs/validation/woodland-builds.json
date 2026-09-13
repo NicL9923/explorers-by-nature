@@ -1,0 +1,14 @@
+{
+  "linux": {
+    "result": "Success",
+    "runtimeStamp": "fa134db/sha256:deea3c7eebcce85776b610d1f3c72da8df907f9f82e6a2614394f907963b92db",
+    "level0SHA256": "e5f85b9c99e59fc787ba69d8d60f81aff6f745a4f112a1616b79d8bd1877e9ea",
+    "nativeExecution": true
+  },
+  "windows": {
+    "result": "Success",
+    "runtimeStamp": "fa134db/sha256:deea3c7eebcce85776b610d1f3c72da8df907f9f82e6a2614394f907963b92db",
+    "level0SHA256": "87949b5f21dbbfbbe2b87e6e6c1f46c5322f8031dea2c0a0db22d69561793f32",
+    "nativeExecution": false
+  }
+}

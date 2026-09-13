@@ -12,6 +12,7 @@ namespace ExplorersByNature
         public static bool PhotoMode;
         public bool Ready { get; private set; }
         public int TreeCount { get; private set; }
+        public int TransitionTreeCount { get; private set; }
         readonly List<Object> owned=new List<Object>();
         FirstPersonWalker walker;
         public static bool Contains(Vector3 p,float margin=0) => Mathf.Abs(p.x-ValleyShape.TrailX(p.z))<43+margin && p.z>-193-margin && p.z<-88+margin;
@@ -20,7 +21,7 @@ namespace ExplorersByNature
         {
             Current=this;walker=FindFirstObjectByType<FirstPersonWalker>();
             var world=FindFirstObjectByType<ValleyWorld>();
-            ClearOldScenery(world);DressGround(world.Ground);
+            ClearOldScenery(world);DressGround(world.Ground);BlendForestEdge(world);
             // Offset from the trail, z, scale. Open pockets alternate with close framing trunks.
             Vector3[] trees={
                 new Vector3(-6,-177,.92f),new Vector3(8,-182,1.03f),new Vector3(-17,-184,1.15f),new Vector3(22,-185,.86f),
@@ -66,6 +67,14 @@ namespace ExplorersByNature
                     Place(kind,px,pz,Mathf.Lerp(.85f,1.8f,(float)random.NextDouble()),(float)random.NextDouble()*360,-.025f);
                 }
             }
+            // Low boulder groups interrupt the broad, flat soil without obstructing the tread.
+            for(int patch=0;patch<14;patch++)
+            {
+                float z=-183+patch*6.5f,side=patch%2==0?-1:1;
+                float x=ValleyShape.TrailX(z)+side*(4.5f+(float)random.NextDouble()*7);
+                for(int stone=0;stone<3;stone++)
+                    Place("Rock"+(char)('A'+(patch+stone)%6),x+stone*.55f,z+stone*.4f,.12f+(float)random.NextDouble()*.2f,patch*73+stone*119,-.06f);
+            }
             Place("Stump",ValleyShape.TrailX(-159)-3.2f,-159,1.22f,36,-.08f);
             Place("Stump",ValleyShape.TrailX(-120)+5.2f,-120,.84f,173,-.07f);
             for(int i=0;i<35;i++)
@@ -74,6 +83,27 @@ namespace ExplorersByNature
                 Place("Rock"+(char)('A'+i%6),x,z,.20f+(float)random.NextDouble()*.46f,i*119,-.08f);
             }
             AddDoe();Ready=true;
+        }
+        void BlendForestEdge(ValleyWorld world)
+        {
+            var forest=world.transform.Find("Pine forest");if(forest==null)return;
+            var candidates=new List<Transform>();
+            foreach(Transform tree in forest)
+                if(tree.gameObject.activeSelf && Contains(tree.position,85))candidates.Add(tree);
+            Vector3 center=ValleyShape.Trail(-140);
+            candidates.Sort((a,b)=>(a.position-center).sqrMagnitude.CompareTo((b.position-center).sqrMagnitude));
+            // Reuse existing planting positions and trunk collisions. A bounded transition
+            // replaces the nearest old silhouettes without spreading dense hero art valley-wide.
+            for(int i=0;i<Mathf.Min(56,candidates.Count);i++)
+            {
+                var original=candidates[i];bool fir=i%3!=0;
+                var tree=ReferenceTreeArt.Tree(fir,transform);if(tree==null)continue;
+                tree.transform.position=original.position;tree.transform.rotation=original.rotation;
+                tree.transform.localScale=original.localScale/(fir?19f:20.4f);
+                foreach(Transform visual in original)visual.gameObject.SetActive(false);
+                original.name="Transition trunk collision";
+                TransitionTreeCount++;
+            }
         }
         void Place(string kind,float x,float z,float scale,float yaw,float bury)
         {
@@ -133,7 +163,7 @@ namespace ExplorersByNature
             for(int z=0;z<data.alphamapHeight;z++)for(int x=0;x<data.alphamapWidth;x++)
             {
                 float wx=terrain.transform.position.x+x/(float)(data.alphamapWidth-1)*data.size.x,wz=terrain.transform.position.z+z/(float)(data.alphamapHeight-1)*data.size.z;
-                float across=Mathf.Abs(wx-ValleyShape.TrailX(wz));float border=Mathf.Min(32-across,Mathf.Min(wz+193,-88-wz));float blend=Mathf.SmoothStep(0,1,Mathf.Clamp01(border/12));
+                float across=Mathf.Abs(wx-ValleyShape.TrailX(wz));float edge=32+(Mathf.PerlinNoise(wx*.045f+73,wz*.055f)-.5f)*10;float border=Mathf.Min(edge-across,Mathf.Min(wz+193,-88-wz));float blend=Mathf.SmoothStep(0,1,Mathf.Clamp01(border/12));
                 float tread=1-Mathf.SmoothStep(0,1,Mathf.InverseLerp(.75f,2.4f,across+(Mathf.PerlinNoise(wx*.8f,wz*.3f)-.5f)*.6f));
                 for(int n=0;n<oldCount;n++)map[z,x,n]=old[z,x,n]*(1-blend);
                 map[z,x,oldCount]=blend*(1-tread);map[z,x,oldCount+1]=blend*tread;

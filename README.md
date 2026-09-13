@@ -12,9 +12,9 @@ Read the [morning playtest guide](docs/morning-playtest.md) for controls, multip
 
 The project targets Unity **6000.3.24f1** with Universal Render Pipeline **17.3.0**. Minimum hardware remains unverified; see the [validation ledger](docs/first-milestone.md).
 
-[Download the Linux or Windows prototype](https://github.com/NicL9923/explorers-by-nature/releases/tag/v0.8.0-grove.1). Linux was exercised on NVIDIA and AMD integrated graphics; the Windows build has not been run on Windows yet.
+[Download the Linux or Windows prototype](https://github.com/NicL9923/explorers-by-nature/releases/tag/v0.9.0-woodland.1). Linux was exercised on NVIDIA and AMD integrated graphics; the Windows build has not been run on Windows yet.
 
-[Visit Fern Hollow, the focused woodland scene](docs/fern-hollow.md). Press **F8** to enter it and **F9** to hide the HUD.
+[See the woodland and alpine refinement](docs/woodland-refinement.md). Press **F8** to enter it and **F9** to hide the HUD.
 
 ## Run and build
 
@@ -50,7 +50,7 @@ See [development and validation](docs/development.md) for controls, benchmark co
 - Solo and dedicated multiplayer share authoritative rules and atomic saves; reconnects refresh the ranch.
 - Broadleaf trees, rabbits, flying birds, original ambient audio and a discovery journal.
 
-Trees and wildlife are original prototype assets, not finished realistic art. Continents, historical routes, deeper economy and settlement management remain deferred.
+Trees combine original prototype models with CC0 Poly Haven assets. Wildlife remains original prototype art. Continents, historical routes, deeper economy and settlement management remain deferred.
 
 ## Start here
 

@@ -71,6 +71,14 @@ public sealed class ReferenceGroveTests
             float height = ValleyWorld.ModelHeight(root.gameObject);
             Assert.That(height, tree ? Is.InRange(12f, 30f) : Is.InRange(.1f, 4f), kind + " imported height");
         }
+        Assert.That(grove.TransitionTreeCount, Is.GreaterThan(0), "The grove edge must replace existing prototype trees");
+        var forest=Object.FindFirstObjectByType<ValleyWorld>().transform.Find("Pine forest");
+        foreach(Transform trunk in forest)
+            if(trunk.name=="Transition trunk collision")
+            {
+                Assert.That(trunk.GetComponent<Collider>().enabled, Is.True, "Replacing art must retain the existing trunk collision");
+                Assert.That(trunk.GetComponentsInChildren<Renderer>(), Is.Empty, "The old canopy must not overlap the replacement");
+            }
         var session = Object.FindFirstObjectByType<WalkSession>();
         foreach (bool high in new[] { false, true })
         {
