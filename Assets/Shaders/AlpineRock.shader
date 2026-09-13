@@ -39,6 +39,25 @@ Shader "Explorers/AlpineRock"
                 half3 b=SAMPLE_TEXTURE2D(_RockMap,sampler_RockMap,rotated).rgb;
                 return lerp(a,b,.25+blend*.5);
             }
+            // Irregular vertical joints and water staining belong at cliff scale,
+            // independently of the metre-scale photographed mineral texture.
+            float2 GraniteJoints(float2 p)
+            {
+                float cell=floor(p.x/31);
+                float joint=100,stain=0;
+                for(int k=-1;k<=1;k++)
+                {
+                    float id=cell+k;
+                    float seed=hash(float2(id,71));
+                    float jointX=(id+.15+seed*.7)*31;
+                    jointX+=(noise(float2(p.y*.008,id+31))-.5)*9;
+                    float distance=abs(p.x-jointX);
+                    float strength=smoothstep(.2,.65,noise(float2(id+13,p.y*.004)));
+                    joint=min(joint,distance+lerp(7,0,strength));
+                    stain=max(stain,exp(-distance/(1.5+seed*3.5))*strength);
+                }
+                return float2(1-smoothstep(.18,1.15,joint),stain);
+            }
             void Coverage(Varyings input)
             {
                 float2 uv=float2(input.positionWS.x+input.positionWS.z*.43,input.positionWS.y-input.positionWS.z*.19);
@@ -76,10 +95,21 @@ Shader "Explorers/AlpineRock"
                     +RockSample(p.xy*.12)*weights.z;
                 // Broad color variation stays subordinate to the scan; thresholded noise
                 // made artificial contour lines visible across entire mountain faces.
-                float crag=lerp(.91,1.08,broad)*lerp(.97,1.025,fine);
+                float crag=lerp(.72,1.19,broad)*lerp(.93,1.065,fine);
                 // Scan samples arrive in linear space. Keep granite reflectance dark enough
                 // to retain mineral contrast under direct sun rather than producing beige icing.
-                half3 rock=scan*half3(.31,.335,.365)*crag;
+                float cliff=1-smoothstep(.35,.78,n.y);
+                float2 joints=GraniteJoints(float2(p.x+p.z*.57,p.y));
+                float macro=noise(geologicalUV*.008+float2(71,32));
+                float mineral=dot(scan,half3(.2126,.7152,.0722));
+                scan=lerp(scan,mineral.xxx,.86);
+                half3 mineralTint=lerp(half3(.39,.385,.37),half3(.33,.36,.395),macro);
+                half3 rock=scan*mineralTint*crag;
+                float runoff=smoothstep(.43,.68,noise(float2(p.x+p.z*.57+noise(float2(p.y*.012,73))*9,p.y*.14)*float2(.072,.036)+29));
+                rock*=1-cliff*(joints.x*.36+joints.y*.21+runoff*.36);
+                // Oxidized patches and rain-darkened seams interrupt large pale faces.
+                float oxidation=smoothstep(.56,.78,noise(geologicalUV*float2(.021,.009)+43));
+                rock=lerp(rock,rock*half3(1.13,.87,.67),oxidation*cliff*.48);
                 float elevation=smoothstep(_SnowLine,_SnowLine+100,p.y+(broad-.5)*32);
                 float shelf=smoothstep(.38,.82,n.y+(fine-.5)*.18);
                 float sheltered=smoothstep(.42,.72,fractured);
@@ -89,7 +119,7 @@ Shader "Explorers/AlpineRock"
                 // Relief includes mineral-scale texture luminance, but fades subpixel detail.
                 float micro=dot(scan,half3(.2126,.7152,.0722));
                 float footprint=max(length(ddx(p)),length(ddy(p)));
-                float height=fractured*2.2+fine*.42+micro*.23*saturate(1-footprint*.7);
+                float height=fractured*2.2+fine*.42+micro*.23*saturate(1-footprint*.7)-joints.x*.85*cliff;
                 float3 dpdx=ddx(p),dpdy=ddy(p);
                 float3 r1=cross(dpdy,n),r2=cross(n,dpdx);
                 float determinant=dot(dpdx,r1);

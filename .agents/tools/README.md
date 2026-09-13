@@ -54,3 +54,5 @@
 - `western-hair-capture.py`: record isolated High horse mane/tail and explorer hair close-ups with measured guide motion, four posters and a verified ten-second video.
 - `record-cinematic-validation.py`: collect only matching desktop builds, frozen sources, High/Low scenic and motion captures, western hair close-ups, and multiplayer evidence for the lighting release.
 - `cinematic-checks.sh`: run the serial, resource-bounded cinematic tests, desktop builds and captures, then collect matching evidence; uses NVIDIA Vulkan device 0 for High and AMD device 1 for Low on NicolasDESKTOP.
+- `record-mountain-validation.py`: verify frozen mountain sources, matching desktop builds, tests and High/Low valley captures before collecting the mountain gallery.
+- `mountain-checks.sh`: run serial bounded Unity tests, both desktop builds and NVIDIA High/AMD Low scenic captures, then collect the mountain evidence.

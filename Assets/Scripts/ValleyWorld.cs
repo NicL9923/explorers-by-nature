@@ -30,7 +30,6 @@ namespace ExplorersByNature
             BuildBackdrop();
             BuildRiver();
             BuildForest();
-            BuildOutcrops();
             BuildShoreDetails();
             BuildGrass();
             BuildRiverCanopy();
@@ -238,22 +237,6 @@ namespace ExplorersByNature
             }
         }
 
-        void BuildOutcrops()
-        {
-            var random=new System.Random(907);
-            for(int i=0;i<48;i++)
-            {
-                float x=Range(random,-320,330),z=Range(random,235,425);
-                if(ValleyShape.Height(x,z)<125)continue;
-                float size=Range(random,5,11);
-                var rock=MeshObject("Mountain granite outcrop",stoneMeshes[i%stoneMeshes.Length],rockMaterial,transform);
-                rock.transform.position=ValleyShape.Ground(x,z,-size*.55f);
-                rock.transform.localScale=new Vector3(size*1.4f,size*.7f,size);
-                rock.transform.rotation=Quaternion.Euler(Range(random,-15,15),Range(random,0,360),Range(random,-20,20));
-                rock.shadowCastingMode=ShadowCastingMode.Off;
-            }
-        }
-
         void BuildShoreDetails()
         {
             var random=new System.Random(8891);
@@ -394,6 +377,22 @@ namespace ExplorersByNature
                 var tree=ReferenceTreeArt.Tree(i%3!=0,canopy.transform);
                 tree.transform.position=ValleyShape.Ground(x,z);
                 tree.transform.localScale=Vector3.one*Range(random,.5f,.95f);
+                tree.transform.Rotate(0,Range(random,0,360),0);
+            }
+            // A conifer belt at the foot of the granite walls supplies a readable
+            // scale reference. Keep the river and overlook sightline open.
+            for(int row=0;row<9;row++)for(int col=0;col<34;col++)
+            {
+                float x=-365+col*22+Range(random,-7,7),z=170+row*13+Range(random,-4,4);
+                float h=ValleyShape.Height(x,z);
+                if(h>112 || Mathf.Abs(x-ValleyShape.RiverX(z))<29)continue;
+                if(z<215 && Mathf.Abs(x-ValleyShape.TrailX(z))<43)continue;
+                if(Mathf.Abs(ValleyShape.Height(x+2,z)-ValleyShape.Height(x-2,z))>4)continue;
+                if(Mathf.PerlinNoise(x*.013f+42,z*.019f+73)<.38f)continue;
+                var tree=ReferenceTreeArt.Tree((row+col)%4!=0,canopy.transform);
+                if(tree==null)continue;
+                tree.transform.position=ValleyShape.Ground(x,z,-.1f);
+                tree.transform.localScale=Vector3.one*Range(random,.6f,1.25f);
                 tree.transform.Rotate(0,Range(random,0,360),0);
             }
         }

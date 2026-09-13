@@ -342,3 +342,11 @@ The [single evidence manifest](validation/cinematic-builds.json) records the exa
 Visual inspection rejected temporal foliage stippling, holes beneath raised mountain faces, and alternating dark bank reflections before the final captures. Hair close-ups also exposed intersecting mane cards and prompted a groom correction. The original characters and horse still have stylized anatomy; these shading and simulation changes do not replace a full model rebuild.
 
 All heavy validation remains serialized with the existing CPU/memory limits and a 30 FPS rendering cap. The recordings demonstrate appearance and motion, not frame-time performance. This pass deliberately increases High detail. The proposed two-core/8 GB minimum and a populated 20-player rendered ranch remain unverified.
+
+## Granite valley vistas, September 13
+
+The [mountain pass](mountain-vistas.md) replaces the narrow northern peaks with broader granite walls and shoulders, a layered distant watershed, geometric fractures and weathered granite shading. High adds conifers at the cliff feet. Shape and material references come from National Park Service geology descriptions and Yosemite valley photography. This is a fictional composition; no reference photograph or new third-party model is redistributed.
+
+The [mountain evidence manifest](validation/mountains-builds.json) records matching Linux/Windows build identities, source hashes, 44 EditMode and 25 PlayMode results, and High/Low scenic captures. High uses NVIDIA Vulkan at 1920×1080; Low uses AMD integrated Vulkan at 1280×720. Visual inspection rejected an initial shader error, overly regular full-height grooves and exposed original pointed peaks before final acceptance. The [overlook](benchmarks/mountains-high-06-overlook.png) and [river](benchmarks/mountains-high-07-river.png) document the final geometry.
+
+Authoritative terrain, collision heights, networking and saved ranch state remain unchanged from the cinematic release. The new upper surfaces are scenery, not added climbing routes. Earlier multiplayer evidence remains applicable to the unchanged authority. Native Windows execution and the proposed minimum PC remain unverified. All heavy validation uses the existing serialization, resource limits and 30 FPS cap; no uncapped performance claims are made for this pass.

@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="utf-8"?>
+<test-run id="2" testcasecount="25" result="Passed" total="25" passed="25" failed="0" inconclusive="0" skipped="0" asserts="0" engine-version="3.5.0.0" clr-version="4.0.30319.42000" start-time="2026-09-13 21:16:20Z" end-time="2026-09-13 21:17:27Z" duration="66.6738447">
+  <test-suite type="TestSuite" id="1039" name="Explorers by Nature" fullname="Explorers by Nature" runstate="Runnable" testcasecount="25" result="Passed" start-time="2026-09-13 21:16:20Z" end-time="2026-09-13 21:17:27Z" duration="66.673845" total="25" passed="25" failed="0" inconclusive="0" skipped="0" asserts="0">
+    <properties>
+      <property name="platform" value="PlayMode" />
+    </properties>
+    <test-suite type="Assembly" id="1036" name="Explorers.PlayTests.dll" fullname="/home/nicolas/dev/explorers-by-nature/Library/ScriptAssemblies/Explorers.PlayTests.dll" runstate="Runnable" testcasecount="25" result="Passed" start-time="2026-09-13 21:16:20Z" end-time="2026-09-13 21:17:27Z" duration="66.670148" total="25" passed="25" failed="0" inconclusive="0" skipped="0" asserts="0">
+      <properties>
+        <property name="_PID" value="420475" />
+        <property name="_APPDOMAIN" value="Unity Child Domain" />
+        <property name="platform" value="PlayMode" />
+        <property name="EditorOnly" value="False" />
+      </properties>
+      <test-suite type="TestFixture" id="1001" name="AnimalFurPlayTests" fullname="AnimalFurPlayTests" classname="AnimalFurPlayTests" runstate="Runnable" testcasecount="1" result="Passed" start-time="2026-09-13 21:16:20Z" end-time="2026-09-13 21:16:20Z" duration="0.042538" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <test-case id="1002" name="SwitchingQualityChangesFurBudgetWithoutRemovingTheAnimal" fullname="AnimalFurPlayTests.SwitchingQualityChangesFurBudgetWithoutRemovingTheAnimal" methodname="SwitchingQualityChangesFurBudgetWithoutRemovingTheAnimal" classname="AnimalFurPlayTests" runstate="Runnable" seed="1337541811" result="Passed" start-time="2026-09-13 21:16:20Z" end-time="2026-09-13 21:16:20Z" duration="0.038233" asserts="0">
+          <properties>
+            <property name="_JOINTYPE" value="UnityCombinatorial" />
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+        </test-case>
+      </test-suite>
+      <test-suite type="TestFixture" id="1003" name="EnvironmentPlayTests" fullname="EnvironmentPlayTests" classname="EnvironmentPlayTests" runstate="Runnable" testcasecount="1" result="Passed" start-time="2026-09-13 21:16:20Z" end-time="2026-09-13 21:16:23Z" duration="3.258773" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <test-case id="1004" name="DrizzleAndEveningKeepWorldLitAndSoundLocalized" fullname="EnvironmentPlayTests.DrizzleAndEveningKeepWorldLitAndSoundLocalized" methodname="DrizzleAndEveningKeepWorldLitAndSoundLocalized" classname="EnvironmentPlayTests" runstate="Runnable" seed="1190359928" result="Passed" start-time="2026-09-13 21:16:20Z" end-time="2026-09-13 21:16:23Z" duration="3.258293" asserts="0">
+          <properties>
+            <property name="_JOINTYPE" value="UnityCombinatorial" />
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+          <output><![CDATA[ALPINE_MESH Glacial granite valley vertices=504450 triangles=978822
+]]></output>
+        </test-case>
+      </test-suite>
+      <test-suite type="TestFixture" id="1005" name="FrontierGameplayTests" fullname="FrontierGameplayTests" classname="FrontierGameplayTests" runstate="Runnable" testcasecount="10" result="Passed" start-time="2026-09-13 21:16:23Z" end-time="2026-09-13 21:16:41Z" duration="17.401515" total="10" passed="10" failed="0" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <test-suite type="ParameterizedMethod" id="1016" name="CompassBearingMatchesWorldCardinals" fullname="FrontierGameplayTests.CompassBearingMatchesWorldCardinals" classname="FrontierGameplayTests" runstate="Runnable" testcasecount="8" result="Passed" start-time="2026-09-13 21:16:23Z" end-time="2026-09-13 21:16:23Z" duration="0.018343" total="8" passed="8" failed="0" inconclusive="0" skipped="0" asserts="0">
+          <properties />
+          <test-case id="1008" name="CompassBearingMatchesWorldCardinals(0,1,0)" fullname="FrontierGameplayTests.CompassBearingMatchesWorldCardinals(0,1,0)" methodname="CompassBearingMatchesWorldCardinals" classname="FrontierGameplayTests" runstate="Runnable" seed="1254704399" result="Passed" start-time="2026-09-13 21:16:23Z" end-time="2026-09-13 21:16:23Z" duration="0.001361" asserts="0">
+            <properties>
+              <property name="retryIteration" value="0" />
+              <property name="repeatIteration" value="0" />
+            </properties>
+          </test-case>
+          <test-case id="1009" name="CompassBearingMatchesWorldCardinals(1,1,45)" fullname="FrontierGameplayTests.CompassBearingMatchesWorldCardinals(1,1,45)" methodname="CompassBearingMatchesWorldCardinals" classname="FrontierGameplayTests" runstate="Runnable" seed="208851907" result="Passed" start-time="2026-09-13 21:16:23Z" end-time="2026-09-13 21:16:23Z" duration="0.000040" asserts="0">
+            <properties>
+              <property name="retryIteration" value="0" />
+              <property name="repeatIteration" value="0" />
+            </properties>
+          </test-case>
+          <test-case id="1010" name="CompassBearingMatchesWorldCardinals(1,0,90)" fullname="FrontierGameplayTests.CompassBearingMatchesWorldCardinals(1,0,90)" methodname="CompassBearingMatchesWorldCardinals" classname="FrontierGameplayTests" runstate="Runnable" seed="1060440459" result="Passed" start-time="2026-09-13 21:16:23Z" end-time="2026-09-13 21:16:23Z" duration="0.000025" asserts="0">
+            <properties>
+              <property name="retryIteration" value="0" />
+              <property name="repeatIteration" value="0" />
+            </properties>
+          </test-case>
+          <test-case id="1011" name="CompassBearingMatchesWorldCardinals(1,-1,135)" fullname="FrontierGameplayTests.CompassBearingMatchesWorldCardinals(1,-1,135)" methodname="CompassBearingMatchesWorldCardinals" classname="FrontierGameplayTests" runstate="Runnable" seed="60839443" result="Passed" start-time="2026-09-13 21:16:23Z" end-time="2026-09-13 21:16:23Z" duration="0.000021" asserts="0">
+            <properties>
+              <property name="retryIteration" value="0" />
+              <property name="repeatIteration" value="0" />
+            </properties>
+          </test-case>
+          <test-case id="1012" name="CompassBearingMatchesWorldCardinals(0,-1,180)" fullname="FrontierGameplayTests.CompassBearingMatchesWorldCardinals(0,-1,180)" methodname="CompassBearingMatchesWorldCardinals" classname="FrontierGameplayTests" runstate="Runnable" seed="462361524" result="Passed" start-time="2026-09-13 21:16:23Z" end-time="2026-09-13 21:16:23Z" duration="0.000022" asserts="0">
+            <properties>
+              <property name="retryIteration" value="0" />
+              <property name="repeatIteration" value="0" />
+            </properties>
+          </test-case>
+          <test-case id="1013" name="CompassBearingMatchesWorldCardinals(-1,-1,225)" fullname="FrontierGameplayTests.CompassBearingMatchesWorldCardinals(-1,-1,225)" methodname="CompassBearingMatchesWorldCardinals" classname="FrontierGameplayTests" runstate="Runnable" seed="657405041" result="Passed" start-time="2026-09-13 21:16:23Z" end-time="2026-09-13 21:16:23Z" duration="0.000020" asserts="0">
+            <properties>
+              <property name="retryIteration" value="0" />
+              <property name="repeatIteration" value="0" />
+            </properties>
+          </test-case>
+          <test-case id="1014" name="CompassBearingMatchesWorldCardinals(-1,0,270)" fullname="FrontierGameplayTests.CompassBearingMatchesWorldCardinals(-1,0,270)" methodname="CompassBearingMatchesWorldCardinals" classname="FrontierGameplayTests" runstate="Runnable" seed="2133007384" result="Passed" start-time="2026-09-13 21:16:23Z" end-time="2026-09-13 21:16:23Z" duration="0.000021" asserts="0">
+            <properties>
+              <property name="retryIteration" value="0" />
+              <property name="repeatIteration" value="0" />
+            </properties>
+          </test-case>
+          <test-case id="1015" name="CompassBearingMatchesWorldCardinals(-1,1,315)" fullname="FrontierGameplayTests.CompassBearingMatchesWorldCardinals(-1,1,315)" methodname="CompassBearingMatchesWorldCardinals" classname="FrontierGameplayTests" runstate="Runnable" seed="699674016" result="Passed" start-time="2026-09-13 21:16:23Z" end-time="2026-09-13 21:16:23Z" duration="0.000020" asserts="0">
+            <properties>
+              <property name="retryIteration" value="0" />
+              <property name="repeatIteration" value="0" />
+            </properties>
+          </test-case>
+        </test-suite>
+        <test-case id="1006" name="QueuedShotKeepsItsAimPoseWhileLaterPollsTrackMovement" fullname="FrontierGameplayTests.QueuedShotKeepsItsAimPoseWhileLaterPollsTrackMovement" methodname="QueuedShotKeepsItsAimPoseWhileLaterPollsTrackMovement" classname="FrontierGameplayTests" runstate="Runnable" seed="865298000" result="Passed" start-time="2026-09-13 21:16:23Z" end-time="2026-09-13 21:16:24Z" duration="0.516893" asserts="0">
+          <properties>
+            <property name="_JOINTYPE" value="UnityCombinatorial" />
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+        </test-case>
+        <test-case id="1007" name="ToolsGatherReloadAndHuntThroughTheSharedAuthority" fullname="FrontierGameplayTests.ToolsGatherReloadAndHuntThroughTheSharedAuthority" methodname="ToolsGatherReloadAndHuntThroughTheSharedAuthority" classname="FrontierGameplayTests" runstate="Runnable" seed="769059587" result="Passed" start-time="2026-09-13 21:16:24Z" end-time="2026-09-13 21:16:41Z" duration="16.846669" asserts="0">
+          <properties>
+            <property name="_JOINTYPE" value="UnityCombinatorial" />
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+          <output><![CDATA[ALPINE_MESH Glacial granite valley vertices=504450 triangles=978822
+]]></output>
+        </test-case>
+      </test-suite>
+      <test-suite type="TestFixture" id="1017" name="HorseRidingTests" fullname="HorseRidingTests" classname="HorseRidingTests" runstate="Runnable" testcasecount="4" result="Passed" start-time="2026-09-13 21:16:41Z" end-time="2026-09-13 21:16:53Z" duration="11.918201" total="4" passed="4" failed="0" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <test-case id="1021" name="BlockedDismountKeepsTheRiderMountedAndOpenGroundReleasesThem" fullname="HorseRidingTests.BlockedDismountKeepsTheRiderMountedAndOpenGroundReleasesThem" methodname="BlockedDismountKeepsTheRiderMountedAndOpenGroundReleasesThem" classname="HorseRidingTests" runstate="Runnable" seed="1354334175" result="Passed" start-time="2026-09-13 21:16:41Z" end-time="2026-09-13 21:16:44Z" duration="2.930851" asserts="0">
+          <properties>
+            <property name="_JOINTYPE" value="UnityCombinatorial" />
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+          <output><![CDATA[ALPINE_MESH Glacial granite valley vertices=504450 triangles=978822
+]]></output>
+        </test-case>
+        <test-case id="1020" name="MountedMovementSettlesOnTerrainAndHomeTeleportRestoresWalking" fullname="HorseRidingTests.MountedMovementSettlesOnTerrainAndHomeTeleportRestoresWalking" methodname="MountedMovementSettlesOnTerrainAndHomeTeleportRestoresWalking" classname="HorseRidingTests" runstate="Runnable" seed="1416626042" result="Passed" start-time="2026-09-13 21:16:44Z" end-time="2026-09-13 21:16:47Z" duration="3.004832" asserts="0">
+          <properties>
+            <property name="_JOINTYPE" value="UnityCombinatorial" />
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+          <output><![CDATA[ALPINE_MESH Glacial granite valley vertices=504450 triangles=978822
+]]></output>
+        </test-case>
+        <test-case id="1019" name="MountRequiresProximityAndPlacesCameraAboveTheSeatedRider" fullname="HorseRidingTests.MountRequiresProximityAndPlacesCameraAboveTheSeatedRider" methodname="MountRequiresProximityAndPlacesCameraAboveTheSeatedRider" classname="HorseRidingTests" runstate="Runnable" seed="1486788235" result="Passed" start-time="2026-09-13 21:16:47Z" end-time="2026-09-13 21:16:50Z" duration="2.980913" asserts="0">
+          <properties>
+            <property name="_JOINTYPE" value="UnityCombinatorial" />
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+          <output><![CDATA[ALPINE_MESH Glacial granite valley vertices=504450 triangles=978822
+]]></output>
+        </test-case>
+        <test-case id="1018" name="SeatedPlayerMustStandBeforeMountingOrUsingTools" fullname="HorseRidingTests.SeatedPlayerMustStandBeforeMountingOrUsingTools" methodname="SeatedPlayerMustStandBeforeMountingOrUsingTools" classname="HorseRidingTests" runstate="Runnable" seed="601998685" result="Passed" start-time="2026-09-13 21:16:50Z" end-time="2026-09-13 21:16:53Z" duration="2.984848" asserts="0">
+          <properties>
+            <property name="_JOINTYPE" value="UnityCombinatorial" />
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+          <output><![CDATA[ALPINE_MESH Glacial granite valley vertices=504450 triangles=978822
+]]></output>
+        </test-case>
+      </test-suite>
+      <test-suite type="TestFixture" id="1022" name="PlayerAvatarTests" fullname="PlayerAvatarTests" classname="PlayerAvatarTests" runstate="Runnable" testcasecount="3" result="Passed" start-time="2026-09-13 21:16:53Z" end-time="2026-09-13 21:16:56Z" duration="3.259254" total="3" passed="3" failed="0" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <test-case id="1023" name="EveryExplorerImportsAtHumanScaleWithArticulatedLimbs" fullname="PlayerAvatarTests.EveryExplorerImportsAtHumanScaleWithArticulatedLimbs" methodname="EveryExplorerImportsAtHumanScaleWithArticulatedLimbs" classname="PlayerAvatarTests" runstate="Runnable" seed="326600700" result="Passed" start-time="2026-09-13 21:16:53Z" end-time="2026-09-13 21:16:53Z" duration="0.100027" asserts="0">
+          <properties>
+            <property name="_JOINTYPE" value="UnityCombinatorial" />
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+        </test-case>
+        <test-case id="1024" name="RemoteExplorerSwapRetiresPreviousModelAndDefaultsUnknownIds" fullname="PlayerAvatarTests.RemoteExplorerSwapRetiresPreviousModelAndDefaultsUnknownIds" methodname="RemoteExplorerSwapRetiresPreviousModelAndDefaultsUnknownIds" classname="PlayerAvatarTests" runstate="Runnable" seed="1366068163" result="Passed" start-time="2026-09-13 21:16:53Z" end-time="2026-09-13 21:16:53Z" duration="0.066589" asserts="0">
+          <properties>
+            <property name="_JOINTYPE" value="UnityCombinatorial" />
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+        </test-case>
+        <test-case id="1025" name="WardrobeConfirmsCancelsAndReleasesPreviewResources" fullname="PlayerAvatarTests.WardrobeConfirmsCancelsAndReleasesPreviewResources" methodname="WardrobeConfirmsCancelsAndReleasesPreviewResources" classname="PlayerAvatarTests" runstate="Runnable" seed="669409579" result="Passed" start-time="2026-09-13 21:16:53Z" end-time="2026-09-13 21:16:56Z" duration="3.076086" asserts="0">
+          <properties>
+            <property name="_JOINTYPE" value="UnityCombinatorial" />
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+          <output><![CDATA[ALPINE_MESH Glacial granite valley vertices=504450 triangles=978822
+]]></output>
+        </test-case>
+      </test-suite>
+      <test-suite type="TestFixture" id="1026" name="RanchPlayTests" fullname="RanchPlayTests" classname="RanchPlayTests" runstate="Runnable" testcasecount="2" result="Passed" start-time="2026-09-13 21:16:56Z" end-time="2026-09-13 21:17:07Z" duration="10.958314" total="2" passed="2" failed="0" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <test-case id="1028" name="FurnishingsSitAboveDeckAndBenchReleasesPlayer" fullname="RanchPlayTests.FurnishingsSitAboveDeckAndBenchReleasesPlayer" methodname="FurnishingsSitAboveDeckAndBenchReleasesPlayer" classname="RanchPlayTests" runstate="Runnable" seed="1830193614" result="Passed" start-time="2026-09-13 21:16:56Z" end-time="2026-09-13 21:16:59Z" duration="3.665993" asserts="0">
+          <properties>
+            <property name="_JOINTYPE" value="UnityCombinatorial" />
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+          <output><![CDATA[ALPINE_MESH Glacial granite valley vertices=504450 triangles=978822
+]]></output>
+        </test-case>
+        <test-case id="1027" name="RanchBuildsMovesCollectsAndReloads" fullname="RanchPlayTests.RanchBuildsMovesCollectsAndReloads" methodname="RanchBuildsMovesCollectsAndReloads" classname="RanchPlayTests" runstate="Runnable" seed="688829805" result="Passed" start-time="2026-09-13 21:16:59Z" end-time="2026-09-13 21:17:07Z" duration="7.275998" asserts="0">
+          <properties>
+            <property name="_JOINTYPE" value="UnityCombinatorial" />
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+          <output><![CDATA[ALPINE_MESH Glacial granite valley vertices=504450 triangles=978822
+]]></output>
+        </test-case>
+      </test-suite>
+      <test-suite type="TestFixture" id="1029" name="ReferenceGroveTests" fullname="ReferenceGroveTests" classname="ReferenceGroveTests" runstate="Runnable" testcasecount="2" result="Passed" start-time="2026-09-13 21:17:07Z" end-time="2026-09-13 21:17:15Z" duration="7.924255" total="2" passed="2" failed="0" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <test-case id="1030" name="ImportedGroveKeepsCompleteLodsAndMaterialsAcrossQualityChanges" fullname="ReferenceGroveTests.ImportedGroveKeepsCompleteLodsAndMaterialsAcrossQualityChanges" methodname="ImportedGroveKeepsCompleteLodsAndMaterialsAcrossQualityChanges" classname="ReferenceGroveTests" runstate="Runnable" seed="947485351" result="Passed" start-time="2026-09-13 21:17:07Z" end-time="2026-09-13 21:17:10Z" duration="2.937341" asserts="0">
+          <properties>
+            <property name="_JOINTYPE" value="UnityCombinatorial" />
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+          <output><![CDATA[ALPINE_MESH Glacial granite valley vertices=504450 triangles=978822
+]]></output>
+        </test-case>
+        <test-case id="1031" name="PaintedTerrainStaysNormalizedAndVisitReturnsAnUnobstructedGroundedWalker" fullname="ReferenceGroveTests.PaintedTerrainStaysNormalizedAndVisitReturnsAnUnobstructedGroundedWalker" methodname="PaintedTerrainStaysNormalizedAndVisitReturnsAnUnobstructedGroundedWalker" classname="ReferenceGroveTests" runstate="Runnable" seed="934312399" result="Passed" start-time="2026-09-13 21:17:10Z" end-time="2026-09-13 21:17:15Z" duration="4.970053" asserts="0">
+          <properties>
+            <property name="_JOINTYPE" value="UnityCombinatorial" />
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+          <output><![CDATA[ALPINE_MESH Glacial granite valley vertices=504450 triangles=978822
+]]></output>
+        </test-case>
+      </test-suite>
+      <test-suite type="TestFixture" id="1032" name="RiverInteractionTests" fullname="RiverInteractionTests" classname="RiverInteractionTests" runstate="Runnable" testcasecount="1" result="Passed" start-time="2026-09-13 21:17:15Z" end-time="2026-09-13 21:17:21Z" duration="6.825217" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <test-case id="1033" name="PebblesDisturbWaterAndDeepWaterSupportsTheWalkerAcrossQualityChanges" fullname="RiverInteractionTests.PebblesDisturbWaterAndDeepWaterSupportsTheWalkerAcrossQualityChanges" methodname="PebblesDisturbWaterAndDeepWaterSupportsTheWalkerAcrossQualityChanges" classname="RiverInteractionTests" runstate="Runnable" seed="1190940411" result="Passed" start-time="2026-09-13 21:17:15Z" end-time="2026-09-13 21:17:21Z" duration="6.808353" asserts="0">
+          <properties>
+            <property name="_JOINTYPE" value="UnityCombinatorial" />
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+          <output><![CDATA[ALPINE_MESH Glacial granite valley vertices=504450 triangles=978822
+]]></output>
+        </test-case>
+      </test-suite>
+      <test-suite type="TestFixture" id="1034" name="ValleyPlayTests" fullname="ValleyPlayTests" classname="ValleyPlayTests" runstate="Runnable" testcasecount="1" result="Passed" start-time="2026-09-13 21:17:21Z" end-time="2026-09-13 21:17:27Z" duration="5.081226" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <test-case id="1035" name="ExplorerStandsOnTerrainAndQualityKeepsWildlife" fullname="ValleyPlayTests.ExplorerStandsOnTerrainAndQualityKeepsWildlife" methodname="ExplorerStandsOnTerrainAndQualityKeepsWildlife" classname="ValleyPlayTests" runstate="Runnable" seed="59568068" result="Passed" start-time="2026-09-13 21:17:22Z" end-time="2026-09-13 21:17:27Z" duration="5.063211" asserts="0">
+          <properties>
+            <property name="_JOINTYPE" value="UnityCombinatorial" />
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+          <output><![CDATA[ALPINE_MESH Glacial granite valley vertices=504450 triangles=978822
+Saving results to: /home/nicolas/.config/unity3d/Explorers by Nature/Explorers by Nature/TestResults.xml
+]]></output>
+        </test-case>
+      </test-suite>
+    </test-suite>
+  </test-suite>
+</test-run>

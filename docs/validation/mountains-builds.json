@@ -1,0 +1,39 @@
+{
+  "runtimeStamp": "a2e8117/sha256:830bb1332be24fb99656c88741ac3863a48bc8d335c3cc6f0f8778385b3d31ec",
+  "builds": {
+    "Linux": {
+      "stamp": "a2e8117/sha256:830bb1332be24fb99656c88741ac3863a48bc8d335c3cc6f0f8778385b3d31ec",
+      "sha256": "49e4420382c4b100fa71d971e7110ce1882f974a2dc40ed2d99bfde64fec71af"
+    },
+    "Windows": {
+      "stamp": "a2e8117/sha256:830bb1332be24fb99656c88741ac3863a48bc8d335c3cc6f0f8778385b3d31ec",
+      "sha256": "e645e9a12b20bbd6d3f9fc9dfe9eb9fd0b6b62f631ae720c869af9465b96b637"
+    }
+  },
+  "tests": {
+    "test": 44,
+    "playtest": 25
+  },
+  "files": {
+    "docs/validation/mountains-linux-build.txt": "7152928aa2fac8842f8a10f418fdbd28c151186a71269ca091462102a7427f97",
+    "docs/validation/mountains-windows-build.txt": "c169a1a6b31c58d63a8a14b7950a2512c25eb3d6d53a75cf5c44fffc6f5fc9f7",
+    "docs/validation/mountains-test.xml": "f5adb9cc888cfb7fd56858fbcc5ebdde6dbccecb43cbcff757c8bbf141f00589",
+    "docs/validation/mountains-playtest.xml": "37fdfce375e3aa335a8244016c9af781b753918da1e96a6034fad6eadd9498dd",
+    "docs/benchmarks/mountains-high-01-entrance.png": "cb69ff721a55d5f1a257ecee7fe66f26b08a45acb8bc7a8d9a08ee2ecc1934e7",
+    "docs/benchmarks/mountains-high-06-overlook.png": "01a208226671de921a25778be712e548ffa4a555d0929ad1baf0924612d632ce",
+    "docs/benchmarks/mountains-high-07-river.png": "7b83892626cc09fbce7545c92bbaf97a45405f5ad97287f5b81a8f3b0def8590",
+    "docs/benchmarks/mountains-high-09-rainy-river.png": "c0da6e5fa0d29e3b757a96f20765553930c246578aed0e2e6797f714bc5cee06",
+    "docs/validation/mountains-high-capture.txt": "e08d1014a9caf263b00821316aedd1840d1c036aece8794f9cb79de192c1514d",
+    "docs/benchmarks/mountains-low-01-entrance.png": "6404acd3431a38f9f089a894e426ddd820ef905b09f92b2f641e4bbe1d36b745",
+    "docs/benchmarks/mountains-low-06-overlook.png": "2bc44c58602b04da7fd377161b2a42ea637f5ffb7f5462c1ac79e127237adc64",
+    "docs/benchmarks/mountains-low-07-river.png": "9b5b59ad522f5eac78df43f81d354ce4993d91a23305422e481797d6a1d2fac1",
+    "docs/benchmarks/mountains-low-09-rainy-river.png": "9971b7f53378abb9f470e2b9c124460768ad6476f47224f0c29ac5099b471a49",
+    "docs/validation/mountains-low-capture.txt": "c8a1bb090bfe6e5871e841bdc5ddc9988bb463c0427f586919b3399926475f5c",
+    "docs/validation/mountains-source.json": "6678361508221b04f6406155cc56f5f9bc76f3229158ef265e8298eb73047b31"
+  },
+  "limitations": [
+    "Windows cross-build only; no native Windows execution.",
+    "High NVIDIA and Low AMD integrated captures use a 30 FPS cap, not performance benchmarks.",
+    "Mountain envelopes are visual scenery; authoritative ground and saved ranch state are unchanged."
+  ]
+}
