@@ -90,6 +90,7 @@ public static class PrototypeProject
         session.world = world; session.walker = walker; session.lowPipeline = low; session.highPipeline = high;
         if (UnityEngine.Object.FindFirstObjectByType<RanchSession>() == null) new GameObject("Ranch session").AddComponent<RanchSession>();
         new GameObject("Nature details").AddComponent<NatureDetails>();
+        new GameObject("Fern Hollow").AddComponent<ReferenceGrove>();
         ExportTerrain();
         PlayerSettings.companyName = "Explorers by Nature"; PlayerSettings.productName = "Explorers by Nature";
         PlayerSettings.defaultScreenWidth = 1280; PlayerSettings.defaultScreenHeight = 720;

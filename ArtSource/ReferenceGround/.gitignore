@@ -1,0 +1,8 @@
+# Raw texture downloads reproducible from docs/reference-ground-assets.json.
+# Editable source geometry stays tracked; runtime converted PBR maps are in Assets.
+**/textures/
+**/*.png
+**/*.jpg
+**/*.exr
+forest_floor/*.blend
+forest_floor/

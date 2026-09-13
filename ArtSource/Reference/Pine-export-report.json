@@ -1,0 +1,35 @@
+[
+  {
+    "lod": 0,
+    "triangles": 80000,
+    "dimensions_m": [
+      7.601840019226074,
+      8.299274444580078,
+      20.397855758666992
+    ],
+    "source": "pine_tree_01_a_LOD2",
+    "after_planar_dissolve": 400840
+  },
+  {
+    "lod": 1,
+    "triangles": 24999,
+    "dimensions_m": [
+      7.555685997009277,
+      8.280529022216797,
+      20.37630844116211
+    ],
+    "source": "pine_tree_01_a_LOD2",
+    "after_planar_dissolve": 400840
+  },
+  {
+    "lod": 2,
+    "triangles": 8467,
+    "dimensions_m": [
+      7.578552722930908,
+      8.241943359375,
+      19.791242599487305
+    ],
+    "source": "pine_tree_01_a_LOD2",
+    "after_planar_dissolve": 400840
+  }
+]

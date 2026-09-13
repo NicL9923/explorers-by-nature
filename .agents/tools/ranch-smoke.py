@@ -27,6 +27,10 @@ with tempfile.TemporaryDirectory(prefix='explorers-server-smoke-') as data:
   saved=json.loads((pathlib.Path(data)/'ranch.json').read_text());assert saved==builder,'Disk and clients diverged'
   assert builder['expeditionStage']==3 and len(builder['pieces'])==20,'Expedition and furnishing loop incomplete'
   print(f'PASS: two rendered Unity clients and dedicated save agree at revision {builder["revision"]}, {len(builder["pieces"])} pieces, milk={builder["milk"]}, eggs={builder["eggs"]}')
+ except Exception:
+  save=pathlib.Path(data)/'ranch.json'
+  if save.exists():(out/'failed-state.json').write_bytes(save.read_bytes())
+  raise
  finally:
   for player in players:
    if player.poll() is None:player.terminate();player.wait(timeout=10)

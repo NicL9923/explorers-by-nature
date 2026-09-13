@@ -13,6 +13,7 @@ namespace ExplorersByNature
         Renderer[] renderers;
         Vector3 previous;
         float phase, clock, speed, blend, seed;
+        public bool allowGrazing=true;
         sealed class Joint { public Transform bone; public Quaternion rest; public Vector3 axisX, axisY, axisZ; }
         sealed class Limb
         {
@@ -96,7 +97,7 @@ namespace ExplorersByNature
             foreach (Renderer renderer in renderers) if (renderer.isVisible) { visible = true; break; }
             if (!visible) return;
             float idle = 1 - blend;
-            float graze = IdleEnvelope(clock, species == "Hen" ? 9 : 19, 3, species == "Hen" ? 3 : 9) * idle;
+            float graze = (allowGrazing?1:0)*IdleEnvelope(clock, species == "Hen" ? 9 : 19, 3, species == "Hen" ? 3 : 9) * idle;
             float headPitch = Mathf.Sin(clock * 1.1f) * 2;
             float neckPitch = 0;
             if (species == "Deer" || species == "Clover")

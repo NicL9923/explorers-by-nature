@@ -171,14 +171,17 @@ namespace ExplorersByNature
         }
         void OnGUI()
         {
-            if(walker==null||walker.Automated)return;
+            if(walker==null||walker.Automated||ReferenceGrove.PhotoMode)return;
             float scale=Mathf.Clamp(Screen.height/900f,1f,1.6f);
             GUI.matrix=Matrix4x4.Scale(Vector3.one*scale);
             float w=Screen.width/scale,h=Screen.height/scale;
+            if(building || Vector3.Distance(walker.transform.position,ValleyShape.Spawn)<28)
+            {
             GUI.Box(new Rect(20,130,470,105),GUIContent.none);
             GUI.Label(new Rect(32,138,445,22),(Connection?.Status??"Offline")+"  |  Milk "+(Connection?.State?.milk??0)+" · Eggs "+(Connection?.State?.eggs??0));
             GUI.Label(new Rect(32,162,445,22),building?"BUILD · "+Ranch.Kinds[selection]+" · [ / ] browse all pieces":"B build · E interact · Tab journal / multiplayer");
             GUI.Label(new Rect(32,185,445,22),building?(placementReason==""?"✓ Click place · R rotate · M move · Right click remove":placementReason):"Clover and the hens live just west of the starting trail.");
+            }
             foreach(var visitor in visitors.Values)
             {
                 if(!visitor.activeSelf)continue;Vector3 label=walker.view.WorldToScreenPoint(visitor.transform.position+Vector3.up*2.1f);label.x/=scale;label.y/=scale;

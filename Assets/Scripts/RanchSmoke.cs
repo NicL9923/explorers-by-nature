@@ -12,10 +12,38 @@ namespace ExplorersByNature
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
         static void Install()
         {if(Array.IndexOf(Environment.GetCommandLineArgs(),"--ranch-smoke")>=0)new GameObject("Ranch integration check").AddComponent<RanchSmoke>();}
+        bool commandFailed;
+        IEnumerator SendAndWait(RanchSession session,FirstPersonWalker walker,Request request)
+        {
+            var connection=session.Connection;
+            float deadline=Time.realtimeSinceStartup+12;
+            // Publish teleports before the worker attaches a pose to this command.
+            connection.Tick(walker.transform.position,walker.transform.eulerAngles.y);
+            while(!connection.Connected && Time.realtimeSinceStartup<deadline)
+            {
+                yield return null;
+                connection.Tick(walker.transform.position,walker.transform.eulerAngles.y);
+            }
+            int expectedRevision=(connection.State?.revision??0)+1;
+            if(connection.Connected)connection.Send(request);
+            // This isolated smoke has one writer. Each command commits exactly one revision.
+            // Hold the pose and do not issue another command until that commit arrives.
+            while((connection.State?.revision??0)<expectedRevision && Time.realtimeSinceStartup<deadline)
+            {
+                yield return null;
+                connection.Tick(walker.transform.position,walker.transform.eulerAngles.y);
+            }
+            if((connection.State?.revision??0)>=expectedRevision)yield break;
+            commandFailed=true;
+            Debug.LogError("RANCH_SMOKE_FAILED command="+JsonUtility.ToJson(request)+" expectedRevision="+expectedRevision+
+                " status="+connection.Status+" message="+connection.Message+" state="+JsonUtility.ToJson(connection.State,true));
+            Application.Quit(3);
+        }
         IEnumerator Start()
         {
             yield return null;
             var session=FindFirstObjectByType<RanchSession>();var walker=FindFirstObjectByType<FirstPersonWalker>();
+            Debug.Log("RANCH_SMOKE_REVISION "+FindFirstObjectByType<WalkSession>().buildRevision);
             walker.Automated=true;walker.SetMenu(false);
             string[] args=Environment.GetCommandLineArgs();bool observer=Array.IndexOf(args,"--smoke-observer")>=0;
             if(Array.IndexOf(args,"--ranch-host")<0){session.DataDirectory=Path.Combine(Path.GetTempPath(),"ranch-smoke-"+Guid.NewGuid());session.StartSolo();}
@@ -27,27 +55,30 @@ namespace ExplorersByNature
             {
                 for(int x=-31;x<=-30;x++)for(int z=-79;z<=-78;z++)
                 {
-                    session.Connection.Send(new Request{action="place",kind="foundation",x=x,z=z});yield return new WaitForSeconds(.2f);
-                    session.Connection.Send(new Request{action="place",kind="roof",x=x,z=z});yield return new WaitForSeconds(.2f);
-                    session.Connection.Send(new Request{action="place",kind=z==-79?"door":"wall",x=x,z=z,turn=z==-79?2:0});yield return new WaitForSeconds(.2f);
+                    yield return SendAndWait(session,walker,new Request{action="place",kind="foundation",x=x,z=z});if(commandFailed)yield break;
+                    yield return SendAndWait(session,walker,new Request{action="place",kind="roof",x=x,z=z});if(commandFailed)yield break;
+                    yield return SendAndWait(session,walker,new Request{action="place",kind=z==-79?"door":"wall",x=x,z=z,turn=z==-79?2:0});if(commandFailed)yield break;
                 }
-                session.Connection.Send(new Request{action="place",kind="flower",x=-29,z=-78});yield return new WaitForSeconds(.3f);
-                session.Connection.Send(new Request{action="place",kind="fence",x=-32,z=-79,turn=1});yield return new WaitForSeconds(.3f);
-                walker.Teleport(ValleyShape.Ground(-99,-230,.3f));yield return new WaitForSeconds(.3f);session.Connection.Send(new Request{action="milk"});yield return new WaitForSeconds(.3f);
-                walker.Teleport(ValleyShape.Ground(-108,-230,.3f));yield return new WaitForSeconds(.3f);session.Connection.Send(new Request{action="eggs"});
-                yield return new WaitForSeconds(.3f);
+                yield return SendAndWait(session,walker,new Request{action="place",kind="flower",x=-29,z=-78});if(commandFailed)yield break;
+                yield return SendAndWait(session,walker,new Request{action="place",kind="fence",x=-32,z=-79,turn=1});if(commandFailed)yield break;
+                walker.Teleport(ValleyShape.Ground(-99,-230,.3f));
+                yield return SendAndWait(session,walker,new Request{action="milk"});if(commandFailed)yield break;
+                walker.Teleport(ValleyShape.Ground(-108,-230,.3f));
+                yield return SendAndWait(session,walker,new Request{action="eggs"});if(commandFailed)yield break;
                 foreach(string action in new[]{"pack","picnic","claim"})
                 {
                     walker.Teleport(ValleyShape.Ground(action=="picnic"?Ranch.ExpeditionX:Ranch.HomeX,action=="picnic"?Ranch.ExpeditionZ:Ranch.HomeZ,.3f));
-                    yield return new WaitForSeconds(.4f);session.Connection.Send(new Request{action=action});yield return new WaitForSeconds(.4f);
+                    yield return SendAndWait(session,walker,new Request{action=action});if(commandFailed)yield break;
                 }
-                walker.Teleport(ValleyShape.Ground(-90,-237,.3f));yield return new WaitForSeconds(.4f);
+                walker.Teleport(ValleyShape.Ground(-90,-237,.3f));
                 string[] furnishings={"bench","lantern","trough","flowerbox","campfire","alpineflower"};
                 int[] xs={-31,-30,-32,-29,-28,-28},zs={-79,-79,-78,-79,-80,-79};
-                for(int i=0;i<furnishings.Length;i++){session.Connection.Send(new Request{action="place",kind=furnishings[i],x=xs[i],z=zs[i]});yield return new WaitForSeconds(.25f);}
-
+                for(int i=0;i<furnishings.Length;i++)
+                {
+                    yield return SendAndWait(session,walker,new Request{action="place",kind=furnishings[i],x=xs[i],z=zs[i]});if(commandFailed)yield break;
+                }
             }
-            deadline=Time.realtimeSinceStartup+25;
+            deadline=Time.realtimeSinceStartup+(observer?60:25);
             while((session.Connection.State.pieces.Count<20||session.Connection.State.eggs<3||session.Connection.State.milk<1||session.Connection.State.expeditionStage<3)&&Time.realtimeSinceStartup<deadline)yield return null;
             if(session.Connection.State.pieces.Count<20||session.Connection.State.eggs<3||session.Connection.State.milk<1||session.Connection.State.expeditionStage<3){Debug.LogError("RANCH_SMOKE_FAILED "+session.Connection.Message);Application.Quit(3);yield break;}
             walker.Teleport(ValleyShape.Ground(observer?-81:-83,-247,.3f));walker.transform.rotation=Quaternion.LookRotation(Vector3.ProjectOnPlane(ValleyShape.Ground(-99,-230,1)-walker.transform.position,Vector3.up));walker.view.transform.LookAt(ValleyShape.Ground(-99,-230,1));

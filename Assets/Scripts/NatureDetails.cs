@@ -112,7 +112,7 @@ namespace ExplorersByNature
         }
         void Discover(string key,Vector3 position,float radius,string message)
         {if(PlayerPrefs.GetInt("Discovery."+key,0)==0&&Vector3.Distance(walker.transform.position,position)<radius){PlayerPrefs.SetInt("Discovery."+key,1);PlayerPrefs.Save();discovery=message;discoveryUntil=Time.time+12;}}
-        void OnGUI(){if(Time.time<discoveryUntil){GUI.matrix=Matrix4x4.identity;GUI.Box(new Rect(Screen.width/2-260,25,520,55),discovery);}}
+        void OnGUI(){if(!ReferenceGrove.PhotoMode && Time.time<discoveryUntil){GUI.matrix=Matrix4x4.identity;GUI.Box(new Rect(Screen.width/2-260,25,520,55),discovery);}}
         void OnDestroy(){foreach(var m in materials)Destroy(m);foreach(var mesh in wingMeshes)Destroy(mesh);if(canopy!=null)Destroy(canopy);}
     }
 }

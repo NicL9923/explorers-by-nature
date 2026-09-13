@@ -20,6 +20,12 @@ namespace ExplorersByNature
             PickTarget();
         }
 
+        public void Relocate(Vector3 position)
+        {
+            transform.position=position;home=position;
+            if(random!=null)PickTarget();
+        }
+
         void PickTarget()
         {
             // Keep the first wildlife on its meadow side of the river.

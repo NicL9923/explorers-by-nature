@@ -2,6 +2,8 @@
 
 Start `ExplorersByNature` on Linux or `ExplorersByNature.exe` on Windows. Your solo ranch opens automatically and saves each completed change. Use **High** graphics to see the new woodland mist, leaf lighting and filmic grading. **Low** keeps the new plants and detailed animals with fewer effects.
 
+**F8** visits Fern Hollow, the focused woodland scene north of the ranch. Walk along the trail, use **F9** to hide or restore the HUD, and **Home** to return to the meadow. Escape still opens settings in photo mode.
+
 1. Walk west from the trail to Clover and the hens. Aim at Clover and press **E**, then press **Space** three times as the marker crosses the green band. Aim at a hen/nesting box and press **E** to gather eggs.
 2. Press **B** and look at nearby ground. **1** floor, **2** wall, **3** doorway, **4** roof, **5** fence, **6** flowers. **[ / ]** browse all pieces, including benches, lanterns, troughs, flower boxes and campfires. **R** rotates; left click places. Green previews are valid; red previews explain what needs changing. Walls and roofs attach to a foundation's three-metre cell.
 3. Aim at a piece and press **M**, then click a new location to move it. Right click removes a piece. Remove a foundation's walls and roof first. Pieces are free; experiment freely.

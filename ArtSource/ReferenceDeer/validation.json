@@ -1,0 +1,19 @@
+{
+  "Deer_LOD0": {
+    "triangles": 30000,
+    "vertices": 15066,
+    "weights": "normalized; at most four"
+  },
+  "Deer_LOD1": {
+    "triangles": 6000,
+    "vertices": 3066,
+    "weights": "normalized; at most four"
+  },
+  "bones": 18,
+  "assets": {
+    "Deer.fbx": "eb09602e3c7a81fb843d37b2338152bb42dc40d481d1ec5262a0ec28ed6c4502",
+    "DeerCoat.png": "4a47e54a836c0e1f12cbf44a5e51502bb4e837c265de034cd5835be0021af88c"
+  },
+  "visual": "Three-quarter, profile and close face inspected. Junctions improved; face and coat remain procedural.",
+  "unity": "Not run by asset agent"
+}

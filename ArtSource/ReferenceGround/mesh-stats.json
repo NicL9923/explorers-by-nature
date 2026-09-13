@@ -1,0 +1,332 @@
+[
+  {
+    "name": "FernA_LOD0",
+    "triangles": 784,
+    "dimensions_blender_xyz_m": [
+      0.5519406199455261,
+      0.6134210824966431,
+      0.28680354356765747
+    ],
+    "material": "Fern"
+  },
+  {
+    "name": "FernA_LOD1",
+    "triangles": 784,
+    "dimensions_blender_xyz_m": [
+      0.5519406199455261,
+      0.6134210824966431,
+      0.28680354356765747
+    ],
+    "material": "Fern"
+  },
+  {
+    "name": "FernA_LOD2",
+    "triangles": 350,
+    "dimensions_blender_xyz_m": [
+      0.5531976222991943,
+      0.610396146774292,
+      0.28542032837867737
+    ],
+    "material": "Fern"
+  },
+  {
+    "name": "Fern_LOD0",
+    "triangles": 2384,
+    "dimensions_blender_xyz_m": [
+      0.9897474050521851,
+      0.893689751625061,
+      0.427694708108902
+    ],
+    "material": "Fern"
+  },
+  {
+    "name": "Fern_LOD1",
+    "triangles": 1100,
+    "dimensions_blender_xyz_m": [
+      0.9903196096420288,
+      0.8947489261627197,
+      0.4274997413158417
+    ],
+    "material": "Fern"
+  },
+  {
+    "name": "Fern_LOD2",
+    "triangles": 350,
+    "dimensions_blender_xyz_m": [
+      0.9897584915161133,
+      0.8864806890487671,
+      0.42610347270965576
+    ],
+    "material": "Fern"
+  },
+  {
+    "name": "FernC_LOD0",
+    "triangles": 2248,
+    "dimensions_blender_xyz_m": [
+      0.8743258118629456,
+      0.7652256488800049,
+      0.3490203619003296
+    ],
+    "material": "Fern"
+  },
+  {
+    "name": "FernC_LOD1",
+    "triangles": 1100,
+    "dimensions_blender_xyz_m": [
+      0.8743258118629456,
+      0.7605819702148438,
+      0.34813010692596436
+    ],
+    "material": "Fern"
+  },
+  {
+    "name": "FernC_LOD2",
+    "triangles": 350,
+    "dimensions_blender_xyz_m": [
+      0.8701143264770508,
+      0.7623761892318726,
+      0.3502832055091858
+    ],
+    "material": "Fern"
+  },
+  {
+    "name": "FernD_LOD0",
+    "triangles": 816,
+    "dimensions_blender_xyz_m": [
+      0.5727821588516235,
+      0.5932782888412476,
+      0.2130875587463379
+    ],
+    "material": "Fern"
+  },
+  {
+    "name": "FernD_LOD1",
+    "triangles": 816,
+    "dimensions_blender_xyz_m": [
+      0.5727821588516235,
+      0.5932782888412476,
+      0.2130875587463379
+    ],
+    "material": "Fern"
+  },
+  {
+    "name": "FernD_LOD2",
+    "triangles": 350,
+    "dimensions_blender_xyz_m": [
+      0.5742288827896118,
+      0.592724084854126,
+      0.20949682593345642
+    ],
+    "material": "Fern"
+  },
+  {
+    "name": "Stump_LOD0",
+    "triangles": 17999,
+    "dimensions_blender_xyz_m": [
+      1.4255867004394531,
+      1.5901882648468018,
+      0.5723617672920227
+    ],
+    "material": "Stump"
+  },
+  {
+    "name": "Stump_LOD1",
+    "triangles": 4500,
+    "dimensions_blender_xyz_m": [
+      1.4238264560699463,
+      1.5912821292877197,
+      0.5721531510353088
+    ],
+    "material": "Stump"
+  },
+  {
+    "name": "Stump_LOD2",
+    "triangles": 799,
+    "dimensions_blender_xyz_m": [
+      1.4253270626068115,
+      1.5890989303588867,
+      0.5739858150482178
+    ],
+    "material": "Stump"
+  },
+  {
+    "name": "RockA_LOD0",
+    "triangles": 11000,
+    "dimensions_blender_xyz_m": [
+      2.2376322746276855,
+      3.368804454803467,
+      1.4726980924606323
+    ],
+    "material": "Rock"
+  },
+  {
+    "name": "RockA_LOD1",
+    "triangles": 4500,
+    "dimensions_blender_xyz_m": [
+      2.2373175621032715,
+      3.369152545928955,
+      1.467724084854126
+    ],
+    "material": "Rock"
+  },
+  {
+    "name": "RockA_LOD2",
+    "triangles": 800,
+    "dimensions_blender_xyz_m": [
+      2.244318962097168,
+      3.3555960655212402,
+      1.4776201248168945
+    ],
+    "material": "Rock"
+  },
+  {
+    "name": "RockB_LOD0",
+    "triangles": 10996,
+    "dimensions_blender_xyz_m": [
+      2.6553807258605957,
+      3.2637205123901367,
+      1.2619911432266235
+    ],
+    "material": "Rock"
+  },
+  {
+    "name": "RockB_LOD1",
+    "triangles": 4500,
+    "dimensions_blender_xyz_m": [
+      2.653928756713867,
+      3.264345169067383,
+      1.2646404504776
+    ],
+    "material": "Rock"
+  },
+  {
+    "name": "RockB_LOD2",
+    "triangles": 800,
+    "dimensions_blender_xyz_m": [
+      2.6461033821105957,
+      3.273390054702759,
+      1.2299683094024658
+    ],
+    "material": "Rock"
+  },
+  {
+    "name": "RockC_LOD0",
+    "triangles": 5000,
+    "dimensions_blender_xyz_m": [
+      2.1085824966430664,
+      2.079585552215576,
+      1.0996944904327393
+    ],
+    "material": "Rock"
+  },
+  {
+    "name": "RockC_LOD1",
+    "triangles": 4500,
+    "dimensions_blender_xyz_m": [
+      2.1085824966430664,
+      2.079585552215576,
+      1.1001901626586914
+    ],
+    "material": "Rock"
+  },
+  {
+    "name": "RockC_LOD2",
+    "triangles": 800,
+    "dimensions_blender_xyz_m": [
+      2.1057686805725098,
+      2.0705223083496094,
+      1.0944571495056152
+    ],
+    "material": "Rock"
+  },
+  {
+    "name": "RockD_LOD0",
+    "triangles": 10589,
+    "dimensions_blender_xyz_m": [
+      2.127629280090332,
+      1.9647413492202759,
+      1.768319845199585
+    ],
+    "material": "Rock"
+  },
+  {
+    "name": "RockD_LOD1",
+    "triangles": 4499,
+    "dimensions_blender_xyz_m": [
+      2.126377582550049,
+      1.9647700786590576,
+      1.768474817276001
+    ],
+    "material": "Rock"
+  },
+  {
+    "name": "RockD_LOD2",
+    "triangles": 799,
+    "dimensions_blender_xyz_m": [
+      2.139169692993164,
+      1.9584007263183594,
+      1.76408851146698
+    ],
+    "material": "Rock"
+  },
+  {
+    "name": "RockE_LOD0",
+    "triangles": 16548,
+    "dimensions_blender_xyz_m": [
+      1.8173227310180664,
+      2.998663902282715,
+      1.2054507732391357
+    ],
+    "material": "Rock"
+  },
+  {
+    "name": "RockE_LOD1",
+    "triangles": 4500,
+    "dimensions_blender_xyz_m": [
+      1.8180108070373535,
+      2.9988889694213867,
+      1.2074300050735474
+    ],
+    "material": "Rock"
+  },
+  {
+    "name": "RockE_LOD2",
+    "triangles": 800,
+    "dimensions_blender_xyz_m": [
+      1.8054912090301514,
+      3.002094268798828,
+      1.2188708782196045
+    ],
+    "material": "Rock"
+  },
+  {
+    "name": "RockF_LOD0",
+    "triangles": 8994,
+    "dimensions_blender_xyz_m": [
+      2.1259822845458984,
+      2.757303237915039,
+      1.261852741241455
+    ],
+    "material": "Rock"
+  },
+  {
+    "name": "RockF_LOD1",
+    "triangles": 4500,
+    "dimensions_blender_xyz_m": [
+      2.124864101409912,
+      2.757772922515869,
+      1.259989857673645
+    ],
+    "material": "Rock"
+  },
+  {
+    "name": "RockF_LOD2",
+    "triangles": 800,
+    "dimensions_blender_xyz_m": [
+      2.1190643310546875,
+      2.764181137084961,
+      1.2527440786361694
+    ],
+    "material": "Rock"
+  }
+]

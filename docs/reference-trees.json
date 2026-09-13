@@ -1,0 +1,325 @@
+{
+  "assets": [
+    {
+      "id": "pine_tree_01",
+      "source": "https://polyhaven.com/a/pine_tree_01",
+      "license": "CC0-1.0",
+      "license_url": "https://polyhaven.com/license",
+      "files": [
+        {
+          "path": "ArtSource/Reference/raw/pine_tree_01/textures/pine_tree_01_trunk_a_diff_2k.png",
+          "url": "https://dl.polyhaven.org/file/ph-assets/Models/png/2k/pine_tree_01/pine_tree_01_trunk_a_diff_2k.png",
+          "md5": "e04069ce3a3c73b059e46a101b3263f0",
+          "sha256": "5913b7176d9bebb50e5c85bf3aaf8d49d6aee5ff2d6620037b3a18298c397e7f"
+        },
+        {
+          "path": "ArtSource/Reference/raw/pine_tree_01/textures/pine_tree_01_trunk_b_nor_gl_2k.png",
+          "url": "https://dl.polyhaven.org/file/ph-assets/Models/png/2k/pine_tree_01/pine_tree_01_trunk_b_nor_gl_2k.png",
+          "md5": "0c89b51bf9b04c9ebb1ff103b6740012",
+          "sha256": "483384cf2a79f0818a2d7da02b2c03609d485df8f709a6b7960f0b5604f53403"
+        },
+        {
+          "path": "ArtSource/Reference/raw/pine_tree_01/textures/pine_tree_01_trunk_c_diff_2k.png",
+          "url": "https://dl.polyhaven.org/file/ph-assets/Models/png/2k/pine_tree_01/pine_tree_01_trunk_c_diff_2k.png",
+          "md5": "0be4ada975b943e2c537f199509f685b",
+          "sha256": "8a8a832d3180c27f36fbf0411641abc843ddf32a79dbd9c07b26a6223d8eea28"
+        },
+        {
+          "path": "ArtSource/Reference/raw/pine_tree_01/textures/pine_tree_01_trunk_c_nor_gl_2k.png",
+          "url": "https://dl.polyhaven.org/file/ph-assets/Models/png/2k/pine_tree_01/pine_tree_01_trunk_c_nor_gl_2k.png",
+          "md5": "3e5406f9b6f3d4018ace7c1b0d8958f1",
+          "sha256": "95d58799892fa855dd03f5e908db6d5ceaf0227eb4f2e2b99077913ad0b06269"
+        },
+        {
+          "path": "ArtSource/Reference/raw/pine_tree_01/textures/pine_tree_01_twig_alpha_2k.png",
+          "url": "https://dl.polyhaven.org/file/ph-assets/Models/png/2k/pine_tree_01/pine_tree_01_twig_alpha_2k.png",
+          "md5": "85f9f62d98dc35cce642895d75f79fa6",
+          "sha256": "1e5a1fe741f4cb731a3f537589db62a1cbcd380775e44d13f1b88b9e717df56b"
+        },
+        {
+          "path": "ArtSource/Reference/raw/pine_tree_01/textures/pine_tree_01_trunk_a_nor_gl_2k.png",
+          "url": "https://dl.polyhaven.org/file/ph-assets/Models/png/2k/pine_tree_01/pine_tree_01_trunk_a_nor_gl_2k.png",
+          "md5": "2dcf41e05b6fd7ddfe2a77e024fb2844",
+          "sha256": "108acc38dc02a664f7d4d97f1e0792782ce9b4c998348b9fc6301ca003af4809"
+        },
+        {
+          "path": "ArtSource/Reference/raw/pine_tree_01/textures/pine_tree_01_twig_diff_2k.png",
+          "url": "https://dl.polyhaven.org/file/ph-assets/Models/png/2k/pine_tree_01/pine_tree_01_twig_diff_2k.png",
+          "md5": "7e331929a726605fc99af8b82253d100",
+          "sha256": "68b4476c8a4272d51aafdfea3805d24984f3a64c22b4794ceea87317b380eb33"
+        },
+        {
+          "path": "ArtSource/Reference/raw/pine_tree_01/textures/pine_tree_01_twig_nor_gl_2k.png",
+          "url": "https://dl.polyhaven.org/file/ph-assets/Models/png/2k/pine_tree_01/pine_tree_01_twig_nor_gl_2k.png",
+          "md5": "3ebdf235873ec43c44528a0efcbd8892",
+          "sha256": "546a19689795dd28a48f041ae5a4ff4c6273648b2e0d32d40df6b48cdc122b99"
+        },
+        {
+          "path": "ArtSource/Reference/raw/pine_tree_01/textures/pine_tree_01_trunk_b_diff_2k.png",
+          "url": "https://dl.polyhaven.org/file/ph-assets/Models/png/2k/pine_tree_01/pine_tree_01_trunk_b_diff_2k.png",
+          "md5": "6b3dcce9e9c71a058b06f48426c017b5",
+          "sha256": "c075d3be47279820f3b56ec905eaa6dc064006930fd1a9a0db0aa246305a739c"
+        },
+        {
+          "path": "ArtSource/Reference/raw/pine_tree_01/pine_tree_01_2k.blend",
+          "url": "https://dl.polyhaven.org/file/ph-assets/Models/blend/2k/pine_tree_01/pine_tree_01_2k.blend",
+          "md5": "ec743e4c7605318bf17c8f13820c2321",
+          "sha256": "788d5839aa1d256c20e50adc53ae830b35511d8bb2bc7c16d110dcfc0037651e"
+        },
+        {
+          "path": "ArtSource/Reference/raw/pine_tree_01/textures/pine_tree_01_bark_nor_gl_2k.png",
+          "url": "https://dl.polyhaven.org/file/ph-assets/Models/png/2k/pine_tree_01/pine_tree_01_bark_nor_gl_2k.png",
+          "md5": "d658980d981ea8df2da1d005d5dea805",
+          "sha256": "c0ea7c6c7624661f4b7fee87c8275999504d9a1f42d5b666a7a84e0c8902ce38"
+        },
+        {
+          "path": "ArtSource/Reference/raw/pine_tree_01/textures/pine_tree_01_bark_diff_2k.png",
+          "url": "https://dl.polyhaven.org/file/ph-assets/Models/png/2k/pine_tree_01/pine_tree_01_bark_diff_2k.png",
+          "md5": "431f3c4e40e4349527cf1c2fe2ebe6fc",
+          "sha256": "334e2775d30fd9085ee67dc93c135de577f4213f5aa2a4e4ca5c992246338f3a"
+        },
+        {
+          "path": "ArtSource/Reference/raw/pine_tree_01/textures/pine_tree_01_twig_diff_2k.jpg",
+          "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/2k/pine_tree_01/pine_tree_01_twig_diff_2k.jpg",
+          "md5": "45d577b1b780711976147d66234a1f4c",
+          "sha256": "288f8752514dfcfb78e5d6bc927b585605a13b050a1a79de78044f7c0574c0fc"
+        }
+      ],
+      "derived_files": [
+        {
+          "path": "Assets/Resources/ReferenceTrees/Pine_LOD0.fbx",
+          "sha256": "65516c2477fc6194dce55faf76b2257426da3fc1f9af62c4d4e3d21351d2fd53"
+        },
+        {
+          "path": "Assets/Resources/ReferenceTrees/Pine_LOD1.fbx",
+          "sha256": "25f1be96aaba59222e569d582bcbb54b08ccc80e8014e07e126d08dd95e65e26"
+        },
+        {
+          "path": "Assets/Resources/ReferenceTrees/Pine_LOD2.fbx",
+          "sha256": "a1d139312b58fac326b2c7f7f255f43927700da9d55ed263b3a40ddda8015777"
+        },
+        {
+          "path": "Assets/Resources/ReferenceTrees/Pine_bark_BaseColor.png",
+          "sha256": "f7ea4d31393aa42b5ca71eafd3ccdf3e2889d71d4af68588d016949b05eb34d9"
+        },
+        {
+          "path": "Assets/Resources/ReferenceTrees/Pine_bark_Normal.png",
+          "sha256": "5f5757bfefca5fba491523257c9ebb125e011e425927fbb83740f7e1f4944e73"
+        },
+        {
+          "path": "Assets/Resources/ReferenceTrees/Pine_trunk_a_BaseColor.png",
+          "sha256": "ca7ab25cddc82487c6ee7fe146da7d5d80a095c117cda3a527753f7d40d67015"
+        },
+        {
+          "path": "Assets/Resources/ReferenceTrees/Pine_trunk_a_Normal.png",
+          "sha256": "e1fab2cdc21c7255a7f4eada86a5ffb05acb2bec717859f95661531f6c26dcc9"
+        },
+        {
+          "path": "Assets/Resources/ReferenceTrees/Pine_twig_BaseColor.png",
+          "sha256": "3a82d19db51e06195521f6eab06b1765bfd18e2387c3a517946ba2c5f1067e44"
+        },
+        {
+          "path": "Assets/Resources/ReferenceTrees/Pine_twig_Normal.png",
+          "sha256": "cd92ae239d382d692e8ed3a5ed93d0ad0a5a621498646bfa9b29ee2872fee862"
+        }
+      ],
+      "export": [
+        {
+          "lod": 0,
+          "triangles": 80000,
+          "dimensions_m": [
+            7.601840019226074,
+            8.299274444580078,
+            20.397855758666992
+          ],
+          "source": "pine_tree_01_a_LOD2",
+          "after_planar_dissolve": 400840
+        },
+        {
+          "lod": 1,
+          "triangles": 24999,
+          "dimensions_m": [
+            7.555685997009277,
+            8.280529022216797,
+            20.37630844116211
+          ],
+          "source": "pine_tree_01_a_LOD2",
+          "after_planar_dissolve": 400840
+        },
+        {
+          "lod": 2,
+          "triangles": 8467,
+          "dimensions_m": [
+            7.578552722930908,
+            8.241943359375,
+            19.791242599487305
+          ],
+          "source": "pine_tree_01_a_LOD2",
+          "after_planar_dissolve": 400840
+        }
+      ],
+      "notes": "Uses authored variant A card LOD2, UV-preserving planar dissolve then collapse. Original files kept in ignored raw folder; fetch-reference-trees.py verifies source MD5 and records SHA256. Source float3 UVMap converted to FBX loop UV where required. Pine twig color uses official JPEG RGB because the PNG contains invalid white RGB under embedded transparency, which becomes visible when packing standalone opacity.",
+      "trunk_bake": "Scanned base UVMap and object-space BOX bark (1.4,1.4,.7), mixed by source Col vertex attribute, baked into 2048x2048 RGB and tangent normal atlas. Source normal nodes explicitly use UVMap; baked loops replace UV0 after baking. UV0 roundtrip and lit trunk closeup verified; Unity scene validation separate.",
+      "foliage_art_grade": [
+        0.55,
+        0.72,
+        0.44
+      ]
+    },
+    {
+      "id": "fir_tree_01",
+      "source": "https://polyhaven.com/a/fir_tree_01",
+      "license": "CC0-1.0",
+      "license_url": "https://polyhaven.com/license",
+      "files": [
+        {
+          "path": "ArtSource/Reference/raw/fir_tree_01/fir_tree_01_2k.blend",
+          "url": "https://dl.polyhaven.org/file/ph-assets/Models/blend/2k/fir_tree_01/fir_tree_01_2k.blend",
+          "md5": "5fd1ecb935006b6a3cb75c3cecbf95e0",
+          "sha256": "6c816b5fa29e8c9c08d0f6836e501cd59ab4efb84653b594701540f1d55eae69"
+        },
+        {
+          "path": "ArtSource/Reference/raw/fir_tree_01/textures/fir_tree_01_bark_diff_2k.png",
+          "url": "https://dl.polyhaven.org/file/ph-assets/Models/png/2k/fir_tree_01/fir_tree_01_bark_diff_2k.png",
+          "md5": "0a8464460b3df69009f9d5d8b1cb5093",
+          "sha256": "733bfdd255dd468886a68487d5ddc990384ce92f10646af92076e86d789f79b9"
+        },
+        {
+          "path": "ArtSource/Reference/raw/fir_tree_01/textures/fir_tree_01_bark_nor_gl_2k.png",
+          "url": "https://dl.polyhaven.org/file/ph-assets/Models/png/2k/fir_tree_01/fir_tree_01_bark_nor_gl_2k.png",
+          "md5": "4a249448a15a27f2cc2645287dc65bf7",
+          "sha256": "32940b0be3a6f9ce10ec9579d2057fac2e7b639f279a37f623467ec12a58e836"
+        },
+        {
+          "path": "ArtSource/Reference/raw/fir_tree_01/textures/fir_tree_01_trunk_b_diff_2k.png",
+          "url": "https://dl.polyhaven.org/file/ph-assets/Models/png/2k/fir_tree_01/fir_tree_01_trunk_b_diff_2k.png",
+          "md5": "6b3dcce9e9c71a058b06f48426c017b5",
+          "sha256": "c075d3be47279820f3b56ec905eaa6dc064006930fd1a9a0db0aa246305a739c"
+        },
+        {
+          "path": "ArtSource/Reference/raw/fir_tree_01/textures/fir_tree_01_trunk_a_nor_gl_2k.png",
+          "url": "https://dl.polyhaven.org/file/ph-assets/Models/png/2k/fir_tree_01/fir_tree_01_trunk_a_nor_gl_2k.png",
+          "md5": "2dcf41e05b6fd7ddfe2a77e024fb2844",
+          "sha256": "108acc38dc02a664f7d4d97f1e0792782ce9b4c998348b9fc6301ca003af4809"
+        },
+        {
+          "path": "ArtSource/Reference/raw/fir_tree_01/textures/fir_tree_01_trunk_a_diff_2k.png",
+          "url": "https://dl.polyhaven.org/file/ph-assets/Models/png/2k/fir_tree_01/fir_tree_01_trunk_a_diff_2k.png",
+          "md5": "e04069ce3a3c73b059e46a101b3263f0",
+          "sha256": "5913b7176d9bebb50e5c85bf3aaf8d49d6aee5ff2d6620037b3a18298c397e7f"
+        },
+        {
+          "path": "ArtSource/Reference/raw/fir_tree_01/textures/fir_tree_01_trunk_c_diff_2k.png",
+          "url": "https://dl.polyhaven.org/file/ph-assets/Models/png/2k/fir_tree_01/fir_tree_01_trunk_c_diff_2k.png",
+          "md5": "0be4ada975b943e2c537f199509f685b",
+          "sha256": "8a8a832d3180c27f36fbf0411641abc843ddf32a79dbd9c07b26a6223d8eea28"
+        },
+        {
+          "path": "ArtSource/Reference/raw/fir_tree_01/textures/fir_tree_01_twig_alpha_2k.png",
+          "url": "https://dl.polyhaven.org/file/ph-assets/Models/png/2k/fir_tree_01/fir_tree_01_twig_alpha_2k.png",
+          "md5": "1d93929d869e5539ec245ae3eddb7243",
+          "sha256": "6eecd1cf1e059488be2a41d15bb3c8cb3d844765ed11be8087e6e02acd58b181"
+        },
+        {
+          "path": "ArtSource/Reference/raw/fir_tree_01/textures/fir_tree_01_trunk_b_nor_gl_2k.png",
+          "url": "https://dl.polyhaven.org/file/ph-assets/Models/png/2k/fir_tree_01/fir_tree_01_trunk_b_nor_gl_2k.png",
+          "md5": "0c89b51bf9b04c9ebb1ff103b6740012",
+          "sha256": "483384cf2a79f0818a2d7da02b2c03609d485df8f709a6b7960f0b5604f53403"
+        },
+        {
+          "path": "ArtSource/Reference/raw/fir_tree_01/textures/fir_tree_01_twig_diff_2k.png",
+          "url": "https://dl.polyhaven.org/file/ph-assets/Models/png/2k/fir_tree_01/fir_tree_01_twig_diff_2k.png",
+          "md5": "bd7f5c680f105a4c78a64fe8722f3aba",
+          "sha256": "b6d450d21b2ceddfcc78e2e2cc7c492f0a20df6d89c57281c6cd0ca525d01700"
+        },
+        {
+          "path": "ArtSource/Reference/raw/fir_tree_01/textures/fir_tree_01_twig_nor_gl_2k.png",
+          "url": "https://dl.polyhaven.org/file/ph-assets/Models/png/2k/fir_tree_01/fir_tree_01_twig_nor_gl_2k.png",
+          "md5": "2db997b7951e2931cd05ded39e0e62c5",
+          "sha256": "03f6a70cebfe684ba61d84a6abbfab078a6a252ec52f6bbe8fcdb87de62add0a"
+        },
+        {
+          "path": "ArtSource/Reference/raw/fir_tree_01/textures/fir_tree_01_trunk_c_nor_gl_2k.png",
+          "url": "https://dl.polyhaven.org/file/ph-assets/Models/png/2k/fir_tree_01/fir_tree_01_trunk_c_nor_gl_2k.png",
+          "md5": "3e5406f9b6f3d4018ace7c1b0d8958f1",
+          "sha256": "95d58799892fa855dd03f5e908db6d5ceaf0227eb4f2e2b99077913ad0b06269"
+        }
+      ],
+      "derived_files": [
+        {
+          "path": "Assets/Resources/ReferenceTrees/Fir_LOD0.fbx",
+          "sha256": "4b123dad760811c7f287b531df72a2228846c1a361e93780c8176754a86054c3"
+        },
+        {
+          "path": "Assets/Resources/ReferenceTrees/Fir_LOD1.fbx",
+          "sha256": "f16d2813a37acedb7a9a96b897d3c6f79141be427be28d34e1b69988a2e53ba8"
+        },
+        {
+          "path": "Assets/Resources/ReferenceTrees/Fir_LOD2.fbx",
+          "sha256": "60c9096511307f6d0edd3e16276fe46bcced34b80e0c54eb7651b07c2fd10628"
+        },
+        {
+          "path": "Assets/Resources/ReferenceTrees/Fir_bark_BaseColor.png",
+          "sha256": "ab4b8f51fc246005ffa458e79f54acc7ba56321c511898ab500fd64f62314241"
+        },
+        {
+          "path": "Assets/Resources/ReferenceTrees/Fir_bark_Normal.png",
+          "sha256": "3ba7a9e30a5bb299a8a2d12b2e18d6eb7654fd38d9c7d590f150ffe6f86670bf"
+        },
+        {
+          "path": "Assets/Resources/ReferenceTrees/Fir_trunk_a_BaseColor.png",
+          "sha256": "480644c710a0a469e6b1cc979e8449d80d39986faf42765a20aa36eb0a374031"
+        },
+        {
+          "path": "Assets/Resources/ReferenceTrees/Fir_trunk_a_Normal.png",
+          "sha256": "abf85fe774dd236474ee661934b99bc03d89306c06996fa9d768671b47927e6f"
+        },
+        {
+          "path": "Assets/Resources/ReferenceTrees/Fir_twig_BaseColor.png",
+          "sha256": "7c7c30ab989a8bbf2d8676dc1c1ad2b3040298cdc7ab785c802e7cc6df42fb53"
+        },
+        {
+          "path": "Assets/Resources/ReferenceTrees/Fir_twig_Normal.png",
+          "sha256": "052d5d9aa7a5b92bccad445e03b1591155a388804f73d194c2bfcf5f4417c28f"
+        }
+      ],
+      "export": [
+        {
+          "lod": 0,
+          "triangles": 68385,
+          "dimensions_m": [
+            6.583094120025635,
+            6.467402458190918,
+            18.957046508789062
+          ],
+          "source": "fir_tree_01_a_LOD2",
+          "after_planar_dissolve": 68385
+        },
+        {
+          "lod": 1,
+          "triangles": 25000,
+          "dimensions_m": [
+            6.598370552062988,
+            6.455240249633789,
+            18.919580459594727
+          ],
+          "source": "fir_tree_01_a_LOD2",
+          "after_planar_dissolve": 68385
+        },
+        {
+          "lod": 2,
+          "triangles": 10490,
+          "dimensions_m": [
+            6.598370552062988,
+            6.455240249633789,
+            18.072431564331055
+          ],
+          "source": "fir_tree_01_a_LOD2",
+          "after_planar_dissolve": 68385
+        }
+      ],
+      "notes": "Uses authored variant A card LOD2, UV-preserving planar dissolve then collapse. Original files kept in ignored raw folder; fetch-reference-trees.py verifies source MD5 and records SHA256. Source float3 UVMap converted to FBX loop UV where required.",
+      "trunk_bake": "Scanned base UVMap and object-space BOX bark (1.4,1.4,.7), mixed by source Col vertex attribute, baked into 2048x2048 RGB and tangent normal atlas. Source normal nodes explicitly use UVMap; baked loops replace UV0 after baking. UV0 roundtrip and lit trunk closeup verified; Unity scene validation separate."
+    }
+  ]
+}

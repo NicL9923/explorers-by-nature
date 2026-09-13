@@ -1,0 +1,35 @@
+[
+  {
+    "lod": 0,
+    "triangles": 68385,
+    "dimensions_m": [
+      6.583094120025635,
+      6.467402458190918,
+      18.957046508789062
+    ],
+    "source": "fir_tree_01_a_LOD2",
+    "after_planar_dissolve": 68385
+  },
+  {
+    "lod": 1,
+    "triangles": 25000,
+    "dimensions_m": [
+      6.598370552062988,
+      6.455240249633789,
+      18.919580459594727
+    ],
+    "source": "fir_tree_01_a_LOD2",
+    "after_planar_dissolve": 68385
+  },
+  {
+    "lod": 2,
+    "triangles": 10490,
+    "dimensions_m": [
+      6.598370552062988,
+      6.455240249633789,
+      18.072431564331055
+    ],
+    "source": "fir_tree_01_a_LOD2",
+    "after_planar_dissolve": 68385
+  }
+]

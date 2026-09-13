@@ -22,3 +22,19 @@
 - `detail-animal-art.py`: bake original directional coat and feather color/normal atlases, preserve material slots, and save detailed animal studios before rigging.
 
 - `source-manifest.py OUTPUT [--verify]`: record exact runtime/assets/tests for the validation ledger or check they remain unchanged.
+- `make-reference-ground.py`: Convert the recorded CC0 Poly Haven fern, stump and moss-rock scans to meter-scale FBX props with three LODs.
+
+- `fetch-reference-trees.py`: Download checksum-verified CC0 Poly Haven tree originals to ignored raw source storage.
+- `import-reference-trees.py`: Export budgeted tree FBX LODs from authored Blender card geometry.
+- `prepare-reference-tree-textures.py`: Pack source needle alpha with albedo and prepare Unity normal/color imports.
+- `prepare-reference-ground-textures.py`: Restore hash-verified ground scan downloads and pack original PBR texture channels for Unity.
+
+- `make-reference-deer.py`: rebuild the separate photo-referenced adult doe, 30k/6k LODs, compatible rig, 2k coat and inspection views.
+- `preview-reference-trees.py`: Rebuild compact editable tree source and render an isolated silhouette/UV preview.
+
+- `grove-capture.py`: capture four fixed first-person Fern Hollow views with isolated saves and preferences.
+
+- `rebuild-reference-trees.py`: Rebake and export both authored trees with a valid temporary Blender color configuration.
+- `bake-reference-trunks.py`: Flatten scanned-base and triplanar bark materials into the exported trunk UV0 atlas.
+
+- `record-grove-validation.py`: collect only matching build, benchmark, capture and multiplayer evidence for the Fern Hollow release.

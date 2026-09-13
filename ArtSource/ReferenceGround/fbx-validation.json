@@ -1,0 +1,332 @@
+[
+  {
+    "asset": "FernA_LOD0.fbx",
+    "triangles": 784,
+    "uv_layers": 1,
+    "origin": [
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "asset": "FernA_LOD1.fbx",
+    "triangles": 784,
+    "uv_layers": 1,
+    "origin": [
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "asset": "FernA_LOD2.fbx",
+    "triangles": 350,
+    "uv_layers": 1,
+    "origin": [
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "asset": "FernC_LOD0.fbx",
+    "triangles": 2248,
+    "uv_layers": 1,
+    "origin": [
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "asset": "FernC_LOD1.fbx",
+    "triangles": 1100,
+    "uv_layers": 1,
+    "origin": [
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "asset": "FernC_LOD2.fbx",
+    "triangles": 350,
+    "uv_layers": 1,
+    "origin": [
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "asset": "FernD_LOD0.fbx",
+    "triangles": 816,
+    "uv_layers": 1,
+    "origin": [
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "asset": "FernD_LOD1.fbx",
+    "triangles": 816,
+    "uv_layers": 1,
+    "origin": [
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "asset": "FernD_LOD2.fbx",
+    "triangles": 350,
+    "uv_layers": 1,
+    "origin": [
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "asset": "Fern_LOD0.fbx",
+    "triangles": 2384,
+    "uv_layers": 1,
+    "origin": [
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "asset": "Fern_LOD1.fbx",
+    "triangles": 1100,
+    "uv_layers": 1,
+    "origin": [
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "asset": "Fern_LOD2.fbx",
+    "triangles": 350,
+    "uv_layers": 1,
+    "origin": [
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "asset": "RockA_LOD0.fbx",
+    "triangles": 11000,
+    "uv_layers": 1,
+    "origin": [
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "asset": "RockA_LOD1.fbx",
+    "triangles": 4500,
+    "uv_layers": 1,
+    "origin": [
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "asset": "RockA_LOD2.fbx",
+    "triangles": 800,
+    "uv_layers": 1,
+    "origin": [
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "asset": "RockB_LOD0.fbx",
+    "triangles": 10996,
+    "uv_layers": 1,
+    "origin": [
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "asset": "RockB_LOD1.fbx",
+    "triangles": 4500,
+    "uv_layers": 1,
+    "origin": [
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "asset": "RockB_LOD2.fbx",
+    "triangles": 800,
+    "uv_layers": 1,
+    "origin": [
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "asset": "RockC_LOD0.fbx",
+    "triangles": 5000,
+    "uv_layers": 1,
+    "origin": [
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "asset": "RockC_LOD1.fbx",
+    "triangles": 4500,
+    "uv_layers": 1,
+    "origin": [
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "asset": "RockC_LOD2.fbx",
+    "triangles": 800,
+    "uv_layers": 1,
+    "origin": [
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "asset": "RockD_LOD0.fbx",
+    "triangles": 10589,
+    "uv_layers": 1,
+    "origin": [
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "asset": "RockD_LOD1.fbx",
+    "triangles": 4499,
+    "uv_layers": 1,
+    "origin": [
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "asset": "RockD_LOD2.fbx",
+    "triangles": 799,
+    "uv_layers": 1,
+    "origin": [
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "asset": "RockE_LOD0.fbx",
+    "triangles": 16548,
+    "uv_layers": 1,
+    "origin": [
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "asset": "RockE_LOD1.fbx",
+    "triangles": 4500,
+    "uv_layers": 1,
+    "origin": [
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "asset": "RockE_LOD2.fbx",
+    "triangles": 800,
+    "uv_layers": 1,
+    "origin": [
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "asset": "RockF_LOD0.fbx",
+    "triangles": 8994,
+    "uv_layers": 1,
+    "origin": [
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "asset": "RockF_LOD1.fbx",
+    "triangles": 4500,
+    "uv_layers": 1,
+    "origin": [
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "asset": "RockF_LOD2.fbx",
+    "triangles": 800,
+    "uv_layers": 1,
+    "origin": [
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "asset": "Stump_LOD0.fbx",
+    "triangles": 17999,
+    "uv_layers": 1,
+    "origin": [
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "asset": "Stump_LOD1.fbx",
+    "triangles": 4500,
+    "uv_layers": 1,
+    "origin": [
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "asset": "Stump_LOD2.fbx",
+    "triangles": 799,
+    "uv_layers": 1,
+    "origin": [
+      0.0,
+      0.0,
+      0.0
+    ]
+  }
+]

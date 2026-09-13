@@ -1,6 +1,6 @@
 # First milestone: the walk
 
-Latest implementation and verification: [lush woodland and lighting](#lush-woodland-and-lighting-september-13-2026-utc). Earlier sections preserve the original milestone and historical measurements.
+Latest implementation and verification: [Fern Hollow](#fern-hollow-september-13-2026-utc). Earlier sections preserve the original milestone and historical measurements.
 
 ## Question
 
@@ -222,3 +222,26 @@ Low quality keeps the new animal art and base plant layer. High adds plants, pos
 | [AMD integrated / Vulkan / Low / 1280×720 / rainy evening](benchmarks/lush-amd-integrated-rain.json) | 7.04 ms | 9.62 / 10.11 ms | 0 | 436 / 676 MB |
 
 Measurements use the final player on the fixed 60-second route after warm-up, without simultaneous Unity editor, builds or Blender renders. They are uncapped engine intervals on the Ryzen 9/32 GB desktop, not GPU-only timings or proof of the two-core/8 GB minimum. Memory readings are final snapshots, not peaks. New geometry and maps raise memory use compared with v0.6.0. Native Windows, the actual minimum PC and a populated 20-player rendered ranch remain unverified.
+
+
+## Fern Hollow, September 13, 2026 UTC
+
+A focused woodland scene now occupies about 100 metres of the existing trail. F8 visits it; F9 toggles the HUD. The grove uses recorded CC0 Poly Haven trees and scan props, with 108 adult trees and saplings, concentrated fern patches, mossy rocks and stumps. Terrain heights and shared ranch authority remain unchanged. The older roaming deer moved to the western meadow. A separate doe study uses quiet idle animation; its face and coat remain procedural.
+
+[Scene notes and asset sources](fern-hollow.md). The photographs on source websites were references only. The gallery contains unedited captures from the Linux player.
+
+| Check | Result and evidence |
+| --- | --- |
+| EditMode | [17 passed](validation/grove-editmode.xml), including dry terrain texture packing. |
+| PlayMode | [6 passed](validation/grove-playmode.xml), including imported size/LOD/material checks, terrain heights and painting, grounded movement into the grove, quality switching, and existing wildlife/animation checks. |
+| Desktop builds | [Linux and Windows succeeded](validation/grove-builds.json). Windows was cross-built, not executed on Windows. |
+| Rendered multiplayer | [Passed](validation/grove-multiplayer.txt): two Linux clients and the dedicated save agree at revision 25, with 20 pieces and expedition stage 3. [Shared snapshot](validation/grove-shared-ranch.json). |
+| Runtime source | [477 runtime, asset, configuration and test file hashes](validation/grove-source-files.json). Both desktop builds, captures, performance runs and rendered multiplayer checks carry the same embedded source stamp. |
+| Integrated GPU | [Fern Hollow, Low, Vulkan, 1280×720](validation/grove-low.json): mean 20.61 ms, p95 28.30 ms, p99 28.84 ms, one frame over 50 ms; final process working set 698 MB. |
+| Dedicated GPU | [Fern Hollow, High, OpenGL, 1920×1080](validation/grove-high.json): mean 5.34 ms, p95 7.55 ms, p99 7.73 ms, no frames over 50 ms; final process working set 944 MB. |
+
+Both measurements used the same Linux player stamp, `1e60ded/sha256:6cf8e712059178760d7fc2810bbbe60c28b97159b7dc8746005ad84b278c2f76`, on the Ryzen 9 9950X3D with 32 GB RAM. The integrated device was RADV RAPHAEL_MENDOCINO; the dedicated device was an RTX 5070 Ti. Each run used five seconds of warm-up followed by sixty seconds along the grove. No editor build, Blender render or second benchmark ran concurrently. These are uncapped engine frame intervals, not GPU timer measurements. Final working set is not peak memory. The actual two-core, 8 GB minimum machine remains untested.
+
+The visual inspection caught incorrect FBX units from incomplete importer metadata, ground images imported as cubemaps, invalid white pixels in the pine atlas, and terrain alpha being interpreted as mirror smoothness. The final import settings and texture packing address those defects. The tree trunk bake also preserves the source material’s blend between scanned roots and upper bark, removing stretched atlas artifacts. The grove still needs better close-range animal art and more varied large-scale ground detail. Passing the technical checks does not establish that the original visual ambition has been met.
+
+An intermittent multiplayer smoke failure exposed timing races in the automation: it could move before a queued action captured its pose. The harness now waits for each accepted revision before moving on and preserves failure snapshots. The original failure’s exact trigger was not proven. Shared authority and connection code were not changed; the corrected harness passed against the final player.
