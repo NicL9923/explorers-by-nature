@@ -76,7 +76,7 @@ rod('Muzzle ring',(0,-.865,.087),(0,-.878,.087),.022,'Edge',24)
 rod('Dark recessed bore',(0,-.8781,.087),(0,-.8786,.087),.014,'Bore',24)
 for y in [-.48,-.22]:
  profile('Barrel band',[(y-.012,.014),(y+.012,.014),(y+.012,.11),(y-.012,.11)],.076,'Brass',.003)
- # Remove silhouette block by using thin side accents would require boolean; band stays narrow longitudinally.
+ # Keep the solid band narrow to approximate a wrapped ring without boolean operations.
 rod('Rear sight base',(0,-.13,.103),(0,-.13,.125),.012,'Steel',8)
 profile('Front sight',[(-.822,.106),(-.806,.106),(-.812,.133)],.005,'Brass',.001)
 profile('Lock plate',[(-.075,.055),(.07,.034),(.09,.018),(.066,-.002),(-.065,.014),(-.083,.036)],.073,'Steel',.003)
