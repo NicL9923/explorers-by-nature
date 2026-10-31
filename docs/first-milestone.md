@@ -2,6 +2,12 @@
 
 Latest implementation and verification: [Fern Hollow](#fern-hollow-september-13-2026-utc). Earlier sections preserve the original milestone and historical measurements.
 
+## Editor update in progress, October 31, 2026
+
+Unity is pinned to 6000.3.27f2, up from 6000.3.24f1. This patch includes a Package Manager security fix. Unity pairs its 6.3 editor with URP 17.3; the existing 17.3.0 manifest and lock remain in place pending an editor import. No assets were regenerated. The new editor has not imported the project or run tests and builds. Earlier results below apply to their recorded states, not this update. Run EditMode and PlayMode tests and Linux and Windows builds with the pinned editor before treating the update as validated.
+
+Sources: [Unity release notes](https://unity.com/releases/editor/whats-new/6000.3.27f2), [Unity URP package documentation](https://docs.unity3d.com/6000.3/Documentation/Manual/com.unity.render-pipelines.universal.html).
+
 ## Question
 
 Can one small forest-to-overlook walk feel beautiful and comfortable on both a weak integrated GPU and a stronger dedicated GPU?

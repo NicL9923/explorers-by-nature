@@ -12,7 +12,7 @@ Choose a western explorer with **F4**, gather building supplies with **Q** tools
 
 Read the [morning playtest guide](docs/morning-playtest.md) for controls, multiplayer setup and saves.
 
-The project targets Unity **6000.3.24f1** with Universal Render Pipeline **17.3.0**. Minimum hardware remains unverified; see the [validation ledger](docs/first-milestone.md).
+The project targets Unity **6000.3.27f2** with Universal Render Pipeline **17.3.0**. The editor update is work in progress: import, tests, and player builds have not been rerun on 6000.3.27f2. Minimum hardware remains unverified; see the [validation ledger](docs/first-milestone.md).
 
 [Download the Linux or Windows prototype](https://github.com/NicL9923/explorers-by-nature/releases/tag/v0.13.0-granite.1). The Windows build has not been run on Windows yet. See the validation ledger for tested Linux devices.
 

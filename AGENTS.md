@@ -3,7 +3,7 @@
 Read README.md and docs/game-design.md before changing scope. Use docs/first-milestone.md for the current milestone and validation ledger.
 
 - Preserve peaceful family play, comfortable first-person movement, and beautiful wilderness as priorities.
-- The project uses Unity 6000.3.24f1 with URP 17.3.0. Editor activation, import, and Linux player validation now work. Check docs/first-milestone.md for exact tested states and outstanding platform/hardware checks.
+- The project uses Unity 6000.3.27f2 with URP 17.3.0. Editor activation, import, and Linux player validation now work. Check docs/first-milestone.md for exact tested states and outstanding platform/hardware checks.
 - Windows and Linux are both targets. Integrated graphics support and the high-quality preset must be tested on actual hardware.
 - Exact low-end CPU/GPU models remain unknown. Do not invent supported minimum specifications.
 - Keep the first region small. Do not add continents, complex settlement systems, or survival mechanics without revisiting scope.
